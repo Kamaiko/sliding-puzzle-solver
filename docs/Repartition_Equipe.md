@@ -1,247 +1,211 @@
 # Répartition des tâches - Équipe de 4 personnes
 **Projet :** Solveur de Taquin 3x3 avec A*  
 **Durée :** 2 semaines (25-30h total)  
-**Objectif :** Livraison coordonnée et efficace du TP1
+**Architecture :** 4 modules indépendants + tests
+**Objectif :** Travail parallèle optimal avec responsabilités équilibrées
 
 ---
 
-## 🎯 **Organisation générale**
+## 🎯 **Principe de répartition optimisée**
 
-### **Principe de répartition**
-- **Travail en parallèle** maximisé sur modules indépendants
-- **Spécialisation** selon les forces de chacun
-- **Leadership clair** pour coordination et intégration
-- **Tests distribués** mais cohérents
+### **Objectifs prioritaires**
+- ✅ **Indépendance maximale** : Chacun peut progresser sans attendre les autres
+- ✅ **Responsabilités équilibrées** : Charge de travail ~7-8h par personne
+- ✅ **Objectifs précis et mesurables** pour chaque membre
+- ✅ **Gestion repo centralisée** par un responsable désigné
 
-### **Jalons importants**
-- **Fin Semaine 1** : Modules de base terminés et testés
-- **Milieu Semaine 2** : Intégration complète, tests validés
-- **Fin Semaine 2** : Rapport et livrables finaux
-
----
-
-## 👥 **Répartition des responsabilités**
-
-### **PERSONNE 1 - Chef de projet / Architecte A*** 
-**Rôle :** Leadership technique et intégration  
-**Charge :** 8-10 heures
-
-#### **Responsabilités principales :**
-- **Coordination d'équipe** : Synchronisation et communication
-- **main.pl** : Interface principale avec menu CLI 
-- **search.pl** : **Algorithme A* complet** (module critique)
-  - File de priorité Best-First
-  - Exploration systématique de tous les successeurs
-  - Étiquetage des états (A, B, C, D, E)
-  - Reconstruction du chemin
-  - Comptage précis des nœuds
-- **Intégration finale** : Assemblage de tous les modules
-- **Tests d'intégration** : Validation cas de test 1 (professeur)
-
-#### **Livrables :**
-- Interface CLI fonctionnelle avec menu
-- Algorithme A* validé contre l'exemple (9 nœuds, 4 mouvements)
-- Intégration complète testée
+### **Jalons de synchronisation**
+- **Jour 5** : Modules individuels fonctionnels (tests unitaires)
+- **Jour 10** : Intégration et validation croisée
+- **Jour 14** : Livraison finale coordonnée
 
 ---
 
-### **PERSONNE 2 - Spécialiste Structures de données**
-**Rôle :** Fondations logiques du puzzle  
-**Charge :** 6-8 heures
+## 👥 **Répartition des responsabilités finales**
 
-#### **Responsabilités principales :**
-- **board.pl** : Représentation et manipulation des états
-  - Structure de données [1,2,3,5,0,6,4,7,8]
-  - Prédicats de base (validation, comparaison, manipulation)
-  - Conversion positions ↔ coordonnées
-- **moves.pl** : Génération des mouvements légaux
-  - 4 directions possibles depuis case vide
-  - Validation des mouvements (limites plateau)
-  - Application des mouvements (échange de tuiles)
-- **Tests unitaires** : Modules board.pl et moves.pl
+### **👨‍💻 DEV 1 - Responsable Algorithme A* + Leadership**
+**Module principal :** `astar.pl` (~150 lignes)  
+**Charge :** 7-8 heures  
+**🎯 Objectif précis :** Implémenter l'algorithme A* qui produit EXACTEMENT 9 nœuds explorés et 4 mouvements pour le cas test professeur
 
-#### **Livrables :**
-- Modules board.pl et moves.pl fonctionnels
-- Suite de tests validant toutes les opérations de base
-- Documentation des prédicats principaux
+#### **Responsabilités autonomes :**
+- **astar.pl complet** :
+  - Structure `node(State, F, G, Parent)`
+  - File de priorité avec f(n) = g(n) + h(n)
+  - Boucle A* avec gestion états visités
+  - Reconstruction du chemin par backtracking
+  - Interface `solve_puzzle(case1, result(Path, Cost, Expanded))`
+- **Heuristique intégrée** : Tuiles mal placées (excluant case vide)
+- **Tests A* spécifiques** : Validation algorithme isolé
+- **Coordination technique** : Point de contact pour questions algorithme
 
----
-
-### **PERSONNE 3 - Spécialiste Algorithmes/Heuristiques**
-**Rôle :** Optimisation et performance  
-**Charge :** 6-8 heures
-
-#### **Responsabilités principales :**
-- **heuristics.pl** : Fonctions heuristiques complètes
-  - **Heuristique principale** : Tuiles mal placées (selon énoncé)
-  - **Heuristique optionnelle** : Distance de Manhattan (comparaison)
-  - Interface unifiée pour sélection heuristique
-- **Optimisation des performances** : 
-  - Algorithme A* efficace
-  - Gestion mémoire des états visités
-- **Benchmarks et comparaisons** :
-  - Temps de réponse entre mouvements IA
-  - Comparaison performance heuristiques
-
-#### **Livrables :**
-- Module heuristics.pl complet et optimisé
-- Benchmarks de performance documentés
-- Recommandations d'optimisation
+#### **Livrables mesurables :**
+- ✅ `astar.pl` fonctionnel avec interface définie
+- ✅ Cas test 1 : **Expanded = 9, Cost = 4** (validation exacte)
+- ✅ Tests unitaires A* (file priorité, heuristique, reconstruction)
 
 ---
 
-### **PERSONNE 4 - Spécialiste Interface/Tests/Documentation**
-**Rôle :** Qualité et expérience utilisateur  
-**Charge :** 6-8 heures
+### **🎮 DEV 2 - Responsable Logique de Jeu + Repo**
+**Module principal :** `game.pl` (~100 lignes)  
+**Charge :** 7-8 heures  
+**🎯 Objectif précis :** Créer toute la mécanique du taquin et gérer le repository Git
 
-#### **Responsabilités principales :**
-- **utils.pl** : Utilitaires d'affichage et formatage
-  - Affichage plateau 3x3 lisible
-  - Formatage des résultats (Path/Cost/Expanded)
-  - Temps de réponse IA affiché
-  - Messages d'erreur clairs
-- **tests.pl** : Suite de tests complète
-  - Tests unitaires de tous les modules
-  - Cas de test 1 (professeur) et cas de test 2 (personnalisé)
+#### **Responsabilités autonomes :**
+- **game.pl complet** :
+  - États : `initial_state/1`, `goal_state/1`, `custom_initial_state/1`
+  - Validation : `valid_state/1`, `find_blank/2`
+  - Mouvements : `generate_moves/2`, `apply_move/3`, `valid_move/2`
+  - Utilitaires : Conversions positions/coordonnées
+- **Gestion repository Git** :
+  - Commits réguliers et messages clairs
+  - Gestion des branches si nécessaire
+  - Merge des contributions équipe
+  - Documentation des changements
+- **Tests jeu spécifiques** : Validation mécanique isolée
+
+#### **Livrables mesurables :**
+- ✅ `game.pl` avec tous les prédicats fonctionnels
+- ✅ 4 mouvements générés depuis centre, 2-3 depuis coins/bords
+- ✅ Repository Git propre avec historique clair
+- ✅ Tests unitaires game (états, mouvements, validation)
+
+---
+
+### **🖥️ DEV 3 - Responsable Interface + Orchestration**  
+**Module principal :** `main.pl` (~60 lignes)  
+**Charge :** 7-8 heures  
+**🎯 Objectif précis :** Créer l'interface utilisateur complète et orchestrer les modules
+
+#### **Responsabilités autonomes :**
+- **main.pl complet** :
+  - Menu CLI interactif avec 3 options
+  - Point d'entrée `:- initialization(main, main)`
+  - Gestion des cas de test (case1, case2)
+  - Mesure des temps de réponse IA
+  - Gestion d'erreurs et validation utilisateur
+- **Intégration modules** : Orchestration `game` + `astar` + `display`
+- **Guide d'utilisation** : Documentation utilisateur
+- **Tests interface** : Validation menu et workflow
+
+#### **Livrables mesurables :**
+- ✅ Interface CLI fonctionnelle (menu + navigation)
+- ✅ Intégration réussie des 4 modules
+- ✅ Guide d'utilisation complet
+- ✅ Tests interface (choix menu, gestion erreurs)
+
+---
+
+### **📱 DEV 4 - Responsable Affichage + Tests + Documentation**
+**Modules principaux :** `display.pl` (~50 lignes) + `tests.pl` (~80 lignes)  
+**Charge :** 7-8 heures  
+**🎯 Objectif précis :** Assurer la qualité visuelle, les tests complets et la documentation finale
+
+#### **Responsabilités autonomes :**
+- **display.pl complet** :
+  - Affichage plateau 3x3 avec bordures ASCII
+  - Formatage Path/Cost/Expanded/Temps
+  - Bannière et messages utilisateur
+  - Affichage chemin solution étape par étape
+- **tests.pl complet** :
+  - Tests unitaires pour chaque module
+  - Validation cas test 1 et 2
   - Tests de robustesse (états impossibles)
-- **Documentation et rapport final** :
-  - Guide d'utilisation
-  - Documentation code
-  - Rapport selon template professeur
+  - Benchmarks de performance
+- **Documentation projet** :
+  - Mise à jour Architecture.md
+  - Documentation prédicats importants
+  - Rapport final (si requis)
 
-#### **Livrables :**
-- Interface utilisateur claire et professionnelle
-- Suite de tests complète (100% des modules)
-- Documentation et rapport final
-
----
-
-## 📅 **Timeline détaillée**
-
-### **Semaine 1 : Développement des modules**
-
-| Jour | Personne 1 | Personne 2 | Personne 3 | Personne 4 |
-|------|------------|-------------|-------------|-------------|
-| **Lun-Mar** | Coordination + main.pl base | board.pl | heuristics.pl base | utils.pl base |
-| **Mer-Jeu** | search.pl (A* core) | moves.pl | Heuristiques complètes | tests.pl structure |
-| **Ven** | Tests search.pl | Tests modules | Optimisation | Tests intégrés |
-
-### **Semaine 2 : Intégration et finalisation**
-
-| Jour | Personne 1 | Personne 2 | Personne 3 | Personne 4 |
-|------|------------|-------------|-------------|-------------|
-| **Lun** | Intégration modules | Support intégration | Benchmarks | Tests validation |
-| **Mar** | Tests cas professeur | Corrections | Performance | Guide utilisation |
-| **Mer-Jeu** | Validation finale | Tests robustesse | Docs techniques | Rapport final |
+#### **Livrables mesurables :**
+- ✅ Affichage plateau 3x3 professionnel
+- ✅ Suite tests 100% modules (game, astar, main, display)
+- ✅ Documentation technique complète
+- ✅ Validation croisée : tous les tests passent
 
 ---
 
-## 🔄 **Coordination et communication**
+## 📅 **Timeline de travail parallèle**
 
-### **Réunions quotidiennes (15 min)**
-- **Objectif** : Synchronisation et résolution blocages
-- **Format** : Chacun annonce : fait hier, plan aujourd'hui, obstacles
+### **Semaine 1 : Développement indépendant**
+| Jour | Dev 1 (A*) | Dev 2 (Game + Git) | Dev 3 (Interface) | Dev 4 (Display + Tests) |
+|------|------------|---------------------|-------------------|-------------------------|
+| **Lun-Mar** | Structure node + heuristique | États + validation | Menu CLI base | Affichage plateau |
+| **Mer-Jeu** | File priorité A* | Mouvements + tests | Orchestration modules | Tests unitaires |
+| **Ven** | Tests A* isolé | Git setup + commits | Intégration test | Documentation |
 
-### **Points de synchronisation critiques**
-1. **Jour 3** : Modules de base fonctionnels
-2. **Jour 7** : Intégration première version
-3. **Jour 10** : Tests complets validés
-4. **Jour 14** : Livraison finale
-
-### **Gestion des dépendances**
-- **board.pl → moves.pl** : Personne 2 coordonne
-- **modules base → search.pl** : Personne 1 attend validation P2
-- **tous modules → tests.pl** : Personne 4 teste au fur et à mesure
-- **search.pl → utils.pl** : Coordination P1-P4 pour affichage
+### **Semaine 2 : Intégration et validation**
+| Jour | Dev 1 (A*) | Dev 2 (Game + Git) | Dev 3 (Interface) | Dev 4 (Display + Tests) |
+|------|------------|---------------------|-------------------|-------------------------|
+| **Lun** | Optimisation A* | Support intégration | Tests interface | Validation croisée |
+| **Mar** | Validation cas prof | Merge contributions | Guide utilisateur | Tests robustesse |
+| **Mer-Jeu** | Tests finaux | Repository final | Polish interface | Documentation finale |
 
 ---
 
-## ⚠️ **Gestion des risques**
+## 🔄 **Coordination minimale requise**
 
-### **Risques identifiés et mitigation**
+### **Interfaces définies (indépendantes)**
+```prolog
+% game.pl → astar.pl
+initial_state(State), goal_state(Goal), generate_moves(State, Successors)
 
-| Risque | Probabilité | Impact | Mitigation |
-|--------|-------------|--------|------------|
-| Retard sur search.pl (critique) | Moyen | Élevé | P2 et P3 supportent P1 si nécessaire |
-| Incompatibilité modules | Faible | Élevé | Tests d'intégration quotidiens |
-| Complexité A* sous-estimée | Moyen | Élevé | Buffer temps P1, support équipe |
-| Tests incomplets | Faible | Moyen | P4 commence tests dès modules disponibles |
+% astar.pl → main.pl  
+solve_puzzle(CaseNumber, result(Path, Cost, Expanded))
 
-### **Plan de contingence**
-- **Si retard critique** : Focus équipe sur module bloquant
-- **Si problème technique** : Session debug collective
-- **Si absence membre** : Réassignation dynamique des tâches
+% main.pl → display.pl
+display_solution(Path, Cost, Expanded, ResponseTime)
+```
 
----
-
-## 📋 **Critères de validation par module**
-
-### **board.pl (Personne 2)**
-- ✅ États valides reconnus correctement
-- ✅ Mouvements générés sans erreur
-- ✅ Conversions position ↔ coordonnées exactes
-
-### **moves.pl (Personne 2)** 
-- ✅ 4 mouvements générés pour case vide centre
-- ✅ 2-3 mouvements pour cases vide bords/coins
-- ✅ Aucun mouvement invalide généré
-
-### **heuristics.pl (Personne 3)**
-- ✅ Heuristique tuiles mal placées = 5 pour état initial test 1
-- ✅ Heuristique = 0 pour état but
-- ✅ Performance correcte (< 1ms par calcul)
-
-### **search.pl (Personne 1)**
-- ✅ **Test critique** : Cas professeur donne exactement 9 nœuds, 4 mouvements
-- ✅ Reconstruction chemin A→B→C→D→E
-- ✅ Interface CLI fonctionnelle
-
-### **utils.pl (Personne 4)**
-- ✅ Affichage plateau 3x3 lisible
-- ✅ Temps de réponse IA affiché
-- ✅ Messages d'erreur clairs
-
-### **tests.pl (Personne 4)**
-- ✅ Tous les tests unitaires passent
-- ✅ Cas de test 1 validé (résultats exacts)
-- ✅ Cas de test 2 fonctionnel
+### **Points de synchronisation (15 min max)**
+- **Jour 3** : Validation interfaces entre modules
+- **Jour 7** : Premier test d'intégration
+- **Jour 12** : Validation finale coordonnée
 
 ---
 
-## 🎯 **Remise finale**
+## 📊 **Critères de succès individuels**
 
-### **Livrables attendus**
-1. **Code source** : Un fichier .PL fonctionnel
-2. **Rapport PDF** : Selon template professeur
-3. **Documentation** : Guide d'utilisation intégré
+### **Dev 1 - A* (Critique)**
+- ✅ Cas professeur : **Cost=4, Expanded=9** (EXACT)
+- ✅ Temps résolution < 1 seconde
+- ✅ Interface `solve_puzzle` fonctionnelle
 
-### **Responsabilités finales**
-- **Personne 1** : Assemblage code final (.PL)
-- **Personne 4** : Rapport et documentation
-- **Tous** : Relecture croisée et validation
+### **Dev 2 - Game + Git (Fondations)**
+- ✅ Tous les mouvements valides générés correctement
+- ✅ Repository propre avec commits réguliers
+- ✅ Tests unitaires game 100%
 
-### **Validation avant remise**
-- ✅ Test 1 professeur : résultats exacts
-- ✅ Test 2 personnalisé : fonctionnel
-- ✅ Interface CLI complète
-- ✅ Aucune erreur compilation/exécution
-- ✅ Rapport complet et soigné
+### **Dev 3 - Interface (Expérience)**
+- ✅ Menu CLI intuitif sans bugs
+- ✅ Intégration sans erreurs modules
+- ✅ Guide utilisateur complet
 
----
-
-## 📞 **Contacts et support**
-
-### **Escalation des problèmes**
-1. **Technique** → Personne 1 (leader)
-2. **Intégration** → Session collective
-3. **Délais** → Réassignation dynamique
-4. **Qualité** → Personne 4 (tests)
-
-### **Communication**
-- **Urgent** : Contact direct
-- **Routine** : Réunions quotidiennes
-- **Documentation** : Partagée en temps réel
+### **Dev 4 - Qualité (Validation)**
+- ✅ Affichage professionnel plateau 3x3
+- ✅ Suite tests complète (tous modules)
+- ✅ Documentation technique à jour
 
 ---
 
-**🚀 Objectif équipe : Livrer un solveur de taquin parfaitement fonctionnel, respectant toutes les exigences du TP, dans les délais impartis !**
+## ⚡ **Avantages de cette répartition**
+
+### **🚀 Travail parallèle optimal**
+- Chacun peut commencer immédiatement
+- Aucune dépendance bloquante entre membres
+- Interfaces bien définies pour intégration
+
+### **⚖️ Charge équilibrée**
+- **Dev 1** : Module critique mais bien défini (A*)
+- **Dev 2** : Logic métier + responsabilité Git
+- **Dev 3** : Interface + coordination technique  
+- **Dev 4** : Qualité + tests + documentation
+
+### **🎯 Objectifs mesurables**
+- Critères de succès précis pour chacun
+- Validation indépendante possible
+- Responsabilités claires et non-overlappantes
+
+---
+
+**🚀 Cette répartition garantit que chaque membre peut progresser de façon autonome tout en contribuant de manière équitable au succès du projet !**

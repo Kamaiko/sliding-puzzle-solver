@@ -2,151 +2,206 @@
 
 ## Vue d'ensemble
 
-Le solveur de taquin est organisé en **6 modules Prolog indépendants** suivant une architecture modulaire anti-spaghetti.
+Le solveur de taquin est organisé en **4 modules Prolog optimisés** suivant une architecture modulaire équilibrée, spécialement conçue pour un projet d'Intelligence Artificielle académique.
 
 ```
-    main.pl (Interface CLI)
+    main.pl (Interface CLI + Orchestration)
        ↓
-   search.pl (Algorithme A*)
+   astar.pl (Cœur Algorithmique A*)
     ↙    ↘
-board.pl  heuristics.pl
-    ↓
- moves.pl
-    ↓
- utils.pl (Affichage)
+game.pl  display.pl
+   ↓        ↓
+tests.pl (Validation + Qualité)
 ```
 
 ## Modules et responsabilités
 
-### 1. **main.pl** - Interface utilisateur
-**Responsabilité** : Point d'entrée et orchestration
-- Menu principal interactif
-- Gestion des cas de test
-- Affichage des résultats finaux
-- Gestion des erreurs utilisateur
+### 1. **main.pl** - Interface utilisateur et orchestration
+**Responsabilité** : Point d'entrée et coordination du système  
+**Taille** : ~60 lignes  
+**Dev responsable** : DEV 3
 
-### 2. **board.pl** - Représentation des états
-**Responsabilité** : Structure de données du puzzle
-- États représentés comme listes : `[1,2,3,5,0,6,4,7,8]`
-- Validation des états (9 éléments, 0-8 uniques)
-- Manipulation positions et coordonnées
-- Comparaison d'états
+- Menu principal interactif (3 options)
+- Point d'entrée `:- initialization(main, main)`
+- Gestion des cas de test (case1, case2)
+- Mesure des temps de réponse IA
+- Orchestration des modules `game` + `astar` + `display`
+- Gestion d'erreurs et validation utilisateur
 
-### 3. **moves.pl** - Génération des mouvements
-**Responsabilité** : Transitions d'états valides
-- 4 directions possibles (haut, bas, gauche, droite)
-- Validation des limites du plateau 3x3
-- Application des mouvements (échange tuiles)
-- Détection des mouvements inverses
+### 2. **game.pl** - Logique du domaine (États et Mouvements)
+**Responsabilité** : Mécanique complète du taquin  
+**Taille** : ~100 lignes  
+**Dev responsable** : DEV 2
 
-### 4. **heuristics.pl** - Fonctions d'évaluation
-**Responsabilité** : Estimation distance au but
-- **Heuristique principale** : Tuiles mal placées
+- **États de référence** : `initial_state/1`, `goal_state/1`, `custom_initial_state/1`
+- **Validation** : `valid_state/1`, `find_blank/2`
+- **Mouvements** : `generate_moves/2`, `apply_move/3`, `valid_move/2`
+- **Utilitaires** : Conversions positions ↔ coordonnées
+- **Format état** : `[1,2,3,5,0,6,4,7,8]` où 0 = case vide
+
+### 3. **astar.pl** - Cœur algorithmique (Intelligence Artificielle)
+**Responsabilité** : Algorithme A* complet avec heuristiques intégrées  
+**Taille** : ~150 lignes  
+**Dev responsable** : DEV 1 ⭐
+
+- **Structure nœud** : `node(State, F, G, Parent)`
+- **File de priorité** : Best-First avec f(n) = g(n) + h(n)
+- **Heuristique principale** : Tuiles mal placées (excluant case vide)
 - **Heuristique optionnelle** : Distance de Manhattan
-- Interface unifiée pour sélection heuristique
-- Optimisation performance calculs
+- **Exploration systématique** : Génération de tous les successeurs
+- **Gestion états visités** : Éviter cycles et redondances
+- **Reconstruction chemin** : Backtracking depuis solution vers initial
+- **Interface principale** : `solve_puzzle(CaseNumber, result(Path, Cost, Expanded))`
 
-### 5. **search.pl** - Algorithme A*
-**Responsabilité** : Résolution optimale du puzzle
-- File de priorité Best-First : f(n) = g(n) + h(n)
-- Exploration systématique des successeurs
-- Gestion des états visités (éviter cycles)
-- Reconstruction du chemin solution
-- Comptage précis des nœuds explorés
+### 4. **display.pl** - Présentation et interface utilisateur
+**Responsabilité** : Affichage formaté et expérience utilisateur  
+**Taille** : ~50 lignes  
+**Dev responsable** : DEV 4
 
-### 6. **utils.pl** - Utilitaires et affichage
-**Responsabilité** : Interface utilisateur et formatage
-- Affichage plateau 3x3 lisible
-- Formatage des résultats (Path/Cost/Expanded)
-- Temps de réponse IA
-- Messages d'erreur informatifs
+- **Bannière** : Interface professionnelle avec titre
+- **Menu principal** : Options claires et navigation
+- **Affichage plateau 3x3** : Formatage ASCII avec bordures
+- **Résultats solution** : Path/Cost/Expanded/Temps de réponse
+- **Chemin solution** : Affichage étape par étape A→B→C→D→E
+- **Messages d'erreur** : Feedback utilisateur informatif
 
-## Flux de données
+### 5. **tests.pl** - Validation et qualité
+**Responsabilité** : Suite de tests complète et benchmarks  
+**Taille** : ~80 lignes  
+**Dev responsable** : DEV 4
 
-### Résolution d'un puzzle
-1. **main.pl** → Récupère état initial et final
-2. **main.pl** → **search.pl** : Lance A* avec heuristique
-3. **search.pl** → **board.pl** : Validation états
-4. **search.pl** → **moves.pl** : Génération successeurs
-5. **search.pl** → **heuristics.pl** : Évaluation f(n)
-6. **search.pl** → **main.pl** : Retour chemin + statistiques
-7. **main.pl** → **utils.pl** : Affichage résultats
+- **Tests unitaires** : Validation de chaque module individuellement
+- **Tests d'intégration** : Validation du workflow complet
+- **Cas de test 1** : Validation exacte (Cost=4, Expanded=9)
+- **Cas de test 2** : Configuration personnalisée (6+ mouvements)
+- **Tests de robustesse** : États impossibles, gestion d'erreurs
+- **Benchmarks** : Performance et temps de réponse
+
+## Flux de données optimisé
+
+### Résolution d'un puzzle (workflow principal)
+1. **main.pl** → Lecture choix utilisateur et sélection cas de test
+2. **main.pl** → **astar.pl** : `solve_puzzle(case1, Result)`
+3. **astar.pl** → **game.pl** : `initial_state(State)`, `generate_moves(State, Successors)`
+4. **astar.pl** → Calcul interne heuristiques et exploration A*
+5. **astar.pl** → **main.pl** : `result(Path, Cost, Expanded)`
+6. **main.pl** → **display.pl** : `display_solution(Path, Cost, Expanded, ResponseTime)`
 
 ### Structures de données principales
 
 ```prolog
-% État du puzzle
+% État du puzzle (représentation unique)
 State = [1,2,3,5,0,6,4,7,8]  % 0 = case vide
 
-% Nœud A*
+% Nœud A* (structure algorithmique)
 Node = node(State, F, G, Parent)
-  % F = f(n) = g(n) + h(n)
-  % G = profondeur (coût réel)
-  % Parent = nœud parent pour reconstruction
+  % F = f(n) = g(n) + h(n) (fonction d'évaluation)
+  % G = profondeur (coût réel depuis initial)
+  % Parent = nœud parent pour reconstruction chemin
 
-% Résultat de recherche
+% Résultat de recherche (interface de sortie)
 Result = result(Path, Cost, Expanded)
-  % Path = [État1, État2, ..., ÉtatFinal]
-  % Cost = nombre de mouvements
-  % Expanded = nœuds explorés
+  % Path = [État_Initial, État_Intermédiaire, ..., État_Final]
+  % Cost = nombre de mouvements pour atteindre la solution
+  % Expanded = nombre de nœuds explorés (excluant initial)
 ```
 
-## Interfaces entre modules
+## Interfaces entre modules (Couplage minimal)
 
-### board.pl ↔ moves.pl
+### game.pl → astar.pl
 ```prolog
-board:get_empty_position(+State, -Position)
-moves:generate_moves(+State, -Successors)
+% États de référence
+initial_state(-State)
+goal_state(-State) 
+custom_initial_state(-State)
+
+% Génération des successeurs
+generate_moves(+State, -Successors)
+
+% Validation
+is_goal(+State)
 ```
 
-### search.pl ↔ heuristics.pl  
+### astar.pl → main.pl
 ```prolog
-heuristics:heuristic_value(+State, +Goal, +Type, -Value)
-search:astar_search(+Initial, +Goal, +HType, -Path, -Cost, -Expanded)
+% Interface principale de résolution
+solve_puzzle(+TestCase, -result(Path, Cost, Expanded))
 ```
 
-### main.pl ↔ utils.pl
+### main.pl → display.pl
 ```prolog
-utils:display_state(+Title, +State)
-utils:display_solution(+Path, +Cost, +Expanded)
+% Interface d'affichage
+display_banner
+display_menu
+display_solution(+Path, +Cost, +Expanded, +ResponseTime)
 ```
 
-## Gestion des erreurs
+## Avantages de cette architecture
 
-### Niveaux d'erreur
-1. **Erreur utilisateur** : État invalide, choix menu incorrect
-2. **Erreur algorithme** : État impossible, timeout, limite nœuds
-3. **Erreur système** : Mémoire insuffisante, fichier non trouvé
+### 🎯 **Focus IA évident**
+- **astar.pl** contient tout l'algorithme A* au même endroit
+- Facilite l'évaluation académique (prof trouve immédiatement le cœur)
+- Évite la fragmentation algorithmique
 
-### Stratégie de robustesse
-- **Validation précoce** : États vérifiés avant traitement
-- **Timeout hybride** : 10s + limite 10k nœuds
-- **Messages clairs** : Erreurs explicites pour utilisateur
-- **Fallback gracieux** : Échec contrôlé sans crash
+### ⚖️ **Charge équilibrée**
+- **main.pl** : 60 lignes (interface + orchestration)
+- **game.pl** : 100 lignes (domaine + logique métier)
+- **astar.pl** : 150 lignes (algorithme A* complet)
+- **display.pl** : 50 lignes (présentation)
+- **tests.pl** : 80 lignes (validation)
+
+### 🚀 **Travail parallèle optimal**
+- Interfaces bien définies permettent développement indépendant
+- Chaque dev peut tester son module isolément
+- Intégration facilitée par les contrats clairs
+
+### 📚 **Conventions académiques**
+- Structure claire pour évaluation par le professeur
+- Séparation domaine/algorithme/présentation
+- Documentation et tests intégrés
 
 ## Tests et validation
 
 ### Tests unitaires (par module)
-- **board.pl** : Validation états, positions, coordonnées
-- **moves.pl** : Génération mouvements, limites plateau
-- **heuristics.pl** : Calculs exacts, états but
-- **search.pl** : A* optimal, comptage nœuds
-- **utils.pl** : Formatage, affichage
+- **game.pl** : États valides, mouvements corrects, validation
+- **astar.pl** : Heuristiques exactes, A* optimal, reconstruction chemin
+- **display.pl** : Formatage correct, affichage plateau 3x3
+- **main.pl** : Menu fonctionnel, intégration modules
+- **tests.pl** : Meta-tests, couverture complète
 
-### Tests d'intégration
-- **Cas professeur** : Validation exacte (9 nœuds, 4 mouvements)
-- **Cas personnalisé** : Robustesse algorithme
-- **Performance** : Temps < 1s pour puzzle 3x3
+### Tests d'intégration critiques
+- **Cas professeur** : Validation exacte **Cost=4, Expanded=9**
+- **Cas personnalisé** : Configuration complexe (6+ mouvements)
+- **Performance** : Temps < 1s pour résolution taquin 3x3
+- **Robustesse** : Gestion états impossibles
 
-## Extensibilité
+## Gestion des erreurs
 
-### Ajouts possibles
-- **Tailles variables** : 4x4, 5x5 (modification board.pl)
-- **Nouvelles heuristiques** : Pattern Database (heuristics.pl)  
-- **Algorithmes alternatifs** : IDA*, bidirectionnel (search.pl)
-- **Interface graphique** : GUI Tkinter (nouveau module)
+### Stratégie de robustesse
+- **Validation précoce** : États vérifiés avant traitement algorithmique
+- **Timeout intelligent** : 10s limite + 10k nœuds maximum
+- **Messages clairs** : Erreurs explicites pour utilisateur
+- **Fallback gracieux** : Échec contrôlé sans crash système
+
+### Niveaux d'erreur
+1. **Erreur utilisateur** : Choix menu invalide, entrée incorrecte
+2. **Erreur domaine** : État invalide, mouvement impossible
+3. **Erreur algorithme** : État impossible, timeout, limite mémoire
+
+## Extensibilité future
+
+### Ajouts algorithmiques possibles
+- **IDA*** : Recherche en profondeur itérative (astar.pl)
+- **Recherche bidirectionnelle** : Exploration simultanée (nouveau module)
+- **Pattern Database** : Heuristiques sophistiquées (heuristics_advanced.pl)
+
+### Extensions domaine
+- **Tailles variables** : 4x4, 5x5 (modification game.pl)
+- **Générateur puzzles** : Niveaux difficulté (generator.pl)
+- **Mode interactif** : Jeu manuel utilisateur (interactive.pl)
 
 ### Architecture ouverte
-- **Interfaces bien définies** : Modules faiblement couplés
-- **Abstractions claires** : État, mouvement, heuristique
+- **Modules faiblement couplés** : Interfaces bien définies
+- **Abstractions claires** : État, mouvement, recherche, affichage
 - **Configuration centralisée** : Paramètres dans main.pl
+- **Tests distribués** : Validation à tous les niveaux
