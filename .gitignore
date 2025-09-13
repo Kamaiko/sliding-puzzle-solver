@@ -1,0 +1,48 @@
+# Fichiers temporaires Prolog
+*.tmp
+*~
+*.swp
+*.swo
+
+# Fichiers de log
+*.log
+*.out
+*.err
+
+# Fichiers de compilation
+*.o
+*.exe
+*.dll
+
+# Répertoires temporaires
+tmp/
+temp/
+.temp/
+
+# Fichiers IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Fichiers de sauvegarde
+*.bak
+*.backup
+*_backup
+
+# Résultats de tests temporaires
+test_results/
+*.test
+
+# Fichiers personnels (ne pas commiter)
+notes_perso.txt
+brouillon.pl
+
+# Archives générées
+*.zip
+*.tar.gz
+*.tar.bz2
