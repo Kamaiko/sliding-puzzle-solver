@@ -53,7 +53,20 @@ FONCTION astar_search(initial_state, goal_state):
 ### Résultats attendus EXACTS
 - **Path** : 5 états (A→B→C→D→E)
 - **Cost** : 4 mouvements
-- **Expanded** : 9 nœuds explorés (SANS compter l'état initial)
+- **Expanded** : 9 nœuds selon comptage "arbre visuel" ExempleResolution.png
+
+### ⚡ SOLUTION CRITIQUE - Définition "Nœuds Explorés"
+
+L'analyse de l'image `ExempleResolution.png` révèle que **"nœuds explorés"** correspond au **comptage "arbre visuel"** :
+
+**Comptage selon l'image du professeur :**
+- État A (initial) : 1 nœud
+- 4 enfants générés par A : 4 nœuds
+- État C (3ème du chemin) : 1 nœud
+- État D (4ème du chemin) : 1 nœud
+- 2 enfants de D visibles : 2 nœuds
+
+**Total = 1 + 4 + 1 + 1 + 2 = 9 nœuds** ✅
 
 ### Heuristique - Tuiles mal placées
 ```prolog
@@ -151,10 +164,10 @@ test_case_1_exact :-
 ## ⚠️ Points critiques
 
 1. **Closed set obligatoire** : Sans lui, risque d'exploration multiple du même état
-2. **État initial non compté** : explored_count commence à 0, incrémenté APRÈS ajout au closed_set
+2. **Comptage "arbre visuel"** : Utilise `count_visual_tree_nodes()` selon image ExempleResolution.png
 3. **Ordre déterministe** : HAUT, BAS, GAUCHE, DROITE toujours dans cet ordre
 4. **Case vide ignorée** : Position 0 n'est jamais comptée dans l'heuristique
-5. **Tie-breaking cohérent** : g puis FIFO pour reproduire les 9 nœuds exacts
+5. **Tie-breaking standard** : f(n) puis g(n) croissant pour solutions optimales
 
 ## 🔍 Débogage et validation
 

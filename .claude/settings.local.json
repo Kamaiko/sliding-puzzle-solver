@@ -6,7 +6,9 @@
       "mcp__context7__resolve-library-id",
       "Read(//c/DevTools/Projects/PrologChessGame_Clean/docs/**)",
       "mcp__filesystem__list_allowed_directories",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(git add:*)",
+      "Bash(swipl:*)"
     ],
     "deny": [],
     "ask": []
