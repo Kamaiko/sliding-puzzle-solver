@@ -73,8 +73,8 @@ Votre choix: _
 | |                          RESULTATS VALIDATION                           |   |
 | +=========================================================================+   |
 | |                                                                         |   |
-| |  Path: 5 etats    Cost: 4 mouvements    Expanded: 9 noeuds             |   |
-| |  Temps: 0.042s    Algorithme A*: OPTIMAL                               |   |
+| |  Path: 5 etats    Cost: 4 mouvements    Expanded: 9 noeuds              |   |
+| |  Temps: 0.042s    Algorithme A*: OPTIMAL                                |   |
 | |                                                                         |   |
 | +=========================================================================+   |
 |                                                                               |
