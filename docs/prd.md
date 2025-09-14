@@ -1,7 +1,7 @@
 # 🎯 Document d'Exigences Produit (PRD)
 ## Solveur de Taquin avec Recherche Heuristique - Projet Universitaire IFT-2003
 
-> **Deadline TP1** : 📅 20 octobre 2025
+> **Échéance projet** : 📅 20 octobre 2025
 
 ---
 
@@ -33,7 +33,7 @@
 
 ## ⚙️ Exigences Fonctionnelles
 
-### 🎯 Obligatoires (P0) - TP1
+### 🎯 Obligatoires (P0) - Cœur du projet
 
 - **Algorithme A*** : Implémentation complète avec recherche heuristique
 - **Heuristique des tuiles mal placées** : Exclusion de la case vide dans le calcul
@@ -68,7 +68,7 @@
 
 | Critère | Objectif |
 |---------|----------|
-| **Validation TP1** | Coût=4, Expansés=9 exactement pour cas professeur |
+| **Validation académique** | Coût=4, Expansés=9 exactement pour cas professeur |
 | **Qualité code** | Compilation/exécution sans erreur, documentation complète |
 | **Tests complets** | 2 cas fonctionnels avec métriques vérifiables |
 
@@ -77,7 +77,7 @@
 - **SWI-Prolog** exclusivement, interface CLI obligatoire
 - **Heuristique imposée** : Tuiles mal placées (sans case vide)
 - **Architecture** : 4 modules (main, game, astar, display, tests)
-- **Format sortie** : Path/Cost/Expanded selon spécifications TP1
+- **Format sortie** : Path/Cost/Expanded selon spécifications académiques
 
 ## 📈 Phases Développement
 
