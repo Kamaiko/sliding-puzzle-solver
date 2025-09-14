@@ -50,11 +50,17 @@ src/
 - User interface text: French
 - Error messages: French
 
-**Professional Language Policy**: 
+**Professional Language Policy**:
 - NEVER use academic references (TP1, assignments, homework, etc.) in code or user-facing text
 - NEVER use development status words (beta, draft, simplified, improved, etc.) in final outputs
 - Keep all user interfaces and documentation clean and professional
 - Focus on functionality, not development process
+
+**Interface Display Policy**:
+- Use ASCII characters ONLY in user interface
+- NO Unicode characters, emojis, or special symbols in program output
+- Stick to basic ASCII for maximum compatibility and professionalism
+- Examples: use "*" instead of "⭐", use "+" instead of "✅", etc.
 
 ## Team Structure
 

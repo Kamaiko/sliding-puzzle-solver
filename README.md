@@ -45,15 +45,15 @@ swipl -g run_all_tests src/tests.pl
 <table>
 <tr>
 <td width="33%" align="center">
-  <img src="archive/menu_principal.png" alt="Menu principal" width="700">
+  <img src="archive/menu_principal.png" alt="Menu principal" width="280">
   <br><em>Menu principal interactif</em>
 </td>
 <td width="33%" align="center">
-  <img src="archive/resultats.png" alt="Résultats de résolution" width="700">
+  <img src="archive/resultats.png" alt="Résultats de résolution" width="280">
   <br><em>Résultats validation académique</em>
 </td>
 <td width="33%" align="center">
-  <img src="archive/animation_resultats.png" alt="Animation étapes" width="700">
+  <img src="archive/animation_resultats.png" alt="Animation étapes" width="240">
   <br><em>Animation pas-à-pas</em>
 </td>
 </tr>
@@ -62,6 +62,7 @@ swipl -g run_all_tests src/tests.pl
 ### 🏆 Résolution Optimale de Taquin
 - ✅ **Algorithme A*** avec closed set pour solutions déterministes
 - ✅ **Validation académique** exacte : Cost=4, Expanded=9, Path=5 États
+- 🎯 **Solution "9 nœuds"** : Comptage selon image ExempleResolution.png du professeur
 
 ### 🤖 Intelligence Artificielle
 

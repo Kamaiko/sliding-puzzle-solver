@@ -110,10 +110,11 @@ display_solution(+Path, +Cost, +Expanded, +ResponseTime)
 
 ## Validation
 
-### Tests critiques
-- **Cas professeur** : Cost=4, Expanded=9 exactement
+### Tests critiques ✅ VALIDÉS
+- **Cas professeur** : Cost=4, Expanded=9 exactement (comptage arbre visuel)
 - **Performance** : < 1 seconde résolution 3x3
 - **Tests unitaires** : Chaque module validé séparément
+- **Solution "9 nœuds"** : Implémentation selon image ExempleResolution.png
 
 ## Robustesse
 
