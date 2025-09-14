@@ -39,5 +39,5 @@ swipl src/tests.pl
 - [🏗️ Architecture](docs/architecture.md) - Design technique
 - [🚀 Développement](docs/development.md) - Guide équipe
 - [🎨 Mockups UI](docs/ui_mockups.md) - Design interface CLI
-- [📋 Plan de développement](docs/todo_list.md) - Todo list détaillée et jalons
+- [📋 Plan de développement](docs/plan.md) - Todo list détaillée et jalons
 - [📄 Rapport](docs/report_template.md) - Template rendu final

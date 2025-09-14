@@ -59,7 +59,29 @@ src/
 ## Team Structure
 
 4-person team with module assignment:
-- Dev 1: main.pl (leadership + integration)  
+- Dev 1: main.pl (leadership + integration)
 - Dev 2: astar.pl (core algorithm responsibility)
 - Dev 3: game.pl (domain logic foundations)
 - Dev 4: display.pl + tests.pl (UX + quality assurance)
+
+## Git Conventions
+
+**Commit message format**:
+```
+type(module): description courte
+```
+
+**Types**:
+- `feat` : nouvelle fonctionnalité
+- `fix` : correction de bug
+- `test` : ajout ou modification de tests
+- `docs` : mise à jour documentation
+- `refactor` : refactoring sans changement fonctionnel
+
+**Exemples**:
+```
+feat(astar): implémentation heuristique tuiles mal placées
+fix(game): correction génération mouvements valides
+test(display): ajout tests formatage grille 3x3
+docs: mise à jour spécifications techniques
+```
