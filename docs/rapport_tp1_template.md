@@ -6,8 +6,8 @@
 - Xavier Gagnon
 - Daniel José Anillo Santos
 - Alexandre Gamache
-**Date** : 20 Octobre 2025
-**Université** : Université Laval
+
+**Date** : 20 Octobre 2025 | **Université** : Université Laval
 
 ---
 
