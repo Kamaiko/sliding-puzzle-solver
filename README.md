@@ -10,8 +10,7 @@
 [![Platforms](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey?style=flat-square)]()
 [![AI Algorithm](https://img.shields.io/badge/AI-A*%20Search%20%7C%20Misplaced%20Tiles-green?style=flat-square)]()
 
-<img src="archive/ecran_accueil.png" alt="Écran d'accueil Solveur Taquin" width="600">
-<br><em>Interface d'accueil professionnelle avec ASCII art et menu interactif</em>
+<img src="archive/ecran_accueil.png" alt="Écran d'accueil Solveur Taquin" width="450">
 
 </div>
 
