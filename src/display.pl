@@ -38,31 +38,31 @@
 %  Design professionnel avec ASCII art et informations contextuelles
 display_banner :-
     nl,
-    write('+===============================================================================+'), nl,
-    write('|                                                                               |'), nl,
-    write('|     ████████╗ █████╗  ██████╗ ██╗   ██╗██╗███╗   ██╗                          |'), nl,
-    write('|     ╚══██╔══╝██╔══██╗██╔═══██╗██║   ██║██║████╗  ██║                          |'), nl,
-    write('|        ██║   ███████║██║   ██║██║   ██║██║██╔██╗ ██║                          |'), nl,
-    write('|        ██║   ██╔══██║██║▄▄ ██║██║   ██║██║██║╚██╗██║                          |'), nl,
-    write('|        ██║   ██║  ██║╚██████╔╝╚██████╔╝██║██║ ╚████║                          |'), nl,
-    write('|        ╚═╝   ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝                          |'), nl,
-    write('|                                                                               |'), nl,
-    write('|        ███████╗ ██████╗ ██╗    ██╗   ██╗███████╗██╗   ██╗██████╗              |'), nl,
-    write('|        ██╔════╝██╔═══██╗██║    ██║   ██║██╔════╝██║   ██║██╔══██╗             |'), nl,
-    write('|        ███████╗██║   ██║██║    ██║   ██║█████╗  ██║   ██║██████╔╝             |'), nl,
-    write('|        ╚════██║██║   ██║██║    ╚██╗ ██╔╝██╔══╝  ██║   ██║██╔══██╗             |'), nl,
-    write('|        ███████║╚██████╔╝███████╗╚████╔╝ ███████╗╚██████╔╝██║  ██║             |'), nl,
-    write('|        ╚══════╝ ╚═════╝ ╚══════╝ ╚═══╝  ╚══════╝ ╚═════╝ ╚═╝  ╚═╝             |'), nl,
-    write('|                                                                               |'), nl,
-    write('|                    +---+---+---+                                              |'), nl,
-    write('|                    | 1 | 2 | 3 |     SOLVEUR INTELLIGENT A*                   |'), nl,
-    write('|                    +---+---+---+     IFT-2003 - IA                            |'), nl,
-    write('|                    | 4 | 5 | 6 |     Universite Laval                         |'), nl,
-    write('|                    +---+---+---+                                              |'), nl,
-    write('|                    | 7 | 8 | # |     [Appuyez sur ENTREE]                     |'), nl,
-    write('|                    +---+---+---+                                              |'), nl,
-    write('|                                                                               |'), nl,
-    write('+===============================================================================+'), nl, nl,
+    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
+    write('║                                                                               ║'), nl,
+    write('║     ████████╗ █████╗  ██████╗ ██╗   ██╗██╗███╗   ██╗                          ║'), nl,
+    write('║     ╚══██╔══╝██╔══██╗██╔═══██╗██║   ██║██║████╗  ██║                          ║'), nl,
+    write('║        ██║   ███████║██║   ██║██║   ██║██║██╔██╗ ██║                          ║'), nl,
+    write('║        ██║   ██╔══██║██║▄▄ ██║██║   ██║██║██║╚██╗██║                          ║'), nl,
+    write('║        ██║   ██║  ██║╚██████╔╝╚██████╔╝██║██║ ╚████║                          ║'), nl,
+    write('║        ╚═╝   ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝                          ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('║        ███████╗ ██████╗ ██╗    ██╗   ██╗███████╗██╗   ██╗██████╗              ║'), nl,
+    write('║        ██╔════╝██╔═══██╗██║    ██║   ██║██╔════╝██║   ██║██╔══██╗             ║'), nl,
+    write('║        ███████╗██║   ██║██║    ██║   ██║█████╗  ██║   ██║██████╔╝             ║'), nl,
+    write('║        ╚════██║██║   ██║██║    ╚██╗ ██╔╝██╔══╝  ██║   ██║██╔══██╗             ║'), nl,
+    write('║        ███████║╚██████╔╝███████╗╚████╔╝ ███████╗╚██████╔╝██║  ██║             ║'), nl,
+    write('║        ╚══════╝ ╚═════╝ ╚══════╝ ╚═══╝  ╚══════╝ ╚═════╝ ╚═╝  ╚═╝             ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('║                    ┌───┬───┬───┐                                              ║'), nl,
+    write('║                    │ 1 │ 2 │ 3 │     SOLVEUR INTELLIGENT A*                 ║'), nl,
+    write('║                    ├───┼───┼───┤     IFT-2003 - IA                          ║'), nl,
+    write('║                    │ 4 │ 5 │ 6 │     Universite Laval                       ║'), nl,
+    write('║                    ├───┼───┼───┤                                              ║'), nl,
+    write('║                    │ 7 │ 8 │ # │                                             ║'), nl,
+    write('║                    └───┴───┴───┘                                              ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl, nl,
     write('[Appuyez sur ENTREE pour continuer...]'), nl,
     flush_output,
     get_char(_),  % Attendre ENTREE
@@ -72,24 +72,34 @@ display_banner :-
 %  Affiche le menu principal avec options de navigation
 %  Interface claire pour sélection des cas de test
 display_menu :-
-    write('+===============================================================================+'), nl,
-    write('|                          MENU PRINCIPAL                                       |'), nl,
-    write('+===============================================================================+'), nl,
-    write('|                                                                               |'), nl,
-    write('|  +---------------------------------+    +------------------------------+      |'), nl,
-    write('|  | [1] CAS TEST CLASSIQUE          |    |  Preview:                    |      |'), nl,
-    write('|  |                                 |    |  +---+---+---+  +---+---+---+|      |'), nl,
-    write('|  |                                 |    |  | 1 | 2 | 3 |  | 1 | 2 | 3 ||      |'), nl,
-    write('|  |                                 |    |  +---+---+---+  +---+---+---+|      |'), nl,
-    write('|  +---------------------------------+    |  | 5 | # | 6 |->| 4 | 5 | 6 ||      |'), nl,
-    write('|  | [2] CAS TEST AVANCE             |    |  +---+---+---+  +---+---+---+|      |'), nl,
-    write('|  |                                 |    |  | 4 | 7 | 8 |  | 7 | 8 | # ||      |'), nl,
-    write('|  |                                 |    |  +---+---+---+  +---+---+---+|      |'), nl,
-    write('|  +---------------------------------+    |       Initial        Final   |      |'), nl,
-    write('|  | [3] QUITTER                     |    +------------------------------+      |'), nl,
-    write('|  +---------------------------------+                                          |'), nl,
-    write('|                                                                               |'), nl,
-    write('+===============================================================================+'), nl, nl,
+    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
+    write('║                              MENU PRINCIPAL                                   ║'), nl,
+    write('╠═══════════════════════════════════════════════════════════════════════════════╣'), nl,
+    write('║                                                                               ║'), nl,
+    write('║  ╔═══════════════════════════════════╗    ╔══════════════════════════════╗    ║'), nl,
+    write('║  ║ [1] CAS TEST CLASSIQUE            ║    ║  Preview:                    ║    ║'), nl,
+    write('║  ║                                   ║    ║  ┌───┬───┬───┐  ┌───┬───┬───┐║    ║'), nl,
+    write('║  ║                                   ║    ║  │ 1 │ 2 │ 3 │  │ 1 │ 2 │ 3 │║    ║'), nl,
+    write('║  ║                                   ║    ║  ├───┼───┼───┤  ├───┼───┼───┤║    ║'), nl,
+    write('║  ╚═══════════════════════════════════╝    ║  │ 5 │ # │ 6 │->│ 4 │ 5 │ 6 │║    ║'), nl,
+    write('║  ╔═══════════════════════════════════╗    ║  ├───┼───┼───┤  ├───┼───┼───┤║    ║'), nl,
+    write('║  ║ [2] CAS TEST AVANCE               ║    ║  │ 4 │ 7 │ 8 │  │ 7 │ 8 │ # │║    ║'), nl,
+    write('║  ║                                   ║    ║  └───┴───┴───┘  └───┴───┴───┘║    ║'), nl,
+    write('║  ║                                   ║    ║     Initial         Final    ║    ║'), nl,
+    write('║  ║                                   ║    ╚══════════════════════════════╝    ║'), nl,
+    write('║  ╚═══════════════════════════════════╝                                        ║'), nl,
+    write('║  ╔═══════════════════════════════════╗                                        ║'), nl,
+    write('║  ║ [3] A PROPOS                      ║                                        ║'), nl,
+    write('║  ║                                   ║                                        ║'), nl,
+    write('║  ║                                   ║                                        ║'), nl,
+    write('║  ╚═══════════════════════════════════╝                                        ║'), nl,
+    write('║  ╔═══════════════════════════════════╗                                        ║'), nl,
+    write('║  ║ [4] QUITTER                       ║                                        ║'), nl,
+    write('║  ║                                   ║                                        ║'), nl,
+    write('║  ║                                   ║                                        ║'), nl,
+    write('║  ╚═══════════════════════════════════╝                                        ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl, nl,
     write('Votre choix: ').
 
 % =============================================================================
@@ -111,7 +121,7 @@ display_state(Title, State) :-
     format_tile(S4, F4), format_tile(S5, F5), format_tile(S6, F6),
     format_tile(S7, F7), format_tile(S8, F8), format_tile(S9, F9),
 
-    % Affichage avec bordures élégantes
+    % Affichage avec bordures simples UTF-8
     write('┌─────┬─────┬─────┐'), nl,
     format('│  ~w  │  ~w  │  ~w  │~n', [F1,F2,F3]),
     write('├─────┼─────┼─────┤'), nl,
@@ -132,17 +142,17 @@ display_state_compact(State) :-
     format_tile(S4, F4), format_tile(S5, F5), format_tile(S6, F6),
     format_tile(S7, F7), format_tile(S8, F8), format_tile(S9, F9),
 
-    % Format compact avec séparateurs
+    % Format compact avec bordures simples
     format('   │ ~w ~w ~w │~n', [F1,F2,F3]),
     format('   │ ~w ~w ~w │~n', [F4,F5,F6]),
     format('   │ ~w ~w ~w │~n', [F7,F8,F9]).
 
 %! format_tile(+Tile:integer, -Formatted) is det.
-%  Formate une tuile pour l'affichage (0 devient *)
-%  Convention: case vide représentée par "*" au lieu de "0"
+%  Formate une tuile pour l'affichage (0 devient #)
+%  Convention: case vide représentée par "#" selon mockups
 %  @param Tile Valeur de la tuile (0-8)
 %  @param Formatted Représentation formatée pour affichage
-format_tile(0, '*') :- !.  % Case vide = astérisque
+format_tile(0, '#') :- !.  % Case vide = # selon mockups
 format_tile(Tile, Tile).   % Autres tuiles inchangées
 
 % =============================================================================
@@ -158,17 +168,17 @@ format_tile(Tile, Tile).   % Autres tuiles inchangées
 %  @param ResponseTime Temps de calcul IA en secondes
 display_solution(Path, Cost, Expanded, ResponseTime) :-
     nl,
-    write('+----------------------------------------------------------+'), nl,
-    write('|                     SOLUTION TROUVEE                    |'), nl,
-    write('+----------------------------------------------------------+'), nl,
+    write('╔══════════════════════════════════════════════════════════╗'), nl,
+    write('║                     SOLUTION TROUVEE                    ║'), nl,
+    write('╚══════════════════════════════════════════════════════════╝'), nl,
 
     % Afficher le chemin complet étape par étape
     display_path_sequence(Path),
 
     nl,
-    write('+----------------------------------------------------------+'), nl,
-    write('|                  METRIQUES ACADEMIQUES                  |'), nl,
-    write('+----------------------------------------------------------+'), nl,
+    write('╔══════════════════════════════════════════════════════════╗'), nl,
+    write('║                  METRIQUES ACADEMIQUES                  ║'), nl,
+    write('╚══════════════════════════════════════════════════════════╝'), nl,
 
     % Afficher le chemin au format A->B->C->D->E
     display_path_summary(Path),
@@ -236,27 +246,27 @@ display_path_labels([_|Rest], Current, Total) :-
 %  @param Details Détails supplémentaires sur l'erreur
 display_error(timeout, Details) :-
     nl,
-    write('+--------------------------------------+'), nl,
-    write('|            TIMEOUT                   |'), nl,
-    write('+--------------------------------------+'), nl,
+    write('╔══════════════════════════════════════╗'), nl,
+    write('║            TIMEOUT                   ║'), nl,
+    write('╚══════════════════════════════════════╝'), nl,
     format('Erreur: ~w~n', [Details]),
     write('Le calcul a depasse la limite de 10 secondes.'), nl,
     write('Essayez avec une configuration plus simple.'), nl, nl.
 
 display_error(invalid_state, Details) :-
     nl,
-    write('+--------------------------------------+'), nl,
-    write('|            ETAT INVALIDE             |'), nl,
-    write('+--------------------------------------+'), nl,
+    write('╔══════════════════════════════════════╗'), nl,
+    write('║            ETAT INVALIDE             ║'), nl,
+    write('╚══════════════════════════════════════╝'), nl,
     format('Erreur: ~w~n', [Details]),
     write('L\'etat fourni ne respecte pas le format taquin 3x3.'), nl,
     write('Verifiez: 9 elements, chiffres 0-8 uniques.'), nl, nl.
 
 display_error(unsolvable, Details) :-
     nl,
-    write('+--------------------------------------+'), nl,
-    write('|       IMPOSSIBLE A RESOUDRE         |'), nl,
-    write('+--------------------------------------+'), nl,
+    write('╔══════════════════════════════════════╗'), nl,
+    write('║       IMPOSSIBLE A RESOUDRE         ║'), nl,
+    write('╚══════════════════════════════════════╝'), nl,
     format('Erreur: ~w~n', [Details]),
     write('Cette configuration ne peut pas etre resolue.'), nl,
     write('Probleme de parite des inversions.'), nl, nl.

@@ -1,8 +1,6 @@
-# Interface CLI/ASCII - Mockups et Design
+# UI MOCKUPS UTF-8 - Solveur de Taquin
 
-## Plan structure pour interface CLI
-
-### MOCKUP 1 : Ecran d'accueil anime - VERSION UTF-8
+## MOCKUP 1: Écran d'accueil (Bannière) - Version UTF-8
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════════════╗
@@ -21,20 +19,20 @@
 ║        ███████║╚██████╔╝███████╗╚████╔╝ ███████╗╚██████╔╝██║  ██║             ║
 ║        ╚══════╝ ╚═════╝ ╚══════╝ ╚═══╝  ╚══════╝ ╚═════╝ ╚═╝  ╚═╝             ║
 ║                                                                               ║
-║                    ┌───┬───┬───┐                                              ║
-║                    │ 1 │ 2 │ 3 │     SOLVEUR INTELLIGENT A*                 ║
-║                    ├───┼───┼───┤     IFT-2003 - IA                          ║
-║                    │ 4 │ 5 │ 6 │     Universite Laval                       ║
-║                    ├───┼───┼───┤                                              ║
-║                    │ 7 │ 8 │ # │                                             ║
-║                    └───┴───┴───┘                                              ║
+║                    ╔═══╦═══╦═══╗                                              ║
+║                    ║ 1 ║ 2 ║ 3 ║     SOLVEUR INTELLIGENT A*                 ║
+║                    ╠═══╬═══╬═══╣     IFT-2003 - IA                          ║
+║                    ║ 4 ║ 5 ║ 6 ║     Universite Laval                       ║
+║                    ╠═══╬═══╬═══╣                                              ║
+║                    ║ 7 ║ 8 ║ # ║                                             ║
+║                    ╚═══╩═══╩═══╝                                              ║
 ║                                                                               ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 
 [Appuyez sur ENTREE pour continuer...]
 ```
 
-### MOCKUP 2 : Menu principal - VERSION UTF-8
+## MOCKUP 2: Menu principal - Version UTF-8
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════════════╗
@@ -43,103 +41,62 @@
 ║                                                                               ║
 ║  ╔═══════════════════════════════════╗    ╔══════════════════════════════╗    ║
 ║  ║ [1] CAS TEST CLASSIQUE            ║    ║  Preview:                    ║    ║
-║  ║                                   ║    ║  ┌───┬───┬───┐  ┌───┬───┬───┐║    ║
-║  ║                                   ║    ║  │ 1 │ 2 │ 3 │  │ 1 │ 2 │ 3 │║    ║
-║  ║                                   ║    ║  ├───┼───┼───┤  ├───┼───┼───┤║    ║
-║  ╚═══════════════════════════════════╝    ║  │ 5 │ # │ 6 │->│ 4 │ 5 │ 6 │║    ║
-║  ╔═══════════════════════════════════╗    ║  ├───┼───┼───┤  ├───┼───┼───┤║    ║
-║  ║ [2] CAS TEST AVANCE               ║    ║  │ 4 │ 7 │ 8 │  │ 7 │ 8 │ # │║    ║
-║  ║                                   ║    ║  └───┴───┴───┘  └───┴───┴───┘║    ║
-║  ║                                   ║    ║     Initial         Final    ║    ║
-║  ║                                   ║    ╚══════════════════════════════╝    ║
+║  ║                                   ║    ║  ╔═══╦═══╦═══╗  ╔═══╦═══╦═══╗║    ║
+║  ║  Configuration academique         ║    ║  ║ 1 ║ 2 ║ 3 ║  ║ 1 ║ 2 ║ 3 ║║    ║
+║  ║  standard (4 mouvements)          ║    ║  ╠═══╬═══╬═══╣  ╠═══╬═══╬═══╣║    ║
+║  ╚═══════════════════════════════════╝    ║  ║ 5 ║ # ║ 6 ║->║ 4 ║ 5 ║ 6 ║║    ║
+║  ╔═══════════════════════════════════╗    ║  ╠═══╬═══╬═══╣  ╠═══╬═══╬═══╣║    ║
+║  ║ [2] CAS TEST AVANCE               ║    ║  ║ 4 ║ 7 ║ 8 ║  ║ 7 ║ 8 ║ # ║║    ║
+║  ║                                   ║    ║  ╚═══╩═══╩═══╝  ╚═══╩═══╩═══╝║    ║
+║  ║  Configuration complexe pour      ║    ║     Initial         Final    ║    ║
+║  ║  demonstration etendue            ║    ╚══════════════════════════════╝    ║
 ║  ╚═══════════════════════════════════╝                                        ║
 ║  ╔═══════════════════════════════════╗                                        ║
-║  ║ [3] A PROPOS                      ║                                        ║
+║  ║ [3] QUITTER                       ║                                        ║
 ║  ║                                   ║                                        ║
-║  ║                                   ║                                        ║
-║  ╚═══════════════════════════════════╝                                        ║
-║  ╔═══════════════════════════════════╗                                        ║
-║  ║ [4] QUITTER                       ║                                        ║
-║  ║                                   ║                                        ║
-║  ║                                   ║                                        ║
+║  ║  Fermer le programme               ║                                        ║
 ║  ╚═══════════════════════════════════╝                                        ║
 ║                                                                               ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 
-Votre choix: _
+Votre choix:
 ```
 
-### MOCKUP 2.5 : A PROPOS - VERSION UTF-8
+## MOCKUP 3: Resultats de resolution - Version UTF-8
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════════════╗
-║                                   A PROPOS                                    ║
+║                           SOLUTION TROUVEE !                                  ║
 ╠═══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                               ║
-║  SOLVEUR DE TAQUIN A*                                                         ║
-║  Version 1.0                                                                  ║
+║  CHEMIN OPTIMAL (5 etats, 4 mouvements):                                      ║
 ║                                                                               ║
-║  COURS        : IFT-2003 - Intelligence Artificielle                         ║
-║  INSTITUTION  : Universite Laval                                             ║
-║  PROJET       : Travail pratique - Algorithme de recherche A*                ║
+║     ETAT A          ETAT B          ETAT C          ETAT D          ETAT E    ║
+║   ╔═══╦═══╦═══╗  ╔═══╦═══╦═══╗  ╔═══╦═══╦═══╗  ╔═══╦═══╦═══╗  ╔═══╦═══╦═══╗ ║
+║   ║ 1 ║ 2 ║ 3 ║  ║ 1 ║ 2 ║ 3 ║  ║ 1 ║ 2 ║ 3 ║  ║ 1 ║ 2 ║ 3 ║  ║ 1 ║ 2 ║ 3 ║ ║
+║   ╠═══╬═══╬═══╣  ╠═══╬═══╬═══╣  ╠═══╬═══╬═══╣  ╠═══╬═══╬═══╣  ╠═══╬═══╬═══╣ ║
+║   ║ 5 ║ # ║ 6 ║->║ # ║ 5 ║ 6 ║->║ 4 ║ 5 ║ 6 ║->║ 4 ║ 5 ║ 6 ║->║ 4 ║ 5 ║ 6 ║ ║
+║   ╠═══╬═══╬═══╣  ╠═══╬═══╬═══╣  ╠═══╬═══╬═══╣  ╠═══╬═══╬═══╣  ╠═══╬═══╬═══╣ ║
+║   ║ 4 ║ 7 ║ 8 ║  ║ 4 ║ 7 ║ 8 ║  ║ # ║ 7 ║ 8 ║  ║ 7 ║ # ║ 8 ║  ║ 7 ║ 8 ║ # ║ ║
+║   ╚═══╩═══╩═══╝  ╚═══╩═══╩═══╝  ╚═══╩═══╩═══╝  ╚═══╩═══╩═══╝  ╚═══╩═══╩═══╝ ║
+║       Initial        <-GAUCHE       <-BAS          <-DROITE       <-DROITE    ║
 ║                                                                               ║
-║  ALGORITHME   : A* (A-star) avec heuristique tuiles mal placees             ║
-║  PERFORMANCE  : Solution optimale garantie                                   ║
-║  VALIDATION   : Cas academique - Cost=4, Expanded=9 noeuds                   ║
+║ ╔═════════════════════════════════════════════════════════════════════════╗   ║
+║ ║                          RESULTATS VALIDATION                           ║   ║
+║ ╠═════════════════════════════════════════════════════════════════════════╣   ║
+║ ║                                                                         ║   ║
+║ ║  Path: 5 etats    Cost: 4 mouvements    Expanded: 9 noeuds              ║   ║
+║ ║  Temps: 0.042s    Algorithme A*: OPTIMAL                                ║   ║
+║ ║                                                                         ║   ║
+║ ╚═════════════════════════════════════════════════════════════════════════╝   ║
 ║                                                                               ║
-║  EQUIPE :                                                                    ║
-║    • Patrick Patenaude                                                       ║
-║    • Xavier Gagnon                                                           ║
-║    • Daniel Jose Anillo Santos                                               ║
-║    • Alexandre Gamache                                                       ║
-║                                                                               ║
+║  [A] Animer solution  [M] Menu  [N] Cas test 2  [Q] Quitter                   ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
-
-[Appuyez sur ENTREE pour continuer...]
-```
-
-### MOCKUP 3 : Resultats de resolution - VERSION UTF-8
-
-```
-╔══════════════════════════════════════════════════════════╗
-║                     SOLUTION TROUVEE                    ║
-╚══════════════════════════════════════════════════════════╝
-
-   │ 1 2 3 │
-   │ 5 # 6 │
-   │ 4 7 8 │
-        ↓
-   │ # 5 6 │
-   │ 4 7 8 │
-   │ 1 2 3 │
-        ↓
-   │ 4 5 6 │
-   │ # 7 8 │
-   │ 1 2 3 │
-        ↓
-   │ 4 5 6 │
-   │ 7 # 8 │
-   │ 1 2 3 │
-        ↓
-   │ 4 5 6 │
-   │ 7 8 # │
-   │ 1 2 3 │
-   [BUT ATTEINT!]
-
-╔══════════════════════════════════════════════════════════╗
-║                  METRIQUES ACADEMIQUES                  ║
-╚══════════════════════════════════════════════════════════╝
-[INFO] Path Summary  : A -> B -> C -> D -> E
-[INFO] Longueur Path : 5 etats (Initial -> But)
-[INFO] Cost         : 4 mouvements
-[INFO] Expanded     : 9 noeuds explores
-[INFO] Temps IA     : 0.042 secondes
-[OK] VALIDATION ACADEMIQUE CONFIRMEE (Cost=4, Expanded=9)
 
 Votre choix: _
 ```
 
-### MOCKUP 4 : Animation pas-a-pas - VERSION UTF-8
+## MOCKUP 4: Animation pas-a-pas - Version UTF-8
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════════════╗
@@ -148,13 +105,13 @@ Votre choix: _
 ║                                                                               ║
 ║                         ETAT ACTUEL: B                                        ║
 ║                                                                               ║
-║                        ┌─────┬─────┬─────┐                                    ║
-║                        │  1  │  2  │  3  │                                    ║
-║                        ├─────┼─────┼─────┤                                    ║
-║                        │  #  │  5  │  6  │  <- Case vide deplacee a gauche    ║
-║                        ├─────┼─────┼─────┤                                    ║
-║                        │  4  │  7  │  8  │                                    ║
-║                        └─────┴─────┴─────┘                                    ║
+║                        ╔═══╦═══╦═══╗                                          ║
+║                        ║ 1 ║ 2 ║ 3 ║                                          ║
+║                        ╠═══╬═══╬═══╣                                          ║
+║                        ║ # ║ 5 ║ 6 ║  <- Case vide deplacee a gauche          ║
+║                        ╠═══╬═══╬═══╣                                          ║
+║                        ║ 4 ║ 7 ║ 8 ║                                          ║
+║                        ╚═══╩═══╩═══╝                                          ║
 ║                                                                               ║
 ║  ╔═══════════════════════════════════════════════════════════════════════╗    ║
 ║  ║ MOUVEMENT: GAUCHE                                                     ║    ║
@@ -170,7 +127,7 @@ Votre choix: _
 Appuyez sur une touche pour continuer...
 ```
 
-### MOCKUP 5 : Exécution des tests - VERSION UTF-8
+## MOCKUP 5: Exécution des tests - Version UTF-8
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════════════╗
@@ -223,110 +180,14 @@ Appuyez sur une touche pour continuer...
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
 
-## Plan de developpement structure
-
-### Phase 1: Interface de base
-
-1. **Banniere ASCII art** au demarrage
-2. **Menu interactif** avec previews
-3. **Affichage etats** avec symboles clairs (# pour case vide)
-4. **Transitions fluides** entre ecrans (clear + redraw)
-
-### Phase 2: Finalisation
-
-1. **Codes couleur ANSI** (optionnel, detectable)
-2. **Controles intuitifs** pour navigation
-3. **Messages d'erreur** clairs et utiles
-4. **Interface coherente** dans tous les modes
-
-## Elements cles pour impressionner
-
-1. **ASCII Art creatif** : Logo, transitions, animations
-2. **Feedback visuel** : Barres de progression, graphiques
-3. **Interactivite** : Controles pendant l'execution
-4. **Pedagogie** : Explications claires de l'algorithme
-5. **Performance** : Metriques detaillees et comparaisons
-6. **Professionnalisme** : Interface coherente et soignee
-
-## Specifications techniques
-
-### Caracteres ASCII utilises
-
-- Bordures: +, -, |, =
-- Cases taquin: +, -, |
-- Case vide: # (au lieu de 0)
-- Barres de progression: █, ░
-- Fleches directionnelles: <-, ->, ^, v
-- Arbre: /, \, |, [, ]
-
-### Dimensions ecran
-
-- Largeur: 79 caracteres (compatible terminal standard)
-- Hauteur: Variable selon le contenu
-- Marge: 2 caracteres de chaque cote
-
-### Controles utilisateur
-
-- Touches numeriques: Selection menu
-- Espace: Pause/Resume
-- Lettres: Actions specifiques (N, A, V, Q, etc.)
-- Entree: Confirmation/Suivant
-
-Cette approche reste 100% CLI/ASCII tout en offrant une experience visuelle
-riche et professionnelle qui impressionnera lors de la demonstration.
-
 ---
 
-## 📸 Recommandations pour le README
-
-### Mockups essentiels à inclure
-
-**OPTION RECOMMANDÉE** : Sélection de 3 mockups clés
-
-1. **MOCKUP 1 - Écran d'accueil**
-   - Impact visuel fort avec ASCII art professionnel
-   - Montre le sérieux et la qualité du projet
-   - Première impression cruciale
-
-2. **MOCKUP 3 - Résultats de résolution** ⭐ **CRITIQUE**
-   - **OBLIGATOIRE** : Prouve les métriques exactes (Cost=4, Expanded=9)
-   - Validation académique visible
-   - Chemin optimal A→B→C→D→E affiché
-
-3. **MOCKUP 5 - Tests automatisés**
-   - Montre la rigueur et validation complète
-   - 15/15 tests passés = crédibilité technique
-   - Validation académique confirmée
-
-### Structure proposée README.md
-
-```markdown
-## 🎮 Captures d'écran
-
-### Interface d'accueil
-![Écran d'accueil](docs/images/mockup1_accueil.png)
-*Solveur intelligent de Taquin avec interface ASCII professionnelle*
-
-### Résultats de résolution - Validation académique ⭐
-![Résultats](docs/images/mockup3_resultats.png)
-*Validation exacte des métriques : Cost=4, Expanded=9, Path=5 états*
-
-### Suite de tests automatisés
-![Tests](docs/images/mockup5_tests.png)
-*Validation complète : 15/15 tests passés, conformité académique confirmée*
-```
-
-### Pourquoi ces 3 mockups ?
-
-- **Mockup 1** : Première impression + professionnalisme
-- **Mockup 3** : **ESSENTIEL** pour prouver conformité académique
-- **Mockup 5** : Crédibilité technique et validation
-
-**Mockups à éviter dans README** :
-- Mockup 4 (Animation) : Intéressant mais secondaire
-
-### Alternatives selon contexte
-
-**Si présentation complète souhaitée** : Ajouter MOCKUP 2 (Menu principal) pour montrer l'interface utilisateur complète.
-
-**Si focus académique strict** : Garder seulement MOCKUP 3 + MOCKUP 5 (résultats + tests).
+## Changements appliqués:
+- Remplacement de tous les `+` par `╔ ╗ ╚ ╝ ╠ ╣ ╦ ╩`
+- Remplacement de tous les `|` par `║`
+- Remplacement de tous les `=` par `═`
+- Grilles de jeu: `+---+` devient `╔═══╦═══╗` et `├───┼───┤` devient `╠═══╬═══╣`
+- Conservation exacte du contenu textuel (pas d'accents, pas d'emojis)
+- Conservation de `#` pour la case vide
+- Conservation de `->` pour les flèches
+- Style identique, juste bordures UTF-8 plus élégantes
