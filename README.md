@@ -10,22 +10,8 @@
 [![Platforms](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey?style=flat-square)]()
 [![AI Algorithm](https://img.shields.io/badge/AI-A*%20Search%20%7C%20Misplaced%20Tiles-green?style=flat-square)]()
 
-<table>
-<tr>
-<td width="33%" align="center">
-  `[IMAGE PLACEHOLDER 1]`
-  <br><em>Interface d'accueil avec ASCII art</em>
-</td>
-<td width="33%" align="center">
-  `[IMAGE PLACEHOLDER 2]`
-  <br><em>Résultats validation académique</em>
-</td>
-<td width="33%" align="center">
-  `[IMAGE PLACEHOLDER 3]`
-  <br><em>Suite de tests automatisés</em>
-</td>
-</tr>
-</table>
+<img src="archive/ecran_accueil.png" alt="Écran d'accueil Solveur Taquin" width="600">
+<br><em>Interface d'accueil professionnelle avec ASCII art et menu interactif</em>
 
 </div>
 
@@ -54,9 +40,26 @@ swipl -g run_all_tests src/tests.pl
 
 ## ✨ Fonctionnalités
 
+<table>
+<tr>
+<td width="33%" align="center">
+  <img src="archive/menu_principal.png" alt="Menu principal" width="280">
+  <br><em>Menu principal interactif</em>
+</td>
+<td width="33%" align="center">
+  <img src="archive/resultats.png" alt="Résultats de résolution" width="280">
+  <br><em>Résultats validation académique</em>
+</td>
+<td width="33%" align="center">
+  <img src="archive/animation_resultats.png" alt="Animation étapes" width="240">
+  <br><em>Animation pas-à-pas</em>
+</td>
+</tr>
+</table>
+
 ### 🏆 Résolution Optimale de Taquin
 - ✅ **Algorithme A*** avec closed set pour solutions déterministes
-- ✅ **Validation académique** exacte : Cost=4, Expanded=9, Path=5 états
+- ✅ **Validation académique** exacte : Cost=4, Expanded=9, Path=5 États
 
 ### 🤖 Intelligence Artificielle
 
