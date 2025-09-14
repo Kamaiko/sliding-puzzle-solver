@@ -16,7 +16,7 @@
 ---
 
 <div align="center">
-<img src="archive/ecran_accueil.png" alt="Écran d'accueil Solveur Taquin" width="450">
+<img src="archive/ecran_accueil_fr.png" alt="Écran d'accueil Solveur Taquin" width="450">
 </div>
 
 ## 🚀 Installation & Lancement
