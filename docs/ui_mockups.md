@@ -46,6 +46,8 @@
 |  +---------------------------------+                                          |
 |                                                                               |
 +===============================================================================+
+
+Votre choix: _
 ```
 
 ### MOCKUP 3 : Resultats de resolution
@@ -71,15 +73,15 @@
 | |                          RESULTATS VALIDATION                           |   |
 | +=========================================================================+   |
 | |                                                                         |   |
-| |  Path   : 5 etats (A->B->C->D->E)    |  Temps execution : 0.042s        |   |
-| |  Cost   : 4 mouvements               |  Heuristique    : Tuiles mal     |   |
-| |  Expanded: 9 noeuds explores         |                   placees        |   |
-| |                                      |                                  |   |
-| |  Algorithme A*: OPTIMAL              |  Solution       : GARANTIE       |   |
+| |  Path: 5 etats    Cost: 4 mouvements    Expanded: 9 noeuds             |   |
+| |  Temps: 0.042s    Algorithme A*: OPTIMAL                               |   |
+| |                                                                         |   |
 | +=========================================================================+   |
 |                                                                               |
-|  [A] Animer solution  [M] Menu  [2] Cas test 2  [Q] Quitter                   |
+|  [A] Animer solution  [M] Menu  [N] Cas test 2  [Q] Quitter                   |
 +===============================================================================+
+
+Votre choix: _
 ```
 
 ### MOCKUP 4 : Animation pas-a-pas
@@ -108,8 +110,9 @@
 |                                                                               |
 |                 Progression: [██████░░░░░░░░░░] 2/4                           |
 |                                                                               |
-|  [N] Prochain  [P] Precedent  [A] Auto  [M] Menu  [Q] Quitter                 |
 +===============================================================================+
+
+Appuyez sur une touche pour continuer...
 ```
 
 ### MOCKUP 5 : Exécution des tests
