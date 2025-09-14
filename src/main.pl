@@ -91,7 +91,7 @@ main_menu :-
 %! read_choice(-Choice:integer) is det.
 %  Lit et valide le choix utilisateur depuis l'entrée standard
 %  Gère les erreurs de saisie avec redemande automatique et EOF
-%  @param Choice Choix valide de l'utilisateur (1-3)
+%  @param Choice Choix valide de l'utilisateur (1-4)
 read_choice(Choice) :-
     flush_output,
     catch(
@@ -101,7 +101,7 @@ read_choice(Choice) :-
              (write('Programme interrompu.'), nl, halt)
          ;   integer(Input),
              Input >= 1,
-             Input =< 3 ->
+             Input =< 4 ->
              Choice = Input
          ;   fail  % Input invalide, aller au cas d'erreur
          )),
@@ -112,7 +112,7 @@ read_choice(Choice) :-
 
 read_choice(Choice) :-
     % Gestion des erreurs de saisie avec limite pour éviter boucle infinie
-    write('[ERREUR] Entree invalide. Veuillez entrer un nombre entre 1 et 3.'), nl,
+    write('[ERREUR] Entree invalide. Veuillez entrer un nombre entre 1 et 4.'), nl,
     % Nettoyer le buffer d'entrée si nécessaire
     catch(
         (repeat,
@@ -141,17 +141,17 @@ skip_to_newline :-
 %! handle_choice(+Choice:integer) is det.
 %  Traite le choix utilisateur du menu principal
 %  Exécute l'action correspondante avec gestion d'erreurs
-%  @param Choice Choix de l'utilisateur (1=cas test 1, 2=cas test 2, 3=quitter)
+%  @param Choice Choix de l'utilisateur (1=cas test 1, 2=cas test 2, 3=a propos, 4=quitter)
 
 % Cas test 1 : Exemple professeur (validation académique)
 handle_choice(1) :-
     nl,
-    write('+------------------------------------------------+'), nl,
-    write('|       CAS TEST 1 : EXEMPLE PROFESSEUR         |'), nl,
-    write('|   Configuration: [1,2,3,5,0,6,4,7,8]         |'), nl,
-    write('|   Objectif: [1,2,3,4,5,6,7,8,0]               |'), nl,
-    write('|   Validation: Cost=4, Expanded=9              |'), nl,
-    write('+------------------------------------------------+'), nl,
+    write('╔═══════════════════════════════════════════════╗'), nl,
+    write('║       CAS TEST 1 : EXEMPLE PROFESSEUR        ║'), nl,
+    write('║   Configuration: [1,2,3,5,0,6,4,7,8]         ║'), nl,
+    write('║   Objectif: [1,2,3,4,5,6,7,8,0]              ║'), nl,
+    write('║   Validation: Cost=4, Expanded=9             ║'), nl,
+    write('╚═══════════════════════════════════════════════╝'), nl,
 
     execute_test_case(case1),
     wait_for_continue,
@@ -160,24 +160,52 @@ handle_choice(1) :-
 % Cas test 2 : Exemple personnalisé (configuration étendue)
 handle_choice(2) :-
     nl,
-    write('+------------------------------------------------+'), nl,
-    write('|      CAS TEST 2 : EXEMPLE PERSONNALISE        |'), nl,
-    write('|   Configuration plus complexe (6+ mouvements) |'), nl,
-    write('|   Demonstration etendue des capacites A*      |'), nl,
-    write('+------------------------------------------------+'), nl,
+    write('╔═══════════════════════════════════════════════╗'), nl,
+    write('║      CAS TEST 2 : EXEMPLE PERSONNALISE       ║'), nl,
+    write('║   Configuration plus complexe (6+ mouvements)║'), nl,
+    write('║   Demonstration etendue des capacites A*     ║'), nl,
+    write('╚═══════════════════════════════════════════════╝'), nl,
 
     execute_test_case(case2),
     wait_for_continue,
     main_menu.
 
-% Quitter le programme
+% A propos du programme
 handle_choice(3) :-
     nl,
-    write('+----------------------------------------------+'), nl,
-    write('|            MERCI ET AU REVOIR!               |'), nl,
-    write('|        Solveur Taquin A* - Mission accomplie |'), nl,
-    write('|        Universite Laval - IFT-2003          |'), nl,
-    write('+----------------------------------------------+'), nl,
+    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
+    write('║                                   A PROPOS                                    ║'), nl,
+    write('╠═══════════════════════════════════════════════════════════════════════════════╣'), nl,
+    write('║                                                                               ║'), nl,
+    write('║  SOLVEUR DE TAQUIN A*                                                         ║'), nl,
+    write('║  Version 1.0                                                                  ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('║  COURS        : IFT-2003 - Intelligence Artificielle                         ║'), nl,
+    write('║  INSTITUTION  : Universite Laval                                             ║'), nl,
+    write('║  PROJET       : Travail pratique - Algorithme de recherche A*                ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('║  ALGORITHME   : A* (A-star) avec heuristique tuiles mal placees             ║'), nl,
+    write('║  PERFORMANCE  : Solution optimale garantie                                   ║'), nl,
+    write('║  VALIDATION   : Cas academique - Cost=4, Expanded=9 noeuds                   ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('║  EQUIPE :                                                                    ║'), nl,
+    write('║    • Patrick Patenaude                                                       ║'), nl,
+    write('║    • Xavier Gagnon                                                           ║'), nl,
+    write('║    • Daniel Jose Anillo Santos                                               ║'), nl,
+    write('║    • Alexandre Gamache                                                       ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
+    wait_for_continue,
+    main_menu.
+
+% Quitter le programme
+handle_choice(4) :-
+    nl,
+    write('╔══════════════════════════════════════════════╗'), nl,
+    write('║            MERCI ET AU REVOIR!               ║'), nl,
+    write('║        Solveur Taquin A* - Mission accomplie ║'), nl,
+    write('║        Universite Laval - IFT-2003          ║'), nl,
+    write('╚══════════════════════════════════════════════╝'), nl,
     write('[SYSTEME] Fermeture du programme...'), nl,
     flush_output,
     halt(0).
@@ -186,7 +214,7 @@ handle_choice(3) :-
 handle_choice(InvalidChoice) :-
     nl,
     format('[ERREUR] Choix invalide: ~w~n', [InvalidChoice]),
-    write('Veuillez choisir entre 1, 2 ou 3.'), nl,
+    write('Veuillez choisir entre 1, 2, 3 ou 4.'), nl,
     main_menu.
 
 % =============================================================================

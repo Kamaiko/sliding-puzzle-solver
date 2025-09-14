@@ -96,7 +96,7 @@ Le fichier `run.pl` configure automatiquement :
 ### Format d'entrée
 ```
 États : [1,2,3,5,0,6,4,7,8] (case vide = 0)
-Menu  : [1] Cas test classique, [2] Cas avancé, [3] Quitter
+Menu  : [1] Cas test classique, [2] Cas avancé, [3] A propos, [4] Quitter
 Sortie: Path A→B→C→D→E, Cost: 4, Expanded: 9
 ```
 
