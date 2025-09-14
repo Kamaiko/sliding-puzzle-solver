@@ -52,7 +52,6 @@
 %  @param Args Arguments de ligne de commande (ignorés pour ce programme)
 main(_) :-
     setup_environment,
-    display_banner,
     main_menu.
 
 %! main is det.
@@ -72,7 +71,7 @@ setup_environment :-
     (   current_predicate(astar_search/5) -> true
     ;   throw(error('Module astar.pl non chargé', setup))
     ),
-    (   current_predicate(display_banner/0) -> true
+    (   current_predicate(display_menu/0) -> true
     ;   throw(error('Module display.pl non chargé', setup))
     ).
 

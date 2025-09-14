@@ -66,8 +66,8 @@ Le fichier `run.pl` configure automatiquement :
   <br><em>Résultats validation académique</em>
 </td>
 <td width="33%" align="center">
-  <img src="archive/animation_resultats.png" alt="Animation étapes" width="240">
-  <br><em>Animation pas-à-pas</em>
+  <img src="archive/animation_resultats.png" alt="Validation tests" width="240">
+  <br><em>Validation automatisée</em>
 </td>
 </tr>
 </table>
