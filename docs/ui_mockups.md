@@ -34,18 +34,17 @@
 |                                                                               |
 |  +---------------------------------+    +------------------------------+      |
 |  | [1] CAS TEST CLASSIQUE          |    |  Preview:                    |      |
-|  |     Cout optimal: 4             |    |  +---+---+---+  +---+---+---+|      |
-|  |     Noeuds explores: 9          |    |  | 1 | 2 | 3 |  | 1 | 2 | 3 ||      |
-|  |     Solution garantie           |    |  +---+---+---+  +---+---+---+|      |
+|  |                                 |    |  +---+---+---+  +---+---+---+|      |
+|  |                                 |    |  | 1 | 2 | 3 |  | 1 | 2 | 3 ||      |
+|  |                                 |    |  +---+---+---+  +---+---+---+|      |
 |  +---------------------------------+    |  | 5 | # | 6 |->| 4 | 5 | 6 ||      |
 |  | [2] CAS TEST AVANCE             |    |  +---+---+---+  +---+---+---+|      |
-|  |     Difficulte: ***             |    |  | 4 | 7 | 8 |  | 7 | 8 | # ||      |
-|  |     Mouvements min: 6+          |    |  +---+---+---+  +---+---+---+|      |
+|  |                                 |    |  | 4 | 7 | 8 |  | 7 | 8 | # ||      |
+|  |                                 |    |  +---+---+---+  +---+---+---+|      |
 |  +---------------------------------+    |       Initial        Final   |      |
 |  | [3] QUITTER                     |    +------------------------------+      |
 |  +---------------------------------+                                          |
 |                                                                               |
-|  Votre choix: _                                                               |
 +===============================================================================+
 ```
 
@@ -123,45 +122,45 @@
 |  === DÉBUT TESTS SOLVEUR TAQUIN A* ===                                        |
 |                                                                               |
 |  [TEST] Module game.pl                                                        |
-|    [OK] find_blank/2         : Position case vide                     [PASS] |
-|    [OK] generate_moves/2     : Génération 4 directions                [PASS] |
-|    [OK] validate_state/1     : Validation configuration               [PASS] |
-|    [OK] apply_move/3         : Application mouvement                  [PASS] |
+|    [OK] find_blank/2         : Position case vide                     [PASS]  |
+|    [OK] generate_moves/2     : Génération 4 directions                [PASS]  |
+|    [OK] validate_state/1     : Validation configuration               [PASS]  |
+|    [OK] apply_move/3         : Application mouvement                  [PASS]  |
 |                                                            4/4 tests passés   |
 |                                                                               |
 |  [TEST] Module astar.pl                                                       |
-|    [OK] misplaced_tiles/3    : h([1,2,3,5,0,6,4,7,8]) = 4             [PASS] |
-|    [OK] astar_search/5       : Algorithme A* avec closed set          [PASS] |
-|    [OK] reconstruct_path/2   : Reconstruction chemin parents          [PASS] |
+|    [OK] misplaced_tiles/3    : h([1,2,3,5,0,6,4,7,8]) = 4             [PASS]  |
+|    [OK] astar_search/5       : Algorithme A* avec closed set          [PASS]  |
+|    [OK] reconstruct_path/2   : Reconstruction chemin parents          [PASS]  |
 |                                                            3/3 tests passés   |
 |                                                                               |
 |  [TEST] Module display.pl                                                     |
-|    [OK] display_grid/1       : Affichage grille 3x3                   [PASS] |
-|    [OK] format_results/3     : Format Path/Cost/Expanded              [PASS] |
+|    [OK] display_grid/1       : Affichage grille 3x3                   [PASS]  |
+|    [OK] format_results/3     : Format Path/Cost/Expanded              [PASS]  |
 |                                                            2/2 tests passés   |
 |                                                                               |
 |  [TEST] VALIDATION ACADÉMIQUE CRITIQUE                                        |
-|    [OK] Cas test 1           : Cost=4, Expanded=9 exact               [PASS] |
-|    [OK] Heuristique initiale : h=4 pour état professeur               [PASS] |
-|    [OK] Path length          : 5 états (A→B→C→D→E)                    [PASS] |
-|    [OK] Déterminisme         : Résultats identiques x3                [PASS] |
+|    [OK] Cas test 1           : Cost=4, Expanded=9 exact               [PASS]  |
+|    [OK] Heuristique initiale : h=4 pour état professeur               [PASS]  |
+|    [OK] Path length          : 5 états (A→B→C→D→E)                    [PASS]  |
+|    [OK] Déterminisme         : Résultats identiques x3                [PASS]  |
 |                                                            4/4 tests passés   |
 |                                                                               |
 |  [TEST] Intégration complète                                                  |
-|    [OK] Pipeline complet     : game → astar → display                 [PASS] |
-|    [OK] Performance          : Temps < 1.0 seconde                    [PASS] |
+|    [OK] Pipeline complet     : game → astar → display                 [PASS]  |
+|    [OK] Performance          : Temps < 1.0 seconde                    [PASS]  |
 |                                                            2/2 tests passés   |
 |                                                                               |
-| +=========================================================================+ |
-| |                         RÉSUMÉ DES TESTS                                | |
-| +=========================================================================+ |
-| |                                                                         | |
-| |  Total : 15/15 tests passés                    Temps total : 0.234s    | |
-| |  Couverture : 100% des prédicats critiques                             | |
-| |  Statut : [SUCCESS] TOUS LES TESTS PASSENT                             | |
-| |                                                                         | |
-| |  === VALIDATION ACADÉMIQUE CONFIRMÉE ===                                | |
-| +=========================================================================+ |
+| +=========================================================================+   |
+| |                         RÉSUMÉ DES TESTS                                |   |
+| +=========================================================================+   | 
+| |                                                                         |   | 
+| |  Total : 15/15 tests passés                    Temps total : 0.234s     |   |
+| |  Couverture : 100% des prédicats critiques                              |   |
+| |  Statut : [SUCCESS] TOUS LES TESTS PASSENT                              |   |
+| |                                                                         |   |
+| |  === VALIDATION ACADÉMIQUE CONFIRMÉE ===                                |   |
+| +=========================================================================+   |
 |                                                                               |
 +===============================================================================+
 ```
