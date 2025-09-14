@@ -10,11 +10,14 @@
 [![Platforms](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey?style=flat-square)]()
 [![AI Algorithm](https://img.shields.io/badge/AI-A*%20Search%20%7C%20Misplaced%20Tiles-green?style=flat-square)]()
 
-<img src="archive/ecran_accueil.png" alt="Écran d'accueil Solveur Taquin" width="450">
 
 </div>
 
 ---
+
+<div align="center">
+<img src="archive/ecran_accueil.png" alt="Écran d'accueil Solveur Taquin" width="450">
+</div>
 
 ## 🚀 Installation & Lancement
 
@@ -34,8 +37,9 @@ swipl -g run_all_tests src/tests.pl
 <tr><td><code>game.pl</code></td><td>🎮 États du puzzle, mouvements, validation</td></tr>
 <tr><td><code>astar.pl</code></td><td>🧠 Algorithme A*, heuristiques, recherche optimale</td></tr>
 <tr><td><code>display.pl</code></td><td>🎨 Affichage formaté, interface utilisateur</td></tr>
-<tr><td><code>tests.pl</code></td><td>🧪 Tests unitaires, validation d'intégration</td></tr>
 </table>
+
+**Architecture 4-modules** (~360 lignes) + **Module de tests** (`tests.pl` ~80 lignes)
 
 ## ✨ Fonctionnalités
 

@@ -57,7 +57,7 @@ Final:   [1,2,3,4,5,6,7,8,0]
 
 ```bash
 # Test principal
-swipl src/main.pl
+swipl -g main src/main.pl
 
 # Tests unitaires
 swipl src/tests.pl
