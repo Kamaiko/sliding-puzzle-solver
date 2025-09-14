@@ -33,72 +33,36 @@
 % SECTION 1: BANNIÈRES ET MENUS PRINCIPAUX
 % =============================================================================
 
-%! display_banner is det.
-%  Affiche la bannière d'accueil du programme
-%  Design professionnel avec ASCII art et informations contextuelles
-display_banner :-
-    nl,
+
+%! display_menu is det.
+%  Affiche le menu unifié avec titre ASCII et options
+%  Fusion de l'écran d'accueil et du menu principal
+display_menu :-
     write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
-    write('║                                                                               ║'), nl,
     write('║     ████████╗ █████╗  ██████╗ ██╗   ██╗██╗███╗   ██╗                          ║'), nl,
     write('║     ╚══██╔══╝██╔══██╗██╔═══██╗██║   ██║██║████╗  ██║                          ║'), nl,
     write('║        ██║   ███████║██║   ██║██║   ██║██║██╔██╗ ██║                          ║'), nl,
     write('║        ██║   ██╔══██║██║▄▄ ██║██║   ██║██║██║╚██╗██║                          ║'), nl,
     write('║        ██║   ██║  ██║╚██████╔╝╚██████╔╝██║██║ ╚████║                          ║'), nl,
     write('║        ╚═╝   ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝╚═╝  ╚═══╝                          ║'), nl,
-    write('║                                                                               ║'), nl,
     write('║        ███████╗ ██████╗ ██╗    ██╗   ██╗███████╗██╗   ██╗██████╗              ║'), nl,
     write('║        ██╔════╝██╔═══██╗██║    ██║   ██║██╔════╝██║   ██║██╔══██╗             ║'), nl,
     write('║        ███████╗██║   ██║██║    ██║   ██║█████╗  ██║   ██║██████╔╝             ║'), nl,
     write('║        ╚════██║██║   ██║██║    ╚██╗ ██╔╝██╔══╝  ██║   ██║██╔══██╗             ║'), nl,
     write('║        ███████║╚██████╔╝███████╗╚████╔╝ ███████╗╚██████╔╝██║  ██║             ║'), nl,
     write('║        ╚══════╝ ╚═════╝ ╚══════╝ ╚═══╝  ╚══════╝ ╚═════╝ ╚═╝  ╚═╝             ║'), nl,
-    write('║                                                                               ║'), nl,
-    write('║                    ┌───┬───┬───┐                                              ║'), nl,
-    write('║                    │ 1 │ 2 │ 3 │     SOLVEUR INTELLIGENT A*                 ║'), nl,
-    write('║                    ├───┼───┼───┤     IFT-2003 - IA                          ║'), nl,
-    write('║                    │ 4 │ 5 │ 6 │     Universite Laval                       ║'), nl,
-    write('║                    ├───┼───┼───┤                                              ║'), nl,
-    write('║                    │ 7 │ 8 │ # │                                             ║'), nl,
-    write('║                    └───┴───┴───┘                                              ║'), nl,
-    write('║                                                                               ║'), nl,
-    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl, nl,
-    write('[Appuyez sur ENTREE pour continuer...]'), nl,
-    flush_output,
-    get_char(_),  % Attendre ENTREE
-    nl, nl.
-
-%! display_menu is det.
-%  Affiche le menu principal avec options de navigation
-%  Interface claire pour sélection des cas de test
-display_menu :-
-    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
-    write('║                              MENU PRINCIPAL                                   ║'), nl,
-    write('╠═══════════════════════════════════════════════════════════════════════════════╣'), nl,
-    write('║                                                                               ║'), nl,
-    write('║  ╔═══════════════════════════════════╗    ╔══════════════════════════════╗    ║'), nl,
-    write('║  ║ [1] CAS TEST CLASSIQUE            ║    ║  Preview:                    ║    ║'), nl,
-    write('║  ║                                   ║    ║  ┌───┬───┬───┐  ┌───┬───┬───┐║    ║'), nl,
-    write('║  ║                                   ║    ║  │ 1 │ 2 │ 3 │  │ 1 │ 2 │ 3 │║    ║'), nl,
-    write('║  ║                                   ║    ║  ├───┼───┼───┤  ├───┼───┼───┤║    ║'), nl,
-    write('║  ╚═══════════════════════════════════╝    ║  │ 5 │ # │ 6 │->│ 4 │ 5 │ 6 │║    ║'), nl,
-    write('║  ╔═══════════════════════════════════╗    ║  ├───┼───┼───┤  ├───┼───┼───┤║    ║'), nl,
-    write('║  ║ [2] CAS TEST AVANCE               ║    ║  │ 4 │ 7 │ 8 │  │ 7 │ 8 │ # │║    ║'), nl,
-    write('║  ║                                   ║    ║  └───┴───┴───┘  └───┴───┴───┘║    ║'), nl,
-    write('║  ║                                   ║    ║     Initial         Final    ║    ║'), nl,
-    write('║  ║                                   ║    ╚══════════════════════════════╝    ║'), nl,
-    write('║  ╚═══════════════════════════════════╝                                        ║'), nl,
-    write('║  ╔═══════════════════════════════════╗                                        ║'), nl,
-    write('║  ║ [3] A PROPOS                      ║                                        ║'), nl,
-    write('║  ║                                   ║                                        ║'), nl,
-    write('║  ║                                   ║                                        ║'), nl,
-    write('║  ╚═══════════════════════════════════╝                                        ║'), nl,
-    write('║  ╔═══════════════════════════════════╗                                        ║'), nl,
-    write('║  ║ [4] QUITTER                       ║                                        ║'), nl,
-    write('║  ║                                   ║                                        ║'), nl,
-    write('║  ║                                   ║                                        ║'), nl,
-    write('║  ╚═══════════════════════════════════╝                                        ║'), nl,
-    write('║                                                                               ║'), nl,
+    write('║                         ╔═════════════════════════╗                           ║'), nl,
+    write('║                         ║ [1] CAS TEST CLASSIQUE  ║                           ║'), nl,
+    write('║                         ╠═════════════════════════╣                           ║'), nl,
+    write('║                         ║ [2] CAS TEST AVANCE     ║                           ║'), nl,
+    write('║                         ╠═════════════════════════╣                           ║'), nl,
+    write('║                         ║ [3] A PROPOS            ║                           ║'), nl,
+    write('║                         ╠═════════════════════════╣                           ║'), nl,
+    write('║                         ║ [4] QUITTER             ║                           ║'), nl,
+    write('║                         ╚═════════════════════════╝                           ║'), nl,
+    write('║                           SOLVEUR INTELLIGENT A*                              ║'), nl,
+    write('║                               IFT-2003 - IA                                   ║'), nl,
+    write('║                             Universite Laval                                  ║'), nl,
     write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl, nl,
     write('Votre choix: ').
 
