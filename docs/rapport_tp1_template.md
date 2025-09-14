@@ -1,7 +1,11 @@
 # Rapport de Travail Pratique - Intelligence Artificielle
 ## IFT-2003 - Solveur de Taquin avec Recherche Heuristique A*
 
-**Étudiant** : [Nom des membres de l'équipe]
+**Étudiants** :
+- Patrick Patenaude
+- Xavier Gagnon
+- Daniel José Anillo Santos
+- Alexandre Gamache
 **Date** : 20 Octobre 2025
 **Université** : Université Laval
 

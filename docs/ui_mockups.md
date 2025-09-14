@@ -49,32 +49,7 @@
 +===============================================================================+
 ```
 
-### MOCKUP 3 : Ecran de resolution
-
-```
-+===============================================================================+
-|                       RESOLUTION - ALGORITHME A*                              |
-+===============================================================================+
-|                                                                               |
-|                                                                               |
-|  +-----------------+                           +-----------------+            |
-|  |  ETAT INITIAL   |                           |  ETAT OBJECTIF  |            |
-|  |  +---+---+---+  |                           |  +---+---+---+  |            |
-|  |  | 1 | 2 | 3 |  |      ALGORITHME A*        |  | 1 | 2 | 3 |  |            |
-|  |  +---+---+---+  |      EN COURS...          |  +---+---+---+  |            |
-|  |  | 5 | # | 6 |  |                           |  | 4 | 5 | 6 |  |            |
-|  |  +---+---+---+  |      [████████████████]   |  +---+---+---+  |            |
-|  |  | 4 | 7 | 8 |  |                           |  | 7 | 8 | # |  |            |
-|  |  +---+---+---+  |      Calcul optimal...    |  +---+---+---+  |            |
-|  +-----------------+                           +-----------------+            |
-|                                                                               |
-|                                                                               |
-|                        Heuristique: Tuiles mal placees                        |
-|                                                                               |
-+===============================================================================+
-```
-
-### MOCKUP 4 : Resultats de resolution
+### MOCKUP 3 : Resultats de resolution
 
 ```
 +===============================================================================+
@@ -108,7 +83,7 @@
 +===============================================================================+
 ```
 
-### MOCKUP 5 : Animation pas-a-pas
+### MOCKUP 4 : Animation pas-a-pas
 
 ```
 +===============================================================================+
@@ -138,7 +113,7 @@
 +===============================================================================+
 ```
 
-### MOCKUP 6 : Exécution des tests
+### MOCKUP 5 : Exécution des tests
 
 ```
 +===============================================================================+
@@ -256,12 +231,12 @@ riche et professionnelle qui impressionnera lors de la demonstration.
    - Montre le sérieux et la qualité du projet
    - Première impression cruciale
 
-2. **MOCKUP 4 - Résultats de résolution** ⭐ **CRITIQUE**
+2. **MOCKUP 3 - Résultats de résolution** ⭐ **CRITIQUE**
    - **OBLIGATOIRE** : Prouve les métriques exactes (Cost=4, Expanded=9)
    - Validation académique visible
    - Chemin optimal A→B→C→D→E affiché
 
-3. **MOCKUP 6 - Tests automatisés**
+3. **MOCKUP 5 - Tests automatisés**
    - Montre la rigueur et validation complète
    - 15/15 tests passés = crédibilité technique
    - Validation académique confirmée
@@ -276,26 +251,25 @@ riche et professionnelle qui impressionnera lors de la demonstration.
 *Solveur intelligent de Taquin avec interface ASCII professionnelle*
 
 ### Résultats de résolution - Validation académique ⭐
-![Résultats](docs/images/mockup4_resultats.png)
+![Résultats](docs/images/mockup3_resultats.png)
 *Validation exacte des métriques : Cost=4, Expanded=9, Path=5 états*
 
 ### Suite de tests automatisés
-![Tests](docs/images/mockup6_tests.png)
+![Tests](docs/images/mockup5_tests.png)
 *Validation complète : 15/15 tests passés, conformité académique confirmée*
 ```
 
 ### Pourquoi ces 3 mockups ?
 
 - **Mockup 1** : Première impression + professionnalisme
-- **Mockup 4** : **ESSENTIEL** pour prouver conformité académique
-- **Mockup 6** : Crédibilité technique et validation
+- **Mockup 3** : **ESSENTIEL** pour prouver conformité académique
+- **Mockup 5** : Crédibilité technique et validation
 
 **Mockups à éviter dans README** :
-- Mockup 3 (Écran résolution) : Peu informatif
-- Mockup 5 (Animation) : Intéressant mais secondaire
+- Mockup 4 (Animation) : Intéressant mais secondaire
 
 ### Alternatives selon contexte
 
 **Si présentation complète souhaitée** : Ajouter MOCKUP 2 (Menu principal) pour montrer l'interface utilisateur complète.
 
-**Si focus académique strict** : Garder seulement MOCKUP 4 + MOCKUP 6 (résultats + tests).
+**Si focus académique strict** : Garder seulement MOCKUP 3 + MOCKUP 5 (résultats + tests).
