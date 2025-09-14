@@ -1,26 +1,50 @@
 % =============================================================================
 % MAIN.PL - Point d'entrée principal et orchestration du solveur de Taquin
 % =============================================================================
-% Ce module orchestre l'ensemble du programme :
-% - Point d'entrée principal et initialisation
-% - Menu interactif CLI avec validation d'entrées
-% - Gestion robuste des cas de test (professeur + personnalisé)
-% - Mesure précise des temps de réponse IA
+
+:- encoding(utf8).
+%
+% ÉQUIPE       : Projet universitaire IFT-2003
+% COURS        : IFT-2003 - Intelligence Artificielle
+% INSTITUTION  : Université Laval
+% VERSION      : 1.0
+%
+% DESCRIPTION  : Point d'entrée principal du système de résolution de taquin
+%                utilisant l'algorithme A*. Ce module orchestre l'ensemble
+%                du programme et fournit une interface utilisateur professionnelle.
+%
+% FONCTIONNALITÉS PRINCIPALES :
+% - Point d'entrée principal et initialisation système
+% - Menu interactif CLI avec validation robuste des entrées
+% - Gestion de cas de test académiques et personnalisés
+% - Mesure précise des temps de réponse de l'IA
 % - Gestion d'erreurs exhaustive avec messages informatifs
 % - Interface utilisateur fluide et professionnelle
+%
+% ARCHITECTURE DES SECTIONS :
+% 1. Points d'entrée et initialisation
+% 2. Menu principal et navigation
+% 3. Gestion des choix utilisateur
+% 4. Exécution des cas de test
+% 5. Utilitaires de développement et débogage
+% 6. Modes d'utilisation avancés
+%
+% UTILISATION  : swipl -g main src/main.pl
+%               ou depuis l'interpréteur : ?- main.
+%
 % =============================================================================
 
-:- use_module(game).
-:- use_module(astar).
-:- use_module(display).
+:- consult(game).
+:- consult(astar).
+:- consult(display).
 
 % =============================================================================
 % SECTION 1: POINTS D'ENTRÉE ET INITIALISATION
 % =============================================================================
 
 %! Point d'entrée principal pour SWI-Prolog
-%  Démarre automatiquement le programme principal
-:- initialization(main, main).
+%  Initialization désactivée pour éviter conflit avec tests
+%  Utiliser main/0 ou main([]) pour lancer manuellement
 
 %! main(+Args:list) is det.
 %  Point d'entrée principal avec gestion des arguments
@@ -66,22 +90,38 @@ main_menu :-
 
 %! read_choice(-Choice:integer) is det.
 %  Lit et valide le choix utilisateur depuis l'entrée standard
-%  Gère les erreurs de saisie avec redemande automatique
+%  Gère les erreurs de saisie avec redemande automatique et EOF
 %  @param Choice Choix valide de l'utilisateur (1-3)
 read_choice(Choice) :-
-    write('Votre choix (1-3): '),
     flush_output,
     catch(
-        (read(Choice), integer(Choice), Choice >= 1, Choice =< 3),
+        (read(Input),
+         (   Input == end_of_file ->
+             % Gestion EOF : quitter proprement
+             (write('Programme interrompu.'), nl, halt)
+         ;   integer(Input),
+             Input >= 1,
+             Input =< 3 ->
+             Choice = Input
+         ;   fail  % Input invalide, aller au cas d'erreur
+         )),
         _Error,
         fail
     ),
     !.  % Couper si succès
 
 read_choice(Choice) :-
-    % Gestion des erreurs de saisie
-    write('❌ Entrée invalide. Veuillez entrer un nombre entre 1 et 3.'), nl,
-    skip_to_newline,  % Nettoyer le buffer d'entrée
+    % Gestion des erreurs de saisie avec limite pour éviter boucle infinie
+    write('[ERREUR] Entree invalide. Veuillez entrer un nombre entre 1 et 3.'), nl,
+    % Nettoyer le buffer d'entrée si nécessaire
+    catch(
+        (repeat,
+         read(Next),
+         (Next == end_of_file -> halt ; true),
+         !),
+        _,
+        true
+    ),
     read_choice(Choice).
 
 %! skip_to_newline is det.
@@ -106,12 +146,12 @@ skip_to_newline :-
 % Cas test 1 : Exemple professeur (validation académique)
 handle_choice(1) :-
     nl,
-    write('╔════════════════════════════════════════════════╗'), nl,
-    write('║       CAS TEST 1 : EXEMPLE PROFESSEUR         ║'), nl,
-    write('║   Configuration: [1,2,3,5,0,6,4,7,8]         ║'), nl,
-    write('║   Objectif: [1,2,3,4,5,6,7,8,0]               ║'), nl,
-    write('║   Validation: Cost=4, Expanded=9              ║'), nl,
-    write('╚════════════════════════════════════════════════╝'), nl,
+    write('+------------------------------------------------+'), nl,
+    write('|       CAS TEST 1 : EXEMPLE PROFESSEUR         |'), nl,
+    write('|   Configuration: [1,2,3,5,0,6,4,7,8]         |'), nl,
+    write('|   Objectif: [1,2,3,4,5,6,7,8,0]               |'), nl,
+    write('|   Validation: Cost=4, Expanded=9              |'), nl,
+    write('+------------------------------------------------+'), nl,
 
     execute_test_case(case1),
     wait_for_continue,
@@ -120,11 +160,11 @@ handle_choice(1) :-
 % Cas test 2 : Exemple personnalisé (configuration étendue)
 handle_choice(2) :-
     nl,
-    write('╔════════════════════════════════════════════════╗'), nl,
-    write('║      CAS TEST 2 : EXEMPLE PERSONNALISÉ        ║'), nl,
-    write('║   Configuration plus complexe (6+ mouvements) ║'), nl,
-    write('║   Démonstration étendue des capacités A*      ║'), nl,
-    write('╚════════════════════════════════════════════════╝'), nl,
+    write('+------------------------------------------------+'), nl,
+    write('|      CAS TEST 2 : EXEMPLE PERSONNALISE        |'), nl,
+    write('|   Configuration plus complexe (6+ mouvements) |'), nl,
+    write('|   Demonstration etendue des capacites A*      |'), nl,
+    write('+------------------------------------------------+'), nl,
 
     execute_test_case(case2),
     wait_for_continue,
@@ -133,17 +173,19 @@ handle_choice(2) :-
 % Quitter le programme
 handle_choice(3) :-
     nl,
-    write('╔══════════════════════════════════════════════╗'), nl,
-    write('║            MERCI ET AU REVOIR!               ║'), nl,
-    write('║     🧩 Solveur Taquin A* - Mission accomplie ║'), nl,
-    write('║        Université Laval - IFT-2003          ║'), nl,
-    write('╚══════════════════════════════════════════════╝'), nl, nl,
-    halt.
+    write('+----------------------------------------------+'), nl,
+    write('|            MERCI ET AU REVOIR!               |'), nl,
+    write('|        Solveur Taquin A* - Mission accomplie |'), nl,
+    write('|        Universite Laval - IFT-2003          |'), nl,
+    write('+----------------------------------------------+'), nl,
+    write('[SYSTEME] Fermeture du programme...'), nl,
+    flush_output,
+    halt(0).
 
 % Gestion des choix invalides (normalement interceptés par read_choice)
 handle_choice(InvalidChoice) :-
     nl,
-    format('❌ Choix invalide: ~w~n', [InvalidChoice]),
+    format('[ERREUR] Choix invalide: ~w~n', [InvalidChoice]),
     write('Veuillez choisir entre 1, 2 ou 3.'), nl,
     main_menu.
 
@@ -195,18 +237,18 @@ handle_execution_error(error(unsolvable, Details)) :-
 handle_execution_error(Error) :-
     % Erreur générique non prévue
     nl,
-    write('╔══════════════════════════════════════╗'), nl,
-    write('║          ❌ ERREUR INATTENDUE      ║'), nl,
-    write('╚══════════════════════════════════════╝'), nl,
+    write('+--------------------------------------+'), nl,
+    write('|             ERREUR INATTENDUE        |'), nl,
+    write('+--------------------------------------+'), nl,
     format('Erreur système: ~w~n', [Error]),
-    write('Veuillez signaler ce problème aux développeurs.'), nl, nl.
+    write('Veuillez signaler ce probleme aux developpeurs.'), nl, nl.
 
 %! wait_for_continue is det.
 %  Attend une interaction utilisateur pour continuer
 %  Permet à l'utilisateur de lire les résultats avant de revenir au menu
 wait_for_continue :-
     nl,
-    write('📝 Appuyez sur Entrée pour revenir au menu...'),
+    write('[INFO] Appuyez sur Entree pour revenir au menu...'),
     flush_output,
     get_char(_),  % Attendre n'importe quel caractère
     nl.
@@ -223,7 +265,7 @@ run_performance_tests :-
     write('========================'), nl, nl,
 
     % Test du cas 1 (5 itérations)
-    write('Test cas 1 (5 itérations):'), nl,
+    write('Test cas 1 (5 iterations):'), nl,
     run_multiple_tests(case1, 5, Times1),
     calculate_statistics(Times1, Mean1, Min1, Max1),
     format('  Moyenne: ~3f s | Min: ~3f s | Max: ~3f s~n', [Mean1, Min1, Max1]),
@@ -231,7 +273,7 @@ run_performance_tests :-
     nl,
 
     % Test du cas 2 (3 itérations)
-    write('Test cas 2 (3 itérations):'), nl,
+    write('Test cas 2 (3 iterations):'), nl,
     run_multiple_tests(case2, 3, Times2),
     calculate_statistics(Times2, Mean2, Min2, Max2),
     format('  Moyenne: ~3f s | Min: ~3f s | Max: ~3f s~n', [Mean2, Min2, Max2]),
@@ -294,7 +336,7 @@ solve_custom(Initial, Goal) :-
 %  Mode démonstration automatique des deux cas de test
 %  Exécute séquentiellement les cas sans interaction utilisateur
 demo_mode :-
-    write('🎬 MODE DÉMONSTRATION'), nl,
+    write('[DEMO] MODE DEMONSTRATION'), nl,
     write('====================='), nl, nl,
 
     write('→ Cas test 1...'), nl,
@@ -305,4 +347,4 @@ demo_mode :-
     execute_test_case(case2),
 
     nl,
-    write('✅ Démonstration terminée.'), nl.
+    write('[OK] Demonstration terminee.'), nl.

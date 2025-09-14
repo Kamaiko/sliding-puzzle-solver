@@ -1,14 +1,35 @@
 % =============================================================================
 % GAME.PL - Logique du jeu de Taquin (États et Mouvements)
 % =============================================================================
-% Ce module contient la représentation et la manipulation des états du taquin :
+
+:- encoding(utf8).
+%
+% ÉQUIPE       : Projet universitaire IFT-2003
+% COURS        : IFT-2003 - Intelligence Artificielle
+% INSTITUTION  : Université Laval
+% VERSION      : 1.0
+%
+% DESCRIPTION  : Module de logique métier pour le jeu de taquin. Gère la
+%                représentation des états, la validation des configurations
+%                et la génération des mouvements possibles.
+%
+% FONCTIONNALITÉS PRINCIPALES :
 % - Définitions des états de référence (cas tests académiques)
 % - Validation complète des configurations (format et solvabilité)
 % - Génération de mouvements dans l'ordre strict requis
 % - Utilitaires de manipulation d'états optimisés
+% - Algorithmes de vérification de solvabilité
+%
+% ARCHITECTURE DES SECTIONS :
+% 1. Définitions d'états de référence
+% 2. Validation des configurations
+% 3. Génération des mouvements
+% 4. Utilitaires d'état
+% 5. Tests de solvabilité
 %
 % IMPORTANT: Ordre des mouvements OBLIGATOIRE = HAUT, BAS, GAUCHE, DROITE
 %           pour garantir la reproductibilité académique (9 nœuds explorés)
+%
 % =============================================================================
 
 % =============================================================================

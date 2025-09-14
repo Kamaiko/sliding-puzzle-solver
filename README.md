@@ -21,13 +21,26 @@
 
 ## 🚀 Installation & Lancement
 
+### Lancement Simple (Recommandé)
 ```bash
-# Démarrer le solveur de Taquin
+# Une seule commande pour tous les systèmes :
+swipl -g start run.pl
+```
+
+### Autres Commandes
+```bash
+# Lancement manuel (si problème avec le launcher)
 swipl -g main src/main.pl
 
 # Exécuter la suite de tests
 swipl -g run_all_tests src/tests.pl
 ```
+
+### Configuration Automatique
+Le fichier `run.pl` configure automatiquement :
+- ✅ Encodage UTF-8 pour l'affichage des caractères spéciaux
+- ✅ Compatibilité Windows, macOS et Linux
+- ✅ Aucune configuration manuelle requise
 
 ## 🏗️ Architecture
 

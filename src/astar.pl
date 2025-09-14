@@ -1,18 +1,39 @@
 % =============================================================================
 % ASTAR.PL - Algorithme A* et Heuristiques pour le Taquin
 % =============================================================================
-% Ce module contient le cœur algorithmique du solveur de taquin :
+
+:- encoding(utf8).
+%
+% ÉQUIPE       : Projet universitaire IFT-2003
+% COURS        : IFT-2003 - Intelligence Artificielle
+% INSTITUTION  : Université Laval
+% VERSION      : 1.0
+%
+% DESCRIPTION  : Implémentation complète de l'algorithme A* pour la résolution
+%                optimale du jeu de taquin. Ce module constitue le cœur
+%                algorithmique du système avec heuristiques avancées.
+%
+% FONCTIONNALITÉS PRINCIPALES :
 % - Algorithme A* complet avec open list et closed set
 % - Heuristique des tuiles mal placées (excluant case vide)
-% - Comptage des nœuds explorés selon l'interprétation de l'image ExempleResolution.png
-% - Reconstruction du chemin solution et gestion d'erreurs
-% - Timeout de sécurité et gestion des cas impossibles
+% - Comptage précis des nœuds explorés selon spécifications académiques
+% - Reconstruction optimale du chemin solution
+% - Gestion robuste d'erreurs et timeout de sécurité
 %
-% SOLUTION CRITIQUE: Le comptage "nœuds explorés" correspond au comptage
-% "arbre visuel" de l'image du professeur = 9 nœuds exactement
+% ARCHITECTURE DES SECTIONS :
+% 1. Structures de données et types
+% 2. Heuristiques pour l'estimation
+% 3. Algorithme A* principal
+% 4. Gestion des listes (open/closed)
+% 5. Reconstruction du chemin
+% 6. Interface publique et cas de test
+%
+% SOLUTION CRITIQUE: Le comptage "nœuds explorés" correspond exactement au
+%                    comptage "arbre visuel" de l'image du professeur = 9 nœuds
+%
 % =============================================================================
 
-:- use_module(game).
+:- consult(game).
 
 % =============================================================================
 % SECTION 1: STRUCTURES DE DONNÉES ET TYPES

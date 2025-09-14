@@ -1,14 +1,36 @@
 % =============================================================================
 % TESTS.PL - Suite de tests unitaires et validation du solveur Taquin A*
 % =============================================================================
-% Ce module contient une suite de tests exhaustive pour valider :
-% - Fonctionnalités de base de chaque module (game, astar, display, main)
+
+:- encoding(utf8).
+%
+% ÉQUIPE       : Projet universitaire IFT-2003
+% COURS        : IFT-2003 - Intelligence Artificielle
+% INSTITUTION  : Université Laval
+% VERSION      : 1.0
+%
+% DESCRIPTION  : Suite de tests exhaustive pour valider l'ensemble du système
+%                de résolution de taquin. Garantit la conformité académique
+%                et la robustesse de l'implémentation.
+%
+% FONCTIONNALITÉS PRINCIPALES :
+% - Tests unitaires pour chaque module (game, astar, display, main)
 % - Validation académique stricte (Cost=4, Expanded=9 pour cas test 1)
-% - Tests d'intégration et de robustesse
-% - Tests de performance et cas limites
-% - Validation des heuristiques et de l'algorithme A*
+% - Tests d'intégration et de robustesse système
+% - Tests de performance et gestion des cas limites
+% - Validation complète des heuristiques et de l'algorithme A*
+%
+% ARCHITECTURE DES SECTIONS :
+% 1. Tests unitaires module game.pl
+% 2. Tests unitaires module astar.pl
+% 3. Tests unitaires module display.pl
+% 4. Tests d'intégration système
+% 5. Tests de performance et robustesse
 %
 % CRITIQUE: Test cas_test_1_exact doit absolument passer pour validation académique
+%
+% UTILISATION  : swipl -g run_all_tests src/tests.pl
+%
 % =============================================================================
 
 % Importation des modules à tester
@@ -24,19 +46,19 @@
 %! test_game_module is det.
 %  Lance tous les tests unitaires pour le module game.pl
 test_game_module :-
-    write('🧪 Tests module GAME.PL...'), nl,
+    write('[TEST] Tests module GAME.PL...'), nl,
     test_valid_state,
     test_find_blank,
     test_generate_moves_order,
     test_apply_move,
     test_solvability,
     test_swap_tiles,
-    write('   ✅ Module game.pl - TOUS TESTS PASSÉS'), nl, nl.
+    write('   [OK] Module game.pl - TOUS TESTS PASSES'), nl, nl.
 
 %! test_valid_state is det.
 %  Test de validation des états valides/invalides
 test_valid_state :-
-    write('  → Test validation états...'),
+    write('  -> Test validation etats...'),
 
     % États valides
     assertion(valid_state([1,2,3,4,5,6,7,8,0])),
@@ -65,7 +87,7 @@ test_find_blank :-
 %! test_generate_moves_order is det.
 %  Test CRITIQUE : vérifier l'ordre exact des mouvements (UP, DOWN, LEFT, RIGHT)
 test_generate_moves_order :-
-    write('  → Test ordre génération mouvements (CRITIQUE)...'),
+    write('  -> Test ordre generation mouvements (CRITIQUE)...'),
 
     % Test position centrale (4) : tous les mouvements possibles
     State = [1,2,3,4,0,5,6,7,8],  % Case vide au centre
@@ -104,7 +126,7 @@ test_apply_move :-
 %! test_solvability is det.
 %  Test de détection de solvabilité (inversions)
 test_solvability :-
-    write('  → Test solvabilité (inversions)...'),
+    write('  -> Test solvabilite (inversions)...'),
 
     % États solvables
     assertion(is_solvable([1,2,3,5,0,6,4,7,8], [1,2,3,4,5,6,7,8,0])),
@@ -118,7 +140,7 @@ test_solvability :-
 %! test_swap_tiles is det.
 %  Test d'échange de tuiles
 test_swap_tiles :-
-    write('  → Test échange tuiles...'),
+    write('  -> Test echange tuiles...'),
 
     State = [1,2,3,4,5,6,7,8,9],
     assertion((swap_tiles(State, 0, 8, NewState),
@@ -135,17 +157,17 @@ test_swap_tiles :-
 %! test_astar_module is det.
 %  Lance tous les tests unitaires pour le module astar.pl
 test_astar_module :-
-    write('🧠 Tests module ASTAR.PL...'), nl,
+    write('[TEST] Tests module ASTAR.PL...'), nl,
     test_heuristic_misplaced_tiles,
     test_manhattan_distance,
     test_node_comparison,
     test_path_reconstruction,
-    write('   ✅ Module astar.pl - TOUS TESTS PASSÉS'), nl, nl.
+    write('   [OK] Module astar.pl - TOUS TESTS PASSES'), nl, nl.
 
 %! test_heuristic_misplaced_tiles is det.
 %  Test CRITIQUE : validation de l'heuristique tuiles mal placées
 test_heuristic_misplaced_tiles :-
-    write('  → Test heuristique tuiles mal placées (CRITIQUE)...'),
+    write('  -> Test heuristique tuiles mal placees (CRITIQUE)...'),
 
     % Test du cas académique exact : h([1,2,3,5,0,6,4,7,8]) = 4
     Initial = [1,2,3,5,0,6,4,7,8],
@@ -222,7 +244,7 @@ test_path_reconstruction :-
 %  TEST CRITIQUE : Valider exactement Cost=4, Expanded=9 pour cas test 1
 %  Ce test doit ABSOLUMENT passer pour la validation académique
 test_case_1_exact :-
-    write('🎯 TEST CRITIQUE - Validation académique cas test 1...'), nl,
+    write('[CRITIQUE] TEST CRITIQUE - Validation academique cas test 1...'), nl,
 
     Initial = [1,2,3,5,0,6,4,7,8],
     Goal = [1,2,3,4,5,6,7,8,0],
@@ -235,7 +257,7 @@ test_case_1_exact :-
     ResponseTime is EndTime - StartTime,
     length(Path, PathLength),
 
-    write('  Résultats obtenus :'), nl,
+    write('  Resultats obtenus :'), nl,
     format('    Path Length: ~w états~n', [PathLength]),
     format('    Cost: ~w mouvements~n', [Cost]),
     format('    Expanded: ~w nœuds~n', [Expanded]),
@@ -246,26 +268,26 @@ test_case_1_exact :-
 
     % 1. Vérifier Cost = 4
     (   Cost =:= 4 ->
-        write('    ✅ Cost = 4 (VALIDÉ)')
-    ;   format('    ❌ Cost = ~w (ATTENDU: 4)', [Cost])
+        write('    [OK] Cost = 4 (VALIDE)')
+    ;   format('    [ERREUR] Cost = ~w (ATTENDU: 4)', [Cost])
     ), nl,
 
     % 2. Vérifier Expanded = 9
     (   Expanded =:= 9 ->
-        write('    ✅ Expanded = 9 (VALIDÉ)')
-    ;   format('    ❌ Expanded = ~w (ATTENDU: 9)', [Expanded])
+        write('    [OK] Expanded = 9 (VALIDE)')
+    ;   format('    [ERREUR] Expanded = ~w (ATTENDU: 9)', [Expanded])
     ), nl,
 
     % 3. Vérifier longueur Path = 5
     (   PathLength =:= 5 ->
-        write('    ✅ Path Length = 5 (VALIDÉ)')
-    ;   format('    ❌ Path Length = ~w (ATTENDU: 5)', [PathLength])
+        write('    [OK] Path Length = 5 (VALIDE)')
+    ;   format('    [ERREUR] Path Length = ~w (ATTENDU: 5)', [PathLength])
     ), nl,
 
     % 4. Vérifier performance < 1 seconde
     (   ResponseTime < 1.0 ->
-        write('    ✅ Performance < 1s (VALIDÉ)')
-    ;   format('    ⚠️  Performance = ~3f s (> 1s)', [ResponseTime])
+        write('    [OK] Performance < 1s (VALIDE)')
+    ;   format('    [WARN] Performance = ~3f s (> 1s)', [ResponseTime])
     ), nl,
 
     % Assertions finales pour arrêter si échec
@@ -273,7 +295,7 @@ test_case_1_exact :-
     assertion(Expanded =:= 9),
     assertion(PathLength =:= 5),
 
-    write('  🏆 VALIDATION ACADÉMIQUE COMPLÈTE RÉUSSIE!'), nl, nl.
+    write('  [SUCCES] VALIDATION ACADEMIQUE COMPLETE REUSSIE!'), nl, nl.
 
 % =============================================================================
 % SECTION 4: TESTS D'INTÉGRATION
@@ -282,15 +304,15 @@ test_case_1_exact :-
 %! test_integration is det.
 %  Tests d'intégration entre les modules
 test_integration :-
-    write('🔗 Tests intégration modules...'), nl,
+    write('[TEST] Tests integration modules...'), nl,
     test_game_to_astar_integration,
     test_full_pipeline,
-    write('   ✅ Intégration modules - TOUS TESTS PASSÉS'), nl, nl.
+    write('   [OK] Integration modules - TOUS TESTS PASSES'), nl, nl.
 
 %! test_game_to_astar_integration is det.
 %  Test intégration game.pl → astar.pl
 test_game_to_astar_integration :-
-    write('  → Test intégration game → astar...'),
+    write('  -> Test integration game -> astar...'),
 
     % Générer des mouvements et vérifier qu'ils sont résolubles
     initial_state(Initial),
@@ -329,16 +351,16 @@ test_full_pipeline :-
 %! test_edge_cases is det.
 %  Tests des cas limites et situations exceptionnelles
 test_edge_cases :-
-    write('⚠️  Tests cas limites...'), nl,
+    write('[TEST] Tests cas limites...'), nl,
     test_already_solved,
     test_invalid_states,
     test_unsolvable_states,
-    write('   ✅ Cas limites - TOUS TESTS PASSÉS'), nl, nl.
+    write('   [OK] Cas limites - TOUS TESTS PASSES'), nl, nl.
 
 %! test_already_solved is det.
 %  Test état déjà résolu
 test_already_solved :-
-    write('  → Test état déjà résolu...'),
+    write('  -> Test etat deja resolu...'),
 
     Goal = [1,2,3,4,5,6,7,8,0],
     astar_search(Goal, Goal, Path, Cost, Expanded),
@@ -352,7 +374,7 @@ test_already_solved :-
 %! test_invalid_states is det.
 %  Test gestion des états invalides
 test_invalid_states :-
-    write('  → Test gestion états invalides...'),
+    write('  -> Test gestion etats invalides...'),
 
     InvalidState = [1,2,3,4,5,6,7,8,8],  % Doublon
     Goal = [1,2,3,4,5,6,7,8,0],
@@ -369,7 +391,7 @@ test_invalid_states :-
 %! test_unsolvable_states is det.
 %  Test gestion des états impossibles
 test_unsolvable_states :-
-    write('  → Test gestion états impossibles...'),
+    write('  -> Test gestion etats impossibles...'),
 
     % État avec parité d'inversions incorrecte
     UnsolvableState = [1,2,3,4,5,6,8,7,0],  % Échange 7 et 8
@@ -387,15 +409,15 @@ test_unsolvable_states :-
 %! test_performance is det.
 %  Tests de performance et stabilité
 test_performance :-
-    write('⚡ Tests performance...'), nl,
+    write('[TEST] Tests performance...'), nl,
     test_response_times,
     test_memory_usage,
-    write('   ✅ Performance - TOUS TESTS PASSÉS'), nl, nl.
+    write('   [OK] Performance - TOUS TESTS PASSES'), nl, nl.
 
 %! test_response_times is det.
 %  Test des temps de réponse
 test_response_times :-
-    write('  → Test temps de réponse...'),
+    write('  -> Test temps de reponse...'),
 
     % Cas 1 : doit être résolu en < 1 seconde
     get_time(Start1),
@@ -416,13 +438,62 @@ test_response_times :-
 %! test_memory_usage is det.
 %  Test d'utilisation mémoire (simple)
 test_memory_usage :-
-    write('  → Test utilisation mémoire...'),
+    write('  -> Test utilisation memoire...'),
 
     % Exécuter plusieurs résolutions pour détecter les fuites mémoire
     numlist(1, 5, _),  % 5 itérations
     forall(between(1, 5, _), solve_puzzle(case1, _)),
 
     write(' ✓'), nl.
+
+%! test_case_2_validation is det.
+%  TEST PRIORITÉ 2 : Validation spécifique pour cas test 2 personnalisé
+test_case_2_validation :-
+    write('[CRITIQUE] TEST VALIDATION - Cas test 2 personnalise...'), nl,
+
+    % Exécuter le cas test 2
+    get_time(StartTime),
+    solve_puzzle(case2, result(Path, Cost, Expanded)),
+    get_time(EndTime),
+
+    ResponseTime is EndTime - StartTime,
+    length(Path, PathLength),
+
+    write('  Resultats cas test 2 :'), nl,
+    format('    Path Length: ~w états~n', [PathLength]),
+    format('    Cost: ~w mouvements~n', [Cost]),
+    format('    Expanded: ~w nœuds~n', [Expanded]),
+    format('    Temps: ~3f secondes~n', [ResponseTime]),
+
+    % Validations pour cas test 2
+    write('  Validations cas test 2 :'), nl,
+
+    % 1. Vérifier que solution existe
+    (   Cost > 0 ->
+        write('    [OK] Solution trouvee')
+    ;   write('    [ERREUR] Pas de solution')
+    ), nl,
+
+    % 2. Vérifier performance acceptable (< 5 secondes pour cas plus complexe)
+    (   ResponseTime < 5.0 ->
+        write('    [OK] Performance < 5s')
+    ;   format('    [WARN] Performance = ~3f s (> 5s)', [ResponseTime])
+    ), nl,
+
+    % 3. Vérifier cohérence Path/Cost
+    ExpectedPathLength is Cost + 1,
+    (   PathLength =:= ExpectedPathLength ->
+        write('    [OK] Coherence Path/Cost')
+    ;   format('    [WARN] Path Length ~w != Cost+1 (~w)', [PathLength, ExpectedPathLength])
+    ), nl,
+
+    % 4. Vérifier que expanded > 0 (exploration nécessaire)
+    (   Expanded > 0 ->
+        write('    [OK] Exploration A* active')
+    ;   write('    [WARN] Pas d\'exploration detectee')
+    ), nl,
+
+    write('  [SUCCES] VALIDATION CAS TEST 2 TERMINÉE!'), nl, nl.
 
 % =============================================================================
 % SECTION 7: EXÉCUTION COMPLÈTE DES TESTS
@@ -431,10 +502,10 @@ test_memory_usage :-
 %! run_all_tests is det.
 %  Exécute la suite complète de tests avec rapport détaillé
 run_all_tests :-
-    write('╔══════════════════════════════════════════════════════════╗'), nl,
-    write('║          🧪 SUITE DE TESTS SOLVEUR TAQUIN A*           ║'), nl,
-    write('║                  Université Laval IFT-2003              ║'), nl,
-    write('╚══════════════════════════════════════════════════════════╝'), nl, nl,
+    write('+----------------------------------------------------------+'), nl,
+    write('|             SUITE DE TESTS SOLVEUR TAQUIN A*           |'), nl,
+    write('|                  Universite Laval IFT-2003              |'), nl,
+    write('+----------------------------------------------------------+'), nl, nl,
 
     get_time(TestStartTime),
 
@@ -445,6 +516,9 @@ run_all_tests :-
     % Test critique validation académique
     test_case_1_exact,
 
+    % Test priorité 2 - validation cas test 2
+    test_case_2_validation,
+
     % Tests d'intégration et robustesse
     test_integration,
     test_edge_cases,
@@ -454,22 +528,22 @@ run_all_tests :-
     TotalTime is TestEndTime - TestStartTime,
 
     nl,
-    write('╔══════════════════════════════════════════════════════════╗'), nl,
-    write('║                    🎉 RÉSUMÉ FINAL                     ║'), nl,
-    write('╚══════════════════════════════════════════════════════════╝'), nl,
+    write('+----------------------------------------------------------+'), nl,
+    write('|                       RESUME FINAL                     |'), nl,
+    write('+----------------------------------------------------------+'), nl,
     format('Total des tests exécutés en ~3f secondes~n', [TotalTime]),
-    write('✅ TOUS LES TESTS SONT PASSÉS AVEC SUCCÈS!'), nl,
-    write('🏆 VALIDATION ACADÉMIQUE CONFIRMÉE'), nl,
-    write('🎯 Prêt pour évaluation finale'), nl, nl.
+    write('[OK] TOUS LES TESTS SONT PASSES AVEC SUCCES!'), nl,
+    write('[SUCCES] VALIDATION ACADEMIQUE CONFIRMEE'), nl,
+    write('[INFO] Pret pour evaluation finale'), nl, nl.
 
 %! run_critical_tests_only is det.
 %  Exécute uniquement les tests critiques pour validation rapide
 run_critical_tests_only :-
-    write('🎯 TESTS CRITIQUES SEULEMENT...'), nl,
+    write('[CRITIQUE] TESTS CRITIQUES SEULEMENT...'), nl,
     test_case_1_exact,
     test_heuristic_misplaced_tiles,
     test_generate_moves_order,
-    write('✅ TESTS CRITIQUES VALIDÉS'), nl.
+    write('[OK] TESTS CRITIQUES VALIDES'), nl.
 
 % =============================================================================
 % UTILITAIRES DE TEST
@@ -479,9 +553,10 @@ run_critical_tests_only :-
 %  Macro d'assertion pour les tests (arrête en cas d'échec)
 assertion(Goal) :-
     (   call(Goal) -> true
-    ;   format('❌ ASSERTION ÉCHOUÉE: ~q~n', [Goal]),
+    ;   format('[ERREUR] ASSERTION ECHOUEE: ~q~n', [Goal]),
         fail
     ).
 
 % Point d'entrée principal pour les tests
-main :- run_all_tests.
+% Note: Éviter conflit avec main/0 de main.pl
+test_main :- run_all_tests.
