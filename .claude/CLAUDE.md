@@ -85,3 +85,77 @@ fix(game): correction génération mouvements valides
 test(display): ajout tests formatage grille 3x3
 docs: mise à jour spécifications techniques
 ```
+
+## Standards de Code
+
+### Nommage des prédicats
+```prolog
+% Prédicats publics : verbe_nom
+solve_puzzle/3, generate_moves/2, display_result/3, find_blank/2
+
+% Prédicats internes : nom_descriptif
+current_node/1, best_f_value/2, reconstruct_path/2, valid_position/2
+
+% Variables : PascalCase ou snake_case cohérent
+CurrentState, NextStates, FValue
+current_state, next_states, f_value
+```
+
+### Documentation inline obligatoire
+```prolog
+%! solve_puzzle(+Initial:list, +Goal:list, -Result:compound) is det.
+%  Résout le taquin avec A* depuis Initial vers Goal
+%  @param Initial État de départ [1,2,3,5,0,6,4,7,8]
+%  @param Goal    État objectif [1,2,3,4,5,6,7,8,0]
+%  @param Result  result(Path, Cost, Expanded)
+solve_puzzle(Initial, Goal, Result) :-
+    % Implémentation avec commentaires français
+    validate_state(Initial),  % Validation état initial
+    astar_search(Initial, Goal, Path, Cost, Expanded),
+    Result = result(Path, Cost, Expanded).
+```
+
+### Gestion d'erreurs uniforme
+```prolog
+% Pattern standard pour prédicats critiques
+safe_solve_puzzle(Initial, Goal, Result) :-
+    validate_state(Initial),
+    validate_state(Goal),
+    solve_puzzle(Initial, Goal, Result).
+safe_solve_puzzle(_, _, error('Configuration invalide')).
+```
+
+### Format de sortie standardisé
+
+**Résultats A*** :
+```
+Path: A→B→C→D→E
+Cost: 4
+Expanded: 9
+Temps: 0.042s
+```
+
+**Messages d'erreur français** :
+```prolog
+error_message(invalid_state, 'Configuration de taquin invalide').
+error_message(unsolvable, 'Configuration impossible à résoudre').
+error_message(timeout, 'Temps d\'exécution dépassé (>10s)').
+```
+
+### Limites et contraintes
+
+- **Timeout maximum** : 10 secondes par résolution
+- **États impossibles** : Retourner `error('unsolvable')`
+- **Validation entrées** : Tous les états doivent être validés avant traitement
+- **Format temps** : Secondes avec 3 décimales (`0.042s`)
+
+### Tests obligatoires
+
+Chaque module DOIT avoir ses tests dans `tests.pl` :
+```prolog
+% Tests critiques obligatoires
+test_heuristic_exact :-      % h([1,2,3,5,0,6,4,7,8]) = 4
+test_case_1_validation :-    % Cost=4, Expanded=9 exact
+test_find_blank :-           % Position case vide
+test_generate_moves :-       % 4 directions valides
+```
