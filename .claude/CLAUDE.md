@@ -36,6 +36,26 @@ src/
 - **Heuristic**: Primary = misplaced tiles (excluding blank), Optional = Manhattan distance
 - **Results format**: Path/Cost/Expanded with AI response time
 
+## Language Conventions
+
+**Code**: English only
+- Variable names, function names, predicate names: English
+- Code structure and logic: English naming
+- Examples: `current_state`, `generate_moves`, `heuristic_value`
+
+**Documentation & Communication**: French
+- Comments in code: French
+- Git commit messages: French  
+- Documentation files (.md): French
+- User interface text: French
+- Error messages: French
+
+**Professional Language Policy**: 
+- NEVER use academic references (TP1, assignments, homework, etc.) in code or user-facing text
+- NEVER use development status words (beta, draft, simplified, improved, etc.) in final outputs
+- Keep all user interfaces and documentation clean and professional
+- Focus on functionality, not development process
+
 ## Team Structure
 
 4-person team with module assignment:
