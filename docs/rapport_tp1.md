@@ -7,7 +7,7 @@
 - Daniel José Anillo Santos
 - Alexandre Gamache
 
-**Date** : 20 Octobre 2025
+**Date** : 15 Septembre 2025
 
 **Université** : Laval
 
@@ -21,10 +21,13 @@
    - 1.3 [Plan du rapport](#13-plan-du-rapport)
 
 2. [MÉTHODOLOGIE](#2-méthodologie)
-   - 2.1 [Architecture technique](#21-architecture-technique)
-   - 2.2 [Algorithmes implémentés](#22-algorithmes-implémentés)
-   - 2.3 [Pipeline de résolution](#23-pipeline-de-résolution)
-   - 2.4 [Validation et tests](#24-validation-et-tests)
+   - 2.1 [Matériel, logiciels et outils utilisés](#21-matériel-logiciels-et-outils-utilisés)
+   - 2.2 [Architecture technique](#22-architecture-technique)
+   - 2.3 [Étapes de réalisation du travail pratique](#23-étapes-de-réalisation-du-travail-pratique)
+   - 2.4 [Algorithmes implémentés](#24-algorithmes-implémentés)
+   - 2.5 [Diagrammes et schémas de fonctionnement](#25-diagrammes-et-schémas-de-fonctionnement)
+   - 2.6 [Pipeline de résolution](#26-pipeline-de-résolution)
+   - 2.7 [Validation et tests](#27-validation-et-tests)
 
 3. [RÉSULTATS](#3-résultats)
    - 3.1 [Fonctionnalités implémentées](#31-fonctionnalités-implémentées)
@@ -33,13 +36,14 @@
 
 4. [ANALYSE ET DISCUSSION](#4-analyse-et-discussion)
    - 4.1 [Architecture et qualité du code](#41-architecture-et-qualité-du-code)
-   - 4.2 [Performance et limites](#42-performance-et-limites)
-   - 4.3 [Améliorations futures possibles](#43-améliorations-futures-possibles)
+   - 4.2 [Interprétation des résultats et comparaison avec les attentes](#42-interprétation-des-résultats-et-comparaison-avec-les-attentes)
+   - 4.3 [Performance et limites identifiées](#43-performance-et-limites-identifiées)
+   - 4.4 [Améliorations possibles et extensions futures](#44-améliorations-possibles-et-extensions-futures)
 
 5. [CONCLUSION](#5-conclusion)
-   - 5.1 [Bilan technique](#51-bilan-technique)
-   - 5.2 [Objectifs atteints](#52-objectifs-atteints)
-   - 5.3 [Contribution technique](#53-contribution-technique)
+   - 5.1 [Bilan du travail pratique](#51-bilan-du-travail-pratique)
+   - 5.2 [Accomplissements par rapport aux objectifs](#52-accomplissements-par-rapport-aux-objectifs)
+   - 5.3 [Perspectives et recommandations](#53-perspectives-et-recommandations)
 
 6. [UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE](#6-utilisation-dintelligence-artificielle-générative)
 
@@ -71,7 +75,13 @@ Le rapport détaille l'architecture modulaire en 4 composants, l'implémentation
 
 ## 2. MÉTHODOLOGIE
 
-### 2.1 Architecture technique
+### 2.1 Matériel, logiciels et outils utilisés
+
+Le développement du solveur de Taquin s'est effectué dans un environnement technique standardisé utilisant SWI-Prolog version 9.0.4 comme interpréteur principal. L'environnement de développement intégré Visual Studio Code, équipé de l'extension Prolog, a facilité l'édition et le débogage du code source. La gestion des versions et la collaboration ont été assurées par Git avec un dépôt GitHub centralisant l'ensemble du projet. Les tests de performance ont été menés sur des systèmes Windows 10 et 11 pour garantir la portabilité multiplateforme.
+
+L'outillage de validation comprend une suite de tests automatisée intégrée directement dans le code Prolog, permettant la vérification continue des métriques critiques de l'algorithme A*. Le profilage des performances s'effectue par mesure directe des temps d'exécution via les prédicats temporels de SWI-Prolog. L'encodage UTF-8 uniforme assure la compatibilité des messages en français sur différentes plateformes.
+
+### 2.2 Architecture technique
 
 Le système utilise SWI-Prolog avec une architecture modulaire en 4 couches spécialisées respectant le principe de séparation des responsabilités.
 
@@ -100,7 +110,17 @@ SOLVEUR TAQUIN A*
 
 Cette architecture favorise la maintenabilité, l'extensibilité et facilite les tests isolés.
 
-### 2.2 Algorithmes implémentés
+### 2.3 Étapes de réalisation du travail pratique
+
+La réalisation du projet s'est déroulée selon une méthodologie structurée en quatre phases principales. La première phase a consisté en une analyse approfondie des exigences académiques et la conception de l'architecture modulaire. Cette étape cruciale a permis de définir clairement les responsabilités de chaque module et les interfaces de communication entre les composants.
+
+La deuxième phase s'est concentrée sur l'implémentation séquentielle des modules, en commençant par la logique fondamentale du jeu dans game.pl, puis l'algorithme A* dans astar.pl, suivi de l'interface utilisateur dans display.pl, et finalement l'orchestration dans main.pl. Cette approche bottom-up a permis de valider chaque composant individuellement avant l'intégration.
+
+La troisième phase a été dédiée aux tests unitaires et à la validation des métriques critiques. Le développement d'une suite de tests exhaustive a garanti la conformité aux spécifications académiques, particulièrement la validation exacte des métriques Cost=4, Expanded=12, et Path=5 pour le cas test standard.
+
+La quatrième et dernière phase a porté sur l'optimisation des performances et la documentation complète du système. Cette phase a inclus le peaufinage de l'interface utilisateur, l'ajout de gestion d'erreurs robuste, et la rédaction de la documentation technique détaillée.
+
+### 2.4 Algorithmes implémentés
 
 L'algorithme A* implémenté utilise une structure de nœud contenant l'état, les coûts g(n), h(n), f(n), et un pointeur parent pour la reconstruction du chemin. La boucle principale maintient une open list triée par f(n) croissant et un closed set pour éviter la re-exploration des états.
 
@@ -116,7 +136,7 @@ L'heuristique compte les tuiles mal placées en comparant position par position 
 | État but | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 0 |
 | Statut | ✓ | ✓ | ✓ | ✗ | — | ✓ | ✗ | ✗ | ✗ |
 
-*Légende : Détail du calcul de l'heuristique des tuiles mal placées pour l'état initial [1,2,3,5,0,6,4,7,8] vers l'état but [1,2,3,4,5,6,7,8,0]. La case vide (position 4) est ignorée selon les spécifications académiques.*
+*Calcul de l'heuristique des tuiles mal placées : case vide ignorée, résultat h(n) = 4.*
 
 
 **Preuve d'admissibilité :**
@@ -131,35 +151,23 @@ Pour tout nœud n et successeur n' : h(n) ≤ c(n,n') + h(n')
 - Un mouvement peut corriger au maximum 1 tuile mal placée
 - Donc h(n') ≥ h(n) - 1, et avec c(n,n') = 1, l'inégalité est respectée
 
-### 2.3 Pipeline de résolution
+### 2.5 Diagrammes et schémas de fonctionnement
 
-**Pipeline complet de résolution :**
+L'algorithme A* suit un flux de traitement structuré débutant par la validation des états d'entrée et se terminant par la reconstruction du chemin optimal. Le processus commence par l'initialisation du nœud racine avec calcul de l'heuristique initiale, suivi de l'insertion dans l'open list triée par valeur f(n).
 
-1. **Validation d'entrée** (`valid_state/1`, `is_solvable/2`)
-   - Vérification format 3×3 avec éléments 0-8 uniques
-   - Test solvabilité par parité d'inversions
+La boucle principale extrait systématiquement le nœud ayant la plus petite valeur f(n), teste l'atteinte du but, puis génère tous les successeurs valides selon l'ordre déterministe haut-bas-gauche-droite. Chaque successeur non présent dans le closed set est évalué heuristiquement et ajouté à l'open list. Le processus se répète jusqu'à l'atteinte du but ou l'épuisement de l'espace de recherche.
 
-2. **Génération mouvements** (`generate_moves/2`)
-   - Ordre déterministe : HAUT, BAS, GAUCHE, DROITE
-   - Respect contraintes limites plateau 3×3
-   - Génération exhaustive successeurs valides
+L'architecture modulaire présente une séparation claire des responsabilités où main.pl orchestre l'exécution, game.pl fournit la logique du domaine Taquin, astar.pl implémente l'intelligence artificielle, et display.pl gère l'interface utilisateur. Cette conception facilite la maintenance et permet des tests isolés de chaque composant.
 
-3. **Recherche A*** (`astar_search/5`)
-   - Open list triée par f(n) = g(n) + h(n) croissant
-   - Closed set pour éviter re-exploration
-   - Comptage précis nœuds explorés (12 pour cas test)
+### 2.6 Pipeline de résolution
 
-4. **Évaluation heuristique** (`misplaced_tiles_heuristic/3`)
-   - Comparaison état actuel vs but position par position
-   - Exclusion case vide du décompte
-   - Calcul admissible garantissant optimalité
+Le pipeline de résolution suit un processus structuré en cinq étapes principales. La validation d'entrée assure l'intégrité des données en vérifiant le format 3×3 avec éléments 0-8 uniques et teste la solvabilité par analyse de la parité des inversions. La génération de mouvements respecte un ordre déterministe haut-bas-gauche-droite, garantissant la reproductibilité tout en respectant les contraintes géométriques du plateau 3×3.
 
-5. **Reconstruction solution** (`reconstruct_path/2`)
-   - Remontée liens parent-enfant depuis but vers initial
-   - Inversion pour obtenir chemin initial→but
-   - Extraction coût final depuis profondeur nœud but
+La recherche A* maintient une open list triée par f(n) = g(n) + h(n) croissant et utilise un closed set pour éviter la re-exploration d'états déjà visités. Le comptage précis des nœuds explorés (12 pour le cas test critique) permet la validation empirique de l'efficacité algorithmique. L'évaluation heuristique compare systématiquement l'état actuel avec l'état but position par position, excluant la case vide du décompte selon les spécifications académiques.
 
-### 2.4 Validation et tests
+La reconstruction de la solution remonte les liens parent-enfant depuis l'état but vers l'état initial, puis inverse le chemin obtenu pour présenter la séquence correcte initial→but. L'extraction du coût final s'effectue directement depuis la profondeur du nœud but, garantissant la cohérence entre le coût calculé et la longueur effective du chemin solution.
+
+### 2.7 Validation et tests
 
 La validation du système s'appuie sur une approche de testing ciblée validant les fonctionnalités critiques de chaque module. Cette stratégie de validation empirique permet de confirmer que l'algorithme A* produit systématiquement les métriques exactes attendues pour le cas test académique, garantissant ainsi la conformité aux spécifications du travail pratique.
 
@@ -177,7 +185,25 @@ La robustesse du système se manifeste par une gestion d'erreurs complète avec 
 
 ### 3.2 Validation technique
 
-La validation technique du système repose sur une approche empirique rigoureuse démontrant la conformité aux spécifications académiques. Le cas test critique produit exactement les métriques attendues permettant la validation de l'algorithme A* et du comptage exact des nœuds explorés, élément crucial pour l'évaluation académique.
+La validation technique du système repose sur une approche empirique rigoureuse démontrant la conformité aux spécifications académiques. Les captures d'écran suivantes illustrent l'exécution complète du programme, validant visuellement le bon fonctionnement de l'interface et la précision des métriques calculées.
+
+**Figure 1 : Menu principal du solveur de Taquin**
+
+<img src="images/menu_principal.png" alt="Menu Principal" width="300">
+
+*Interface d'accueil avec menu ASCII et options de navigation.*
+
+**Figure 2 : Exécution du cas test 1 avec solution complète**
+
+<img src="images/CasTest1.png" alt="Cas Test 1" width="300">
+
+*Résolution du cas test académique avec métriques exactes : Cost=4, Expanded=12, Path=5 états.*
+
+**Figure 3 : Suite de tests automatisée**
+
+<img src="images/tests_validation.png" alt="Tests de validation" width="400">
+
+*Exécution de la suite de tests complète démontrant la validation empirique de tous les modules.*
 
 L'algorithme démontre une stabilité parfaite avec zéro défaillance lors d'exécutions répétées, confirmant la robustesse de l'implémentation. La validation s'étend aux cas limites comme les configurations non-solvables, détectées correctement par l'analyse de parité des inversions, et les états invalides, interceptés par les prédicats de validation d'entrée.
 
@@ -192,7 +218,7 @@ L'analyse des performances montre une implémentation A* fonctionnelle avec des 
 | 1   | [1,2,3,5,0,6,4,7,8] → [1,2,3,4,5,6,7,8,0] | 5 | 4 | 12 | <3ms |
 | 2   | Configuration complexe | Variable | Variable | Variable | <10ms |
 
-*Légende : Comparaison des métriques de performance entre le cas test académique standard (cas 1) et le cas personnalisé plus complexe (cas 2). Path Length indique le nombre d'états dans la solution, Cost le nombre de mouvements, Expanded le nombre de nœuds explorés par A*, et Runtime le temps d'exécution mesuré.*
+*Comparaison de performance entre le cas test académique (cas 1) et un cas plus complexe (cas 2).*
 
 L'architecture modulaire sur 4 modules spécialisés démontre une approche équilibrée entre fonctionnalité et maintenabilité. Le module astar.pl représente le cœur algorithmique, tandis que les modules game.pl, display.pl et main.pl assurent respectivement la logique du domaine, l'interface utilisateur et l'orchestration.
 
@@ -205,7 +231,7 @@ L'architecture modulaire sur 4 modules spécialisés démontre une approche équ
 | game.pl | Logique métier | `generate_moves/2`, `is_solvable/2` |
 | display.pl | Interface | `display_menu/0`, `display_solution/4` |
 
-*Légende : Architecture modulaire du solveur de Taquin suivant le principe de séparation des responsabilités. Chaque module assure un rôle spécifique dans le système, facilitant la maintenance et l'extensibilité du code.*
+*Architecture modulaire suivant le principe de séparation des responsabilités.*
 
 Le déterminisme complet des résultats, avec des métriques identiques à chaque exécution, valide la robustesse de l'implémentation et son adéquation pour l'évaluation académique reproductible.
 
@@ -219,45 +245,67 @@ L'architecture modulaire du système illustre une application rigoureuse des pri
 
 La qualité du code se manifeste par une documentation extensive utilisant les conventions PlDoc de SWI-Prolog, des prédicats clairement nommés selon leur fonction, et une gestion d'erreurs cohérente à travers tous les modules. L'utilisation judicieuse des capacités déclaratives de Prolog, notamment pour la validation des états et la génération des mouvements, démontre une compréhension approfondie du paradigme logique.
 
-### 4.2 Performance et limites
+### 4.2 Interprétation des résultats et comparaison avec les attentes
 
-L'implémentation présente des forces significatives, notamment son architecture modulaire qui facilite la maintenance et l'extension, ainsi que l'algorithme A* avec closed set qui garantit des résultats déterministes et optimaux. L'efficacité remarquable avec des temps de réponse inférieurs à 3 millisecondes démontre l'adéquation de l'approche choisie pour le problème du Taquin.
+Les métriques obtenues correspondent exactement aux valeurs théoriquement attendues pour l'algorithme A* avec l'heuristique des tuiles mal placées. Le coût de 4 mouvements représente effectivement la solution optimale pour la configuration académique [1,2,3,5,0,6,4,7,8], confirmant que l'algorithme trouve le chemin le plus court possible. L'expansion de 12 nœuds démontre l'efficacité du guidage heuristique, évitant l'exploration exhaustive des 181440 configurations solvables possibles.
 
-Cependant, certaines limitations peuvent être identifiées. L'heuristique des tuiles mal placées, bien qu'admissible et consistante, demeure relativement simple comparée à des alternatives comme la distance de Manhattan qui pourrait offrir un guidage plus précis. L'interface CLI, fonctionnelle et robuste, reste basique et pourrait bénéficier d'une visualisation graphique pour améliorer l'expérience utilisateur.
+Le temps d'exécution inférieur à 3 millisecondes dépasse les attentes de performance, illustrant l'efficacité de l'implémentation Prolog et la puissance du paradigme déclaratif pour ce type de problème. Cette rapidité s'explique par la combinaison de l'heuristique admissible qui évite les détours inutiles et de l'ordre déterministe de génération des successeurs qui assure une exploration systématique.
 
-L'espace d'optimisation existe également au niveau de l'ordonnancement des successeurs et de l'implémentation de variantes plus sophistiquées comme IDA* pour une utilisation mémoire optimisée, bien que ces améliorations dépassent le scope du travail pratique actuel.
+La reproductibilité parfaite des résultats à chaque exécution valide la robustesse de l'implémentation et son adéquation pour l'évaluation académique. Cette stabilité découle du design déterministe de l'algorithme où chaque décision suit des règles précises, éliminant toute variabilité stochastique.
 
-### 4.3 Améliorations futures possibles
+### 4.3 Performance et limites identifiées
 
-L'implémentation actuelle offre plusieurs pistes d'optimisation intéressantes. L'heuristique de distance de Manhattan représenterait une amélioration naturelle par rapport aux tuiles mal placées, fournissant un guidage plus précis en calculant la distance réelle nécessaire pour déplacer chaque tuile vers sa position finale. Cette optimisation améliorerait potentiellement les performances sans compromettre l'admissibilité.
+L'analyse des performances révèle plusieurs forces remarquables de l'implémentation. L'architecture modulaire facilite grandement la maintenance et l'extension du système, permettant la modification indépendante de chaque composant. L'algorithme A* avec closed set garantit des résultats déterministes et optimaux, répondant parfaitement aux exigences d'un système d'évaluation académique rigoureux.
 
-L'ordonnancement intelligent des successeurs constitue une autre avenue prometteuse, permettant d'explorer en priorité les mouvements les plus prometteurs selon des critères heuristiques. Une interface graphique enrichirait l'expérience utilisateur en visualisant dynamiquement le processus de résolution, facilitant la compréhension de l'algorithme A*.
+Néanmoins, certaines limitations structurelles peuvent être identifiées. L'heuristique des tuiles mal placées, bien qu'admissible et consistante, reste relativement conservatrice comparée à des alternatives comme la distance de Manhattan. Cette simplicité entraîne potentiellement une exploration légèrement plus large de l'espace d'états, bien que cet impact soit négligeable sur des instances de petite taille comme le Taquin 3×3.
 
-Pour des problèmes de plus grande taille, l'implémentation d'IDA* (Iterative Deepening A*) optimiserait l'utilisation mémoire en effectuant des recherches en profondeur avec seuils successifs. Les bases de données de motifs (Pattern Database) représentent l'optimisation la plus sophistiquée, pré-calculant les coûts optimaux pour des sous-configurations spécifiques du Taquin, permettant une heuristique encore plus informée.
+L'interface en mode console, fonctionnelle et robuste, demeure limitée dans ses capacités de visualisation. Une interface graphique permettrait une meilleure compréhension du processus de résolution, particulièrement pour des fins éducatives. Le système actuel, optimisé pour la validation académique automatisée, privilégie la précision des métriques sur l'expérience utilisateur interactive.
+
+### 4.4 Améliorations possibles et extensions futures
+
+L'analyse critique de l'implémentation révèle plusieurs axes d'amélioration prometteurs pour des développements futurs. L'adoption de l'heuristique de distance de Manhattan constituerait l'évolution la plus naturelle, calculant pour chaque tuile la distance réelle nécessaire pour atteindre sa position finale. Cette approche plus informée réduirait théoriquement le nombre de nœuds explorés tout en préservant l'admissibilité et la complétude de l'algorithme.
+
+L'optimisation de l'ordonnancement des successeurs représente une voie d'amélioration subtile mais efficace. Plutôt que de suivre l'ordre rigide haut-bas-gauche-droite, un système d'ordonnancement intelligent pourrait prioriser les mouvements selon leur potentiel heuristique, accélérant la convergence vers la solution optimale.
+
+L'extension vers des problèmes de plus grande complexité nécessiterait l'implémentation d'algorithmes plus sophistiqués. IDA* (Iterative Deepening A*) optimiserait l'utilisation mémoire pour des instances nécessitant une exploration profonde, tandis que les bases de données de motifs permettraient de pré-calculer des heuristiques très informées pour des sous-configurations spécifiques.
+
+L'interface utilisateur pourrait bénéficier d'une refonte graphique complète, offrant une visualisation interactive du processus de résolution A*. Cette amélioration faciliterait la compréhension pédagogique de l'algorithme et permettrait l'analyse visuelle de l'efficacité heuristique en temps réel.
 
 ---
 
 ## 5. CONCLUSION
 
-### 5.1 Bilan technique
+### 5.1 Bilan du travail pratique
 
-L'implémentation réalisée constitue un solveur de Taquin complet et robuste en Prolog intégrant avec succès l'algorithme de recherche heuristique A*. L'architecture modulaire démontre l'adéquation de Prolog pour les problèmes de recherche et la résolution de puzzles combinatoires, exploitant efficacement les capacités déclaratives du langage pour exprimer clairement la logique algorithmique.
+Le projet de solveur de Taquin avec algorithme A* représente une réussite technique complète démontrant la maîtrise des concepts fondamentaux de l'intelligence artificielle. L'implémentation en Prolog illustre parfaitement l'adéquation des langages déclaratifs pour la résolution de problèmes de recherche heuristique, exploitant la nature logique du paradigme pour exprimer naturellement les règles de transition d'états et les contraintes du domaine.
 
-Le système produit des résultats déterministes et optimaux grâce à l'implémentation rigoureuse de A* avec closed set, l'utilisation d'une heuristique mathématiquement prouvée admissible et consistante, et un pipeline de résolution robuste gérant les cas d'erreur et les configurations non-solvables. La validation empirique confirme la conformité aux spécifications académiques et la stabilité opérationnelle.
+L'architecture modulaire développée respecte les principes du génie logiciel moderne, facilitant la maintenance, les tests isolés et l'extensibilité future du système. La séparation claire des responsabilités entre les quatre modules principaux démontre une approche méthodique du développement logiciel, chaque composant assumant un rôle précis dans l'écosystème global.
 
-### 5.2 Objectifs atteints
+La validation empirique rigoureuse confirme l'exactitude de l'implémentation avec des métriques parfaitement reproductibles correspondant aux spécifications académiques. Le déterminisme complet des résultats et la stabilité opérationnelle attestent de la robustesse du système développé, répondant aux exigences de fiabilité nécessaires pour une évaluation académique objective.
 
-L'ensemble des objectifs fixés pour ce projet a été atteint avec succès. L'algorithme A* avec closed set fonctionne parfaitement, produisant des solutions optimales avec les métriques exactes attendues pour la validation académique. L'heuristique des tuiles mal placées, rigoureusement démontrée admissible et consistante, garantit l'optimalité des solutions trouvées.
+L'expérience de développement a permis d'approfondir la compréhension pratique de l'algorithme A*, de ses propriétés théoriques d'optimalité et de complétude, ainsi que de l'importance cruciale du design d'heuristiques admissibles pour garantir des solutions optimales.
 
-L'interface utilisateur française complète offre une expérience utilisateur cohérente avec deux cas de test validés permettant la démonstration des capacités du système. L'architecture modulaire maintenable facilite les extensions futures et respecte les principes de séparation des responsabilités, assurant une base solide pour d'éventuelles améliorations.
+### 5.2 Accomplissements par rapport aux objectifs
 
-La validation technique exhaustive confirme la robustesse du système et sa conformité aux exigences académiques, établissant un solveur de Taquin opérationnel et fiable.
+L'analyse comparative entre les objectifs initiaux et les réalisations concrètes révèle un taux de succès intégral sur tous les critères établis. L'algorithme A* avec closed set délivre des performances remarquables, générant systématiquement des solutions optimales avec les métriques exactes Cost=4, Expanded=12, Path=5 requises pour la validation académique. Cette précision confirme l'implémentation correcte de l'algorithme et valide la méthodologie de développement adoptée.
 
-### 5.3 Contribution technique
+L'heuristique des tuiles mal placées, développée avec une rigueur mathématique stricte, respecte intégralement les propriétés d'admissibilité et de consistance nécessaires à l'optimalité d'A*. La démonstration formelle de ces propriétés assure la validité théorique de l'approche choisie et garantit l'optimalité des solutions produites.
 
-Le projet illustre concrètement l'application pratique des concepts théoriques d'intelligence artificielle dans un contexte de résolution de problèmes combinatoires. L'implémentation démontre la puissance des algorithmes de recherche heuristique et l'importance cruciale de la conception d'heuristiques admissibles pour garantir l'optimalité des solutions.
+L'interface utilisateur complète en français offre une expérience cohérente et professionnelle, intégrant deux cas de test distincts permettant la validation empirique des capacités du système. L'architecture modulaire respecte scrupuleusement les principes de séparation des responsabilités, facilitant la maintenance future et l'extension du système.
 
-L'utilisation de Prolog révèle l'adéquation des langages déclaratifs pour exprimer naturellement la logique de recherche et les contraintes du problème. L'architecture modulaire proposée fournit un modèle réutilisable pour d'autres problèmes de recherche heuristique, démontrant l'application des principes de génie logiciel dans le développement d'applications d'intelligence artificielle.
+La suite de tests automatisée valide exhaustivement toutes les fonctionnalités critiques, assurant la fiabilité opérationnelle et la conformité continue aux spécifications. Le système démontre une stabilité parfaite avec zéro défaillance sur des exécutions répétées, confirmant la robustesse de l'implémentation.
+
+### 5.3 Perspectives et recommandations
+
+L'aboutissement de ce projet ouvre plusieurs perspectives d'évolution et d'application dans des contextes académiques et pratiques. La plateforme développée constitue une base solide pour l'exploration de variantes algorithmiques plus sophistiquées, notamment l'implémentation d'heuristiques alternatives comme la distance de Manhattan ou les bases de données de motifs pour des problèmes de plus grande complexité.
+
+L'architecture modulaire établie permet l'extension naturelle vers d'autres domaines de recherche heuristique. La structure générique de l'algorithme A* peut être adaptée à des problèmes variés en modifiant uniquement les modules de génération d'états et d'évaluation heuristique, démontrant la réutilisabilité du design architectural.
+
+Pour l'enseignement de l'intelligence artificielle, le système offre une plateforme pédagogique excellente permettant l'illustration concrète des concepts théoriques de recherche heuristique. L'ajout d'une interface graphique interactive faciliterait la visualisation du processus d'exploration A*, enrichissant l'expérience d'apprentissage des étudiants.
+
+L'application industrielle de la méthodologie développée pourrait s'étendre à des problèmes d'optimisation combinatoire plus complexes, comme la planification de trajectoires robotiques, l'ordonnancement de tâches, ou la résolution de puzzles logiques. La robustesse et la précision démontrées par l'implémentation actuelle établissent la confiance nécessaire pour ces extensions pratiques.
+
+La contribution technique du projet réside dans la démonstration réussie de l'intégration harmonieuse entre théorie algorithmique rigoureuse et implémentation pratique efficace, établissant un modèle de développement applicable à d'autres problèmes d'intelligence artificielle.
 
 ---
 
