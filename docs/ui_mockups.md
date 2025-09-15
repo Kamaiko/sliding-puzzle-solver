@@ -43,11 +43,11 @@ Votre choix: _
 ╠═══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                               ║
 ║  SOLVEUR DE TAQUIN A*                                                         ║
-║  Version 1.0                                                                  ║
 ║                                                                               ║
 ║  COURS        : IFT-2003 - Intelligence Artificielle                          ║
 ║  INSTITUTION  : Universite Laval                                              ║
-║  PROJET       : Travail pratique - Algorithme de recherche A*                 ║
+║  PROJET       : Travail pratique 1 - Algorithme tuiles mal placees            ║
+║  ECHEANCE     : 20 octobre 2025                                               ║
 ║                                                                               ║
 ║  ALGORITHME   : A* (A-star) avec heuristique tuiles mal placees               ║
 ║                                                                               ║
@@ -65,38 +65,43 @@ Votre choix: _
 ### MOCKUP 3 : Resultats de resolution - VERSION UTF-8
 
 ```
-╔══════════════════════════════════════════════════════════╗
-║                     SOLUTION TROUVEE                     ║
-╚══════════════════════════════════════════════════════════╝
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                CHEMIN SOLUTION                                ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
 
+ETAT A :
    │ 1 2 3 │
    │ 5 # 6 │
    │ 4 7 8 │
-        ↓ GAUCHE
+        ↓
+ETAT B :
    │ 1 2 3 │
    │ # 5 6 │
    │ 4 7 8 │
-        ↓ BAS
+        ↓
+ETAT C :
    │ 1 2 3 │
    │ 4 5 6 │
    │ # 7 8 │
-        ↓ DROITE
+        ↓
+ETAT D :
    │ 1 2 3 │
    │ 4 5 6 │
    │ 7 # 8 │
-        ↓ DROITE
+        ↓
+ETAT E :
    │ 1 2 3 │
    │ 4 5 6 │
    │ 7 8 # │
    [BUT ATTEINT!]
 
-╔══════════════════════════════════════════════════════════╗
-║                    RESULTATS OBTENUS                     ║
-╚══════════════════════════════════════════════════════════╝
-[INFO] Longueur Path : 5 etats (Initial -> But)
-[INFO] Cost         : 4 mouvements
-[INFO] Expanded     : 9 noeuds explores
-[INFO] Temps IA     : 0.042 secondes
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                             PARAMETRES DE RESOLUTION                          ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+Path length : 5 etats
+Cost        : 4 mouvements
+Expanded    : 9 noeuds
+Temps       : 0.042 secondes
 
 Votre choix: _
 ```

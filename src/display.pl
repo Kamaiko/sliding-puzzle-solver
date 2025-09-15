@@ -132,73 +132,48 @@ format_tile(Tile, Tile).   % Autres tuiles inchangées
 %  @param ResponseTime Temps de calcul IA en secondes
 display_solution(Path, Cost, Expanded, ResponseTime) :-
     nl,
-    write('╔══════════════════════════════════════════════════════════╗'), nl,
-    write('║                     SOLUTION TROUVEE                    ║'), nl,
-    write('╚══════════════════════════════════════════════════════════╝'), nl,
+    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
+    write('║                                CHEMIN SOLUTION                                ║'), nl,
+    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
 
-    % Afficher le chemin complet étape par étape
-    display_path_sequence(Path),
+    % Afficher le chemin complet étape par étape avec labels
+    display_path_sequence_with_labels(Path, 1),
 
     nl,
-    write('╔══════════════════════════════════════════════════════════╗'), nl,
-    write('║                  METRIQUES ACADEMIQUES                  ║'), nl,
-    write('╚══════════════════════════════════════════════════════════╝'), nl,
+    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
+    write('║                             PARAMETRES DE RESOLUTION                          ║'), nl,
+    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
 
-    % Afficher le chemin au format A->B->C->D->E
-    display_path_summary(Path),
-
-    % Afficher les statistiques détaillées
+    % Afficher les paramètres essentiels sans préfixes
     length(Path, PathLength),
-    format('[INFO] Longueur Path  : ~w etats (Initial -> But)~n', [PathLength]),
-    format('[INFO] Cost          : ~w mouvements~n', [Cost]),
-    format('[INFO] Expanded      : ~w noeuds explores~n', [Expanded]),
-    format('[INFO] Temps IA      : ~3f secondes~n', [ResponseTime]),
-
-    % Validation académique
-    (   (Cost =:= 4, Expanded =:= 9) ->
-        write('[OK] VALIDATION ACADEMIQUE CONFIRMEE (Cost=4, Expanded=9)'), nl
-    ;   write('[WARN] Metriques differentes du cas test standard'), nl
-    ),
+    format('Path length : ~w etats~n', [PathLength]),
+    format('Cost        : ~w mouvements~n', [Cost]),
+    format('Expanded    : ~w noeuds~n', [Expanded]),
+    format('Temps       : ~3f secondes~n', [ResponseTime]),
     nl.
 
-%! display_path_sequence(+Path:list) is det.
-%  Affiche séquentiellement tous les états du chemin avec flèches
-%  Animation visuelle du processus de résolution
+%! display_path_sequence_with_labels(+Path:list, +Index:integer) is det.
+%  Affiche séquentiellement tous les états du chemin avec labels A, B, C, D, E
 %  @param Path Liste des états depuis initial vers but
-display_path_sequence([]).
-display_path_sequence([State]) :-
+%  @param Index Index actuel pour générer le label (1=A, 2=B, etc.)
+display_path_sequence_with_labels([], _).
+display_path_sequence_with_labels([State], Index) :-
     % Dernier état (but atteint)
+    StateLabel is Index + 64,  % 65='A', 66='B', etc.
+    char_code(Label, StateLabel),
+    format('ETAT ~w :~n', [Label]),
     display_state_compact(State),
     write('   [BUT ATTEINT!]'), nl, !.
-display_path_sequence([State|RestPath]) :-
+display_path_sequence_with_labels([State|RestPath], Index) :-
     % États intermédiaires
+    StateLabel is Index + 64,  % 65='A', 66='B', etc.
+    char_code(Label, StateLabel),
+    format('ETAT ~w :~n', [Label]),
     display_state_compact(State),
     write('        ↓'), nl,
-    display_path_sequence(RestPath).
+    NextIndex is Index + 1,
+    display_path_sequence_with_labels(RestPath, NextIndex).
 
-%! display_path_summary(+Path:list) is det.
-%  Affiche le résumé du chemin au format A->B->C->D->E
-%  Représentation compacte pour validation académique
-%  @param Path Chemin solution
-display_path_summary(Path) :-
-    length(Path, Length),
-    format('[INFO] Path Summary  : '),
-    display_path_labels(Path, 1, Length),
-    nl.
-
-% Helper pour afficher les labels A->B->C->D->E
-display_path_labels([], _, _).
-display_path_labels([_|Rest], Current, Total) :-
-    StateLabel is Current + 64,  % 65='A', 66='B', etc.
-    char_code(Label, StateLabel),
-    write(Label),
-
-    (   Current < Total ->
-        write(' -> '),
-        Next is Current + 1,
-        display_path_labels(Rest, Next, Total)
-    ;   true
-    ).
 
 % =============================================================================
 % SECTION 4: MESSAGES D'ERREUR ET FEEDBACK
