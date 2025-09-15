@@ -189,7 +189,7 @@ display_error(invalid_state, Details) :-
 display_error(unsolvable, Details) :-
     nl,
     write('╔══════════════════════════════════════╗'), nl,
-    write('║       IMPOSSIBLE A RESOUDRE         ║'), nl,
+    write('║       IMPOSSIBLE A RESOUDRE          ║'), nl,
     write('╚══════════════════════════════════════╝'), nl,
     format('Erreur: ~w~n', [Details]),
     write('[SOLVABILITE] Cette configuration ne peut pas etre resolue.'), nl,
@@ -206,3 +206,51 @@ display_thinking_message :-
 %  Affiche un message de succès après résolution
 display_success_message :-
     write('[OK] Solution optimale trouvee!'), nl, nl.
+
+%! display_case1_banner(+InitState:list, +GoalState:list) is det.
+%  Affiche la bannière du cas test 1 avec les états
+%  @param InitState État initial du cas test 1
+%  @param GoalState État objectif du cas test 1
+display_case1_banner(InitState, GoalState) :-
+    nl,
+    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
+    write('║                         CAS TEST 1 : EXEMPLE PROFESSEUR                       ║'), nl,
+    format('║                     Configuration: ~w                        ║~n', [InitState]),
+    format('║                     Objectif: ~w                           ║~n', [GoalState]),
+    write('║                     Validation: Cost=4, Expanded=12                           ║'), nl,
+    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl.
+
+%! display_case2_banner is det.
+%  Affiche la bannière du cas test 2
+display_case2_banner :-
+    nl,
+    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
+    write('║                        CAS TEST 2 : EXEMPLE PERSONNALISE                      ║'), nl,
+    write('║                   Configuration plus complexe (6+ mouvements)                 ║'), nl,
+    write('║                    Demonstration etendue des capacites A*                     ║'), nl,
+    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl.
+
+%! display_about_banner is det.
+%  Affiche la bannière de la section À propos
+display_about_banner :-
+    nl,
+    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
+    write('║                                   A PROPOS                                    ║'), nl,
+    write('╠═══════════════════════════════════════════════════════════════════════════════╣'), nl,
+    write('║                                                                               ║'), nl,
+    write('║  SOLVEUR DE TAQUIN A*                                                         ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('║  COURS        : IFT-2003 - Intelligence Artificielle                          ║'), nl,
+    write('║  INSTITUTION  : Universite Laval                                              ║'), nl,
+    write('║  PROJET       : TP1 - Conception d\'un jeu integrant une recherche heuristique║'), nl,
+    write('║  ECHEANCE     : 20 octobre 2025                                               ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('║  ALGORITHME   : A* (A-star) avec heuristique tuiles mal placees               ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('║  EQUIPE :                                                                     ║'), nl,
+    write('║    • Patrick Patenaude                                                        ║'), nl,
+    write('║    • Xavier Gagnon                                                            ║'), nl,
+    write('║    • Daniel Jose Anillo Santos                                                ║'), nl,
+    write('║    • Alexandre Gamache                                                        ║'), nl,
+    write('║                                                                               ║'), nl,
+    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl.
