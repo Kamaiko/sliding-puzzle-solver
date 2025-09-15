@@ -68,22 +68,22 @@ main_menu :-
     handle_choice(Choice).
 
 %! read_choice(-Choice:integer) is det.
-%  Lit et valide le choix utilisateur depuis l'entrée standard
-%  Utilise get_char pour permettre une saisie simple (1, 2, 3, ou 4)
+%  Lit et valide le choix utilisateur immédiatement (sans Enter)
+%  Utilise get_single_char pour saisie instantanée (1, 2, 3, ou 4)
 %  @param Choice Choix valide de l'utilisateur (1-4)
 read_choice(Choice) :-
     flush_output,
-    get_char(Char),
-    (   Char = end_of_file ->
-        % Gestion EOF : quitter proprement
-        (write('Programme interrompu.'), nl, halt)
+    get_single_char(Code),
+    char_code(Char, Code),
+    (   Code = -1 ->
+        % Gestion EOF ou Ctrl+C : quitter proprement
+        halt(0)
     ;   member(Char, ['1', '2', '3', '4']) ->
         % Convertir le caractère en nombre
-        atom_number(Char, Choice),
-        skip_line  % Ignorer le reste de la ligne (comme Enter)
+        atom_number(Char, Choice)
     ;   % Choix invalide
-        write('Choix invalide. Veuillez entrer 1, 2, 3 ou 4.'), nl,
-        skip_line,  % Ignorer le reste de la ligne
+        nl,
+        write('CHOIX INVALIDE. Veuillez choisir entre 1-4'), nl,
         read_choice(Choice)  % Réessayer
     ).
 
@@ -137,7 +137,7 @@ handle_choice(3) :-
     write('║                                                                               ║'), nl,
     write('║  COURS        : IFT-2003 - Intelligence Artificielle                         ║'), nl,
     write('║  INSTITUTION  : Universite Laval                                             ║'), nl,
-    write('║  PROJET       : Travail pratique 1 - Algorithme tuiles mal placees           ║'), nl,
+    write('║  PROJET       : TP1 - Conception d\'un jeu integrant une recherche heuristique ║'), nl,
     write('║  ECHEANCE     : 20 octobre 2025                                              ║'), nl,
     write('║                                                                               ║'), nl,
     write('║  ALGORITHME   : A* (A-star) avec heuristique tuiles mal placees             ║'), nl,
@@ -156,19 +156,14 @@ handle_choice(3) :-
 % Quitter le programme
 handle_choice(4) :-
     nl,
-    write('╔══════════════════════════════════════════════╗'), nl,
-    write('║            MERCI ET AU REVOIR!               ║'), nl,
-    write('║        Solveur Taquin A* - Mission accomplie ║'), nl,
-    write('║        Universite Laval - IFT-2003          ║'), nl,
-    write('╚══════════════════════════════════════════════╝'), nl,
-    write('[SYSTEME] Fermeture du programme...'), nl,
+    write('MERCI ET AU REVOIR!'), nl,
     flush_output,
     halt(0).
 
 % Gestion des choix invalides (normalement interceptés par read_choice)
 handle_choice(InvalidChoice) :-
     nl,
-    format('[ERREUR] Choix invalide: ~w~n', [InvalidChoice]),
+    format('[ERREUR-001] Choix invalide: ~w~n', [InvalidChoice]),
     write('Veuillez choisir entre 1, 2, 3 ou 4.'), nl,
     main_menu.
 
@@ -224,9 +219,9 @@ handle_execution_error(Error) :-
 %  Permet à l'utilisateur de lire les résultats avant de revenir au menu
 wait_for_continue :-
     nl,
-    write('[INFO] Appuyez sur Entree pour revenir au menu...'),
+    write('Appuyez sur une touche pour continuer...'),
     flush_output,
-    get_char(_),  % Attendre n'importe quel caractère
+    get_single_char(_),  % Attendre n'importe quel caractère (immédiat)
     nl.
 
 % =============================================================================

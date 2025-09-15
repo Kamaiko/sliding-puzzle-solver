@@ -22,7 +22,7 @@
 %
 % =============================================================================
 
-% Point d'entrée automatique
+% Point d'entrée automatique avec gestion d'erreurs
 :- initialization(start).
 
 %! start is det.
@@ -41,8 +41,8 @@ start :-
          main),
         Error,
         (   Error = unwind(halt(_)) ->
-            % halt() normal - ne pas traiter comme erreur
-            true
+            % halt() normal - fermeture propre
+            halt(0)
         ;   (Error = error(existence_error(_, user_input), _) ; functor(Error, interrupt, _)) ->
             % Ctrl+C ou fermeture normale - ignorer
             true
