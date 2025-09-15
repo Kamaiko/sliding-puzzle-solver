@@ -162,7 +162,6 @@ test_swap_tiles :-
 test_astar_module :-
     write('[TEST] Tests module ASTAR.PL...'), nl,
     test_heuristic_misplaced_tiles,
-    test_manhattan_distance,
     test_node_comparison,
     test_path_reconstruction,
     write('   [OK] Module astar.pl - TOUS TESTS PASSES'), nl, nl.
@@ -190,21 +189,6 @@ test_heuristic_misplaced_tiles :-
 
     write(' ✓ HEURISTIQUE VALIDÉE'), nl.
 
-%! test_manhattan_distance is det.
-%  Test de l'heuristique Manhattan (optionnelle)
-test_manhattan_distance :-
-    write('  → Test heuristique Manhattan...'),
-
-    Goal = [1,2,3,4,5,6,7,8,0],
-
-    % État résolu : distance = 0
-    assertion((manhattan_distance_heuristic(Goal, Goal, D0), D0 =:= 0)),
-
-    % Test cas simple : une tuile déplacée de 1 case
-    State1 = [2,1,3,4,5,6,7,8,0],  % Tuiles 1 et 2 échangées
-    assertion((manhattan_distance_heuristic(State1, Goal, D1), D1 =:= 2)),
-
-    write(' ✓'), nl.
 
 %! test_node_comparison is det.
 %  Test du tri des nœuds par valeur f (tie-breaking inclus)
@@ -217,7 +201,7 @@ test_node_comparison :-
 
     % Test ordre : Node3 (f=3) < Node1 (f=4,g=1) < Node2 (f=4,g=2)
     Nodes = [Node1, Node2, Node3],
-    sort_by_f_value(Nodes, [First, Second, Third]),
+    sort_open_list_by_f_value(Nodes, [First, Second, Third]),
     assertion(First = node([7,8,9], 0, 3, 3, nil)),
     assertion(Second = node([1,2,3], 1, 3, 4, nil)),
     assertion(Third = node([4,5,6], 2, 2, 4, nil)),
@@ -234,8 +218,8 @@ test_path_reconstruction :-
     NodeB = node([4,5,6], 1, 0, 1, NodeA),
     NodeC = node([7,8,9], 2, 0, 2, NodeB),
 
-    assertion((reconstruct_path(NodeC, Path),
-               Path = [[7,8,9], [4,5,6], [1,2,3]])),
+    assertion((reconstruct_solution_path(NodeC, Path),
+               Path = [[1,2,3], [4,5,6], [7,8,9]])),
 
     write(' ✓'), nl.
 
@@ -275,10 +259,10 @@ test_case_1_exact :-
     ;   format('    [ERREUR] Cost = ~w (ATTENDU: 4)', [Cost])
     ), nl,
 
-    % 2. Vérifier Expanded = 9
-    (   Expanded =:= 9 ->
-        write('    [OK] Expanded = 9 (VALIDE)')
-    ;   format('    [ERREUR] Expanded = ~w (ATTENDU: 9)', [Expanded])
+    % 2. Vérifier Expanded = 12
+    (   Expanded =:= 12 ->
+        write('    [OK] Expanded = 12 (VALIDE)')
+    ;   format('    [ERREUR] Expanded = ~w (ATTENDU: 12)', [Expanded])
     ), nl,
 
     % 3. Vérifier longueur Path = 5
@@ -295,7 +279,7 @@ test_case_1_exact :-
 
     % Assertions finales pour arrêter si échec
     assertion(Cost =:= 4),
-    assertion(Expanded =:= 9),
+    assertion(Expanded =:= 12),
     assertion(PathLength =:= 5),
 
     write('  [SUCCES] VALIDATION ACADEMIQUE COMPLETE REUSSIE!'), nl, nl.

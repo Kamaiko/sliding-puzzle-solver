@@ -16,7 +16,7 @@
 ---
 
 <div align="center">
-<img src="archive/images/menu_principal.png" alt="Menu principal Solveur Taquin" width="450">
+<img src="docs/images/menu_principal.png" alt="Menu principal Solveur Taquin" width="450">
 </div>
 
 ## 🚀 Installation & Lancement
@@ -65,7 +65,7 @@ Le fichier `run.pl` configure automatiquement :
 ### Exemple de résolution A*
 
 <div align="center">
-<img src="archive/images/CasTest1.png" alt="Cas Test 1 - Résolution A*" width="400">
+<img src="docs/images/CasTest1.png" alt="Cas Test 1 - Résolution A*" width="400">
 <br><em>Démonstration du cas test 1 avec affichage du chemin solution complet et des métriques de performance.</em>
 </div>
 
@@ -112,7 +112,7 @@ swipl -g run_all_tests src/tests.pl
 | 🏗️ [**Architecture Guide**](docs/architecture.md) | Design technique détaillé |
 | 📄 [**Product Requirements**](docs/prd.md) | Spécifications détaillées |
 | 📋 [**Énoncé Original**](archive/TP1_Enonce_Reformule.md) | Exigences académiques officielles |
-| 📝 [**Rapport de Remise**](docs/rapport_tp1_template.md) | Template rapport final |
+| 📝 [**Rapport de Remise**](docs/rapport_tp1.md) | Rapport final de TP1 |
 
 ---
 
