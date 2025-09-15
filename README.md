@@ -108,11 +108,10 @@ swipl -g run_all_tests src/tests.pl
 
 | Document | Description |
 |----------|-------------|
-| 📐 [**Spécifications Techniques**](docs/specifications_techniques.md) | Architecture système complète |
-| 🏗️ [**Architecture Guide**](docs/architecture.md) | Design technique détaillé |
-| 📄 [**Product Requirements**](docs/prd.md) | Spécifications détaillées |
-| 📋 [**Énoncé Original**](archive/TP1_Enonce_Reformule.md) | Exigences académiques officielles |
+| 🏗️ [**Architecture Guide**](docs/architecture.md) | Guide technique détaillé pour l'équipe |
+| 📄 [**Product Requirements**](docs/prd.md) | Spécifications et exigences du projet |
 | 📝 [**Rapport de Remise**](docs/rapport_tp1.md) | Rapport final de TP1 |
+| 📋 [**Énoncé Original**](archive/TP1_Enonce_Reformule.md) | Exigences académiques officielles |
 
 ---
 
