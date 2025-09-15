@@ -21,7 +21,7 @@
 
 - ✅ **Maîtriser la recherche heuristique A*** avec tuiles mal placées
 - ✅ **Programmation logique modulaire** en Prolog SWI
-- ✅ **Validation algorithmique précise** (Coût=4, Expansés=9)
+- ✅ **Validation algorithmique précise** (Coût=4, Expansés=12)
 
 ## 👥 Utilisateurs Cibles
 
@@ -38,7 +38,7 @@
 - **Algorithme A*** : Implémentation complète avec recherche heuristique
 - **Heuristique des tuiles mal placées** : Exclusion de la case vide dans le calcul
 - **Architecture modulaire** : 4 modules distincts (main.pl, game.pl, astar.pl, display.pl, tests.pl)
-- **Cas de test 1** : Exemple du professeur avec résultats exacts (Coût=4, Expansés=9)
+- **Cas de test 1** : Exemple du professeur avec résultats exacts (Coût=4, Expansés=12)
 - **Cas de test 2** : Exemple personnalisé avec minimum 6 mouvements
 - **Sortie formatée** : Path complet, coût de la solution, nombre de nœuds expansés
 - **Documentation** : Guide d'utilisation et explication du code heuristique

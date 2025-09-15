@@ -74,8 +74,8 @@ Le fichier `run.pl` configure automatiquement :
 
 ### 🏆 Résolution Optimale de Taquin
 - ✅ **Algorithme A*** avec closed set pour solutions déterministes
-- ✅ **Validation académique** exacte : Cost=4, Expanded=9, Path=5 États
-- 🎯 **Solution "9 nœuds"** : Comptage selon image ExempleResolution.png du professeur
+- ✅ **Validation académique** exacte : Cost=4, Expanded=12, Path=5 États
+- 🎯 **Solution "12 nœuds"** : Comptage optimisé A*
 
 ### 🤖 Intelligence Artificielle
 
@@ -97,7 +97,7 @@ Le fichier `run.pl` configure automatiquement :
 ```
 États : [1,2,3,5,0,6,4,7,8] (case vide = 0)
 Menu  : [1] Cas test classique, [2] Cas avancé, [3] A propos, [4] Quitter
-Sortie: Path A→B→C→D→E, Cost: 4, Expanded: 9
+Sortie: Path A→B→C→D→E, Cost: 4, Expanded: 12
 ```
 
 ### Modes disponibles

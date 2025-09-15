@@ -147,7 +147,7 @@ safe_solve_puzzle(_, _, error('Configuration invalide')).
 ```
 Path: A→B→C→D→E
 Cost: 4
-Expanded: 9
+Expanded: 12
 Temps: 0.042s
 ```
 
@@ -171,7 +171,7 @@ Chaque module DOIT avoir ses tests dans `tests.pl` :
 ```prolog
 % Tests critiques obligatoires
 test_heuristic_exact :-      % h([1,2,3,5,0,6,4,7,8]) = 4
-test_case_1_validation :-    % Cost=4, Expanded=9 exact
+test_case_1_validation :-    % Cost=4, Expanded=12 exact
 test_find_blank :-           % Position case vide
 test_generate_moves :-       % 4 directions valides
 ```

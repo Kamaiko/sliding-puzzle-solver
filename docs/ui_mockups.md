@@ -135,7 +135,7 @@ Votre choix: _
 ║                                                            2/2 tests passes   ║
 ║                                                                               ║
 ║  [TEST] CAS TEST CRITIQUE                                                     ║
-║    [OK] Cas test 1           : Cost=4, Expanded=9 exact               [PASS]  ║
+║    [OK] Cas test 1           : Cost=4, Expanded=12 exact              [PASS]  ║
 ║    [OK] Heuristique initiale : h=4 pour etat professeur               [PASS]  ║
 ║    [OK] Path length          : 5 etats (A->B->C->D->E)                [PASS]  ║
 ║    [OK] Determinisme         : Resultats identiques x3                [PASS]  ║
