@@ -134,7 +134,7 @@ display_solution(Path, Cost, Expanded, ResponseTime) :-
     format('Cost        : ~w mouvements~n', [Cost]),
     format('Expanded    : ~w noeuds~n', [Expanded]),
     TimeMs is ResponseTime * 1000,
-    format('Temps       : ~3f millisecondes~n', [TimeMs]),
+    format('Runtime     : ~3f ms~n', [TimeMs]),
     nl.
 
 %! display_path_sequence_with_labels(+Path:list, +Index:integer) is det.
@@ -216,8 +216,7 @@ display_case1_banner(InitState, GoalState) :-
     write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
     write('║                         CAS TEST 1 : EXEMPLE PROFESSEUR                       ║'), nl,
     format('║                     Configuration: ~w                        ║~n', [InitState]),
-    format('║                     Objectif: ~w                           ║~n', [GoalState]),
-    write('║                     Validation: Cost=4, Expanded=12                           ║'), nl,
+    format('║                     Objectif: ~w                             ║~n', [GoalState]),
     write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl.
 
 %! display_case2_banner is det.
@@ -254,3 +253,11 @@ display_about_banner :-
     write('║    • Alexandre Gamache                                                        ║'), nl,
     write('║                                                                               ║'), nl,
     write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl.
+
+%! display_debug_state(+State:list) is det.
+%  Affiche l'état sous forme compacte pour le debug A*
+%  @param State État du taquin à afficher [A,B,C,D,E,F,G,H,I]
+display_debug_state([A,B,C,D,E,F,G,H,I]) :-
+    format('         ~w ~w ~w~n', [A,B,C]),
+    format('         ~w ~w ~w~n', [D,E,F]),
+    format('         ~w ~w ~w~n', [G,H,I]).
