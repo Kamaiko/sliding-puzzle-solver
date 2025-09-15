@@ -76,7 +76,7 @@ goal_state([1,2,3,4,5,6,7,8,0]).
 %! custom_initial_state(-State:list) is det.
 %  État initial du cas test 2 (personnalisé, solvable, 6+ mouvements)
 %  Configuration plus complexe pour démonstration étendue
-custom_initial_state([1,2,3,4,0,5,7,8,6]).
+custom_initial_state([2,0,3,1,4,6,7,5,8]).
 
 %! custom_goal_state(-State:list) is det.
 %  État final du cas test 2 (même que cas test 1 - état résolu standard)
