@@ -101,8 +101,8 @@ ETAT E :
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 Path length : 5 etats
 Cost        : 4 mouvements
-Expanded    : 9 noeuds
-Temps       : 42.000 millisecondes
+Expanded    : 12 noeuds
+Temps       : 0.146 millisecondes
 
 Votre choix: _
 ```

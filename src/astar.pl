@@ -141,23 +141,24 @@ astar_search(Initial, Goal, Path, Cost, Expanded) :-
         OpenList = [InitialNode],
         ClosedSet = [],
         ExpansionCount = 0,
+        GenerationCount = 0,  % Compteur nœuds générés initialisé à 0
 
         % Démarrer temps précis pour timeout et mesure performance
         get_time(StartTime),
 
-        % Lancer la boucle principale A*
-        astar_loop(OpenList, ClosedSet, Goal, StartTime, ExpansionCount, FinalNode, RealExpanded),
+        % Lancer la boucle principale A* avec comptage explorés ET générés
+        astar_loop(OpenList, ClosedSet, Goal, StartTime, ExpansionCount, GenerationCount, FinalNode, RealExpanded, RealGenerated),
 
         % Reconstruire le chemin et extraire le coût
         reconstruct_path(FinalNode, PathReversed),
         reverse(PathReversed, Path),
         FinalNode = node(_, Cost, _, _, _),
 
-        % UTILISER LE VRAI COMPTAGE DES NŒUDS EXPLORÉS
-        Expanded = RealExpanded
+        % UTILISER LE COMPTAGE DES NŒUDS GÉNÉRÉS selon énoncé TP1
+        Expanded = RealGenerated
     ).
 
-%! astar_loop(+OpenList:list, +ClosedSet:list, +Goal:list, +StartTime:float, +ExpCount:int, -FinalNode:compound, -RealExpanded:int) is det.
+%! astar_loop(+OpenList:list, +ClosedSet:list, +Goal:list, +StartTime:float, +ExpCount:int, +GenCount:int, -FinalNode:compound, -RealExpanded:int, -RealGenerated:int) is det.
 %  Boucle principale de l'algorithme A*
 %  Expand nœud avec plus petit f(n), générer successeurs, continuer jusqu'au but
 %  @param OpenList File de priorité des nœuds à explorer (triée par f croissant)
@@ -165,13 +166,15 @@ astar_search(Initial, Goal, Path, Cost, Expanded) :-
 %  @param Goal État but à atteindre
 %  @param StartTime Temps de début (pour timeout)
 %  @param ExpCount Compteur actuel des nœuds explorés
+%  @param GenCount Compteur actuel des nœuds générés
 %  @param FinalNode Nœud solution trouvé
 %  @param RealExpanded Nombre réel de nœuds explorés par A*
-astar_loop([], _, _, _, ExpCount, _, ExpCount) :-
+%  @param RealGenerated Nombre réel de nœuds générés par A*
+astar_loop([], _, _, _, ExpCount, GenCount, _, ExpCount, GenCount) :-
     % Open list vide = pas de solution
     !, fail.
 
-astar_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, FinalNode, RealExpanded) :-
+astar_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, GenCount, FinalNode, RealExpanded, RealGenerated) :-
     % Vérifier timeout (10 secondes maximum)
     get_time(CurrentTime),
     ElapsedTime is CurrentTime - StartTime,
@@ -185,12 +188,13 @@ astar_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, FinalNo
     % Vérifier si on a atteint le but
     (   states_equal(CurrentState, Goal) ->
         FinalNode = CurrentNode,
-        RealExpanded = ExpCount
+        RealExpanded = ExpCount,
+        RealGenerated = GenCount
     ;   % Vérifier si état déjà exploré (dans closed set)
         member(CurrentState, ClosedSet) ->
         % Ignorer et continuer avec le reste de l'open list
-        astar_loop(RestOpen, ClosedSet, Goal, StartTime, ExpCount, FinalNode, RealExpanded)
-    ;   % Nouvel état à explorer - INCRÉMENTER LE COMPTEUR
+        astar_loop(RestOpen, ClosedSet, Goal, StartTime, ExpCount, GenCount, FinalNode, RealExpanded, RealGenerated)
+    ;   % Nouvel état à explorer - INCRÉMENTER LE COMPTEUR EXPLORÉS
         NewExpCount is ExpCount + 1,
 
         % MODE DEBUG - Afficher exploration en cours
@@ -200,29 +204,36 @@ astar_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, FinalNo
         NewClosedSet = [CurrentState|ClosedSet],
         % Générer tous les successeurs
         generate_moves(CurrentState, SuccessorStates),
-        % Créer les nœuds successeurs avec évaluation f(n)
+        % Créer les nœuds successeurs avec évaluation f(n) ET COMPTER LES GÉNÉRÉS
         NextG is CurrentG + 1,
-        create_successor_nodes(SuccessorStates, Goal, NextG, CurrentNode, SuccessorNodes),
+        create_successor_nodes(SuccessorStates, Goal, NextG, CurrentNode, SuccessorNodes, GenCount, NewGenCount),
         % Ajouter à l'open list et trier par f(n)
         append(RestOpen, SuccessorNodes, UpdatedOpenList),
         sort_by_f_value(UpdatedOpenList, SortedOpenList),
-        % Continuer récursivement
-        astar_loop(SortedOpenList, NewClosedSet, Goal, StartTime, NewExpCount, FinalNode, RealExpanded)
+        % Continuer récursivement avec les deux compteurs mis à jour
+        astar_loop(SortedOpenList, NewClosedSet, Goal, StartTime, NewExpCount, NewGenCount, FinalNode, RealExpanded, RealGenerated)
     ).
 
-%! create_successor_nodes(+States:list, +Goal:list, +G:int, +Parent:compound, -Nodes:list) is det.
+%! create_successor_nodes(+States:list, +Goal:list, +G:int, +Parent:compound, -Nodes:list, +GenCountIn:int, -GenCountOut:int) is det.
 %  Crée les nœuds successeurs avec évaluation f(n) pour tous états
+%  COMPTAGE CRITIQUE : Incrémente le compteur pour chaque nœud généré selon énoncé TP1
 %  @param States Liste des états successeurs possibles
 %  @param Goal État but (pour calcul heuristique)
 %  @param G Coût g(n) pour ces successeurs
 %  @param Parent Nœud parent (pour reconstruction chemin)
 %  @param Nodes Nœuds successeurs créés
-create_successor_nodes([], _, _, _, []).
-create_successor_nodes([State|RestStates], Goal, G, Parent, [Node|RestNodes]) :-
+%  @param GenCountIn Compteur nœuds générés en entrée
+%  @param GenCountOut Compteur nœuds générés en sortie (incremente)
+create_successor_nodes([], _, _, _, [], GenCount, GenCount).
+create_successor_nodes([State|RestStates], Goal, G, Parent, [Node|RestNodes], GenCountIn, GenCountOut) :-
+    % Incrémenter le compteur pour ce nœud généré
+    GenCountMid is GenCountIn + 1,
+    % Créer le nœud avec évaluation heuristique
     misplaced_tiles_heuristic(State, Goal, H),
     F is G + H,
     Node = node(State, G, H, F, Parent),
-    create_successor_nodes(RestStates, Goal, G, Parent, RestNodes).
+    % Continuer récursivement avec le compteur mis à jour
+    create_successor_nodes(RestStates, Goal, G, Parent, RestNodes, GenCountMid, GenCountOut).
 
 %! sort_by_f_value(+Nodes:list, -SortedNodes:list) is det.
 %  Trie les nœuds par valeur f(n) croissante (file de priorité)
