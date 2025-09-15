@@ -194,11 +194,4 @@ wait_for_continue :-
 % SECTION 5: UTILITAIRES ESSENTIELS
 % =============================================================================
 
-%! solve_custom(+Initial:list, +Goal:list) is det.
-%  Interface pour configurations personnalisées
-solve_custom(Initial, Goal) :-
-    get_time(StartTime),
-    solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)),
-    get_time(EndTime),
-    ResponseTime is EndTime - StartTime,
-    display_solution(Path, Cost, Expanded, ResponseTime).
+% NOTE: solve_custom/2 déplacé vers astar.pl (voir TODO là-bas)

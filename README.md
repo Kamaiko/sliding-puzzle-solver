@@ -16,7 +16,7 @@
 ---
 
 <div align="center">
-<img src="archive/ecran_accueil_fr.png" alt="Écran d'accueil Solveur Taquin" width="450">
+<img src="archive/images/menu_principal.png" alt="Menu principal Solveur Taquin" width="450">
 </div>
 
 ## 🚀 Installation & Lancement
@@ -53,31 +53,7 @@ Le fichier `run.pl` configure automatiquement :
 </table>
 
 
-## ✨ Fonctionnalités
-
-<table>
-<tr>
-<td width="33%" align="center">
-  <img src="archive/menu_principal.png" alt="Menu principal" width="280">
-  <br><em>Menu principal interactif</em>
-</td>
-<td width="33%" align="center">
-  <img src="archive/resultats.png" alt="Résultats de résolution" width="280">
-  <br><em>Résultats validation académique</em>
-</td>
-<td width="33%" align="center">
-  <img src="archive/animation_resultats.png" alt="Validation tests" width="240">
-  <br><em>Validation automatisée</em>
-</td>
-</tr>
-</table>
-
-### 🏆 Résolution Optimale de Taquin
-- ✅ **Algorithme A*** avec closed set pour solutions déterministes
-- ✅ **Validation académique** exacte : Cost=4, Expanded=12, Path=5 États
-- 🎯 **Solution "12 nœuds"** : Comptage optimisé A*
-
-### 🤖 Intelligence Artificielle
+## 🤖 Intelligence Artificielle
 
 | Composante | Description | Performance |
 |------------|-------------|-------------|
@@ -86,10 +62,13 @@ Le fichier `run.pl` configure automatiquement :
 | **État-espace** | 9!/2 = 181 440 configurations solvables | Résolution < 1 seconde |
 | **Validation** | Métriques exactes cas professeur | 100% conformité académique |
 
-**Références techniques :**
-- ¹ A* Search : [Russell & Norvig AI](https://aima.cs.berkeley.edu/)
-- ² Misplaced Tiles : [Heuristics for 8-puzzle](https://algorithmsinsight.wordpress.com/)
-- 🤖 **Développé avec** [Claude Code](https://claude.ai/code)
+### Exemple de résolution A*
+
+<div align="center">
+<img src="archive/images/CasTest1.png" alt="Cas Test 1 - Résolution A*" width="400">
+<br><em>Démonstration du cas test 1 avec affichage du chemin solution complet et des métriques de performance.</em>
+</div>
+
 
 ## 🎮 Usage
 

@@ -422,6 +422,20 @@ solve_puzzle(case2, result(Path, Cost, Expanded)) :-
 solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)) :-
     astar_search(Initial, Goal, Path, Cost, Expanded).
 
+% TODO: Analyser si solve_custom/2 est nécessaire dans le cadre du TP1
+%       Cette fonction semble redondante avec solve_custom_puzzle/3
+%       À évaluer : utilité académique vs complexité ajoutée
+%! solve_custom(+Initial:list, +Goal:list) is det.
+%  Interface pour configurations personnalisées avec affichage automatique
+%  @param Initial État de départ personnalisé
+%  @param Goal État but personnalisé
+solve_custom(Initial, Goal) :-
+    get_time(StartTime),
+    solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)),
+    get_time(EndTime),
+    ResponseTime is EndTime - StartTime,
+    display_solution(Path, Cost, Expanded, ResponseTime).
+
 % =============================================================================
 % SECTION 7: DEBUG ET INSTRUMENTATION
 % =============================================================================
@@ -446,12 +460,6 @@ debug_expansion_trace(Node, Count, ClosedSet) :-
     ;   true  % Mode silencieux par défaut
     ).
 
-%! display_debug_state(+State:list) is det.
-%  Affiche l'état sous forme compacte pour le debug
-display_debug_state([A,B,C,D,E,F,G,H,I]) :-
-    format('         ~w ~w ~w~n', [A,B,C]),
-    format('         ~w ~w ~w~n', [D,E,F]),
-    format('         ~w ~w ~w~n', [G,H,I]).
 
 %! enable_debug_mode is det.
 %  Active le mode debug A* pour voir l'exploration en temps réel
