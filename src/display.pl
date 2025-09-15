@@ -174,7 +174,7 @@ display_error(timeout, Details) :-
     write('║            TIMEOUT                   ║'), nl,
     write('╚══════════════════════════════════════╝'), nl,
     format('Erreur: ~w~n', [Details]),
-    write('Le calcul a depasse la limite de 10 secondes.'), nl,
+    write('[TIMEOUT] Le calcul a depasse la limite de 10 secondes.'), nl,
     write('Essayez avec une configuration plus simple.'), nl, nl.
 
 display_error(invalid_state, Details) :-
@@ -183,7 +183,7 @@ display_error(invalid_state, Details) :-
     write('║            ETAT INVALIDE             ║'), nl,
     write('╚══════════════════════════════════════╝'), nl,
     format('Erreur: ~w~n', [Details]),
-    write('L\'etat fourni ne respecte pas le format taquin 3x3.'), nl,
+    write('[FORMAT] L\'etat fourni ne respecte pas le format taquin 3x3.'), nl,
     write('Verifiez: 9 elements, chiffres 0-8 uniques.'), nl, nl.
 
 display_error(unsolvable, Details) :-
@@ -192,7 +192,7 @@ display_error(unsolvable, Details) :-
     write('║       IMPOSSIBLE A RESOUDRE         ║'), nl,
     write('╚══════════════════════════════════════╝'), nl,
     format('Erreur: ~w~n', [Details]),
-    write('Cette configuration ne peut pas etre resolue.'), nl,
+    write('[SOLVABILITE] Cette configuration ne peut pas etre resolue.'), nl,
     write('Probleme de parite des inversions.'), nl, nl.
 
 %! display_thinking_message is det.

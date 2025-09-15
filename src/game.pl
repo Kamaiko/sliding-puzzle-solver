@@ -33,9 +33,6 @@ total_tiles(9).
 %  Valeur maximale d'une tuile (8 pour 0-8)
 max_tile_value(8).
 
-%! blank_tile_value(-Value:integer) is det.
-%  Valeur représentant la case vide
-blank_tile_value(0).
 
 % =============================================================================
 % SECTION 2: DÉFINITIONS D'ÉTATS DE RÉFÉRENCE
@@ -65,7 +62,7 @@ custom_initial_state([2,0,3,1,4,6,7,5,8]).
 custom_goal_state([1,2,3,4,5,6,7,8,0]).
 
 % =============================================================================
-% SECTION 2: VALIDATION D'ÉTATS ET SOLVABILITÉ
+% SECTION 3: VALIDATION D'ÉTATS ET SOLVABILITÉ
 % =============================================================================
 
 %! valid_state(+State:list) is semidet.
@@ -106,6 +103,11 @@ count_inversions(State, Count) :-
     exclude(==(0), State, FilteredState),
     count_inversions_helper(FilteredState, 0, Count).
 
+%! count_inversions_helper(+List:list, +Acc:integer, -Count:integer) is det.
+%  Helper récursif pour compter les inversions
+%  @param List Reste de la liste à traiter
+%  @param Acc Accumulateur du compte actuel
+%  @param Count Nombre total d'inversions
 count_inversions_helper([], Count, Count).
 count_inversions_helper([H|T], Acc, Count) :-
     % Pour chaque élément, compter combien d'éléments suivants sont plus petits
@@ -122,7 +124,7 @@ states_equal(State1, State2) :-
     State1 = State2.
 
 % =============================================================================
-% SECTION 3: GÉNÉRATION DE MOUVEMENTS (ORDRE CRITIQUE)
+% SECTION 4: GÉNÉRATION DE MOUVEMENTS (ORDRE CRITIQUE)
 % =============================================================================
 
 %! find_blank(+State:list, -Position:integer) is det.
@@ -192,6 +194,19 @@ apply_move(State, Direction, NewState) :-
 %  ORDRE CRITIQUE: HAUT, BAS, GAUCHE, DROITE (requis pour validation académique)
 %  @param State État de départ
 %  @param Successors Liste des états successeurs dans l'ordre déterministe
+%
+%  EXEMPLE DE GÉNÉRATION:
+%  État: [1,2,3,5,0,6,4,7,8] (case vide en position 4)
+%
+%  Plateau:  1 2 3     Position:  0 1 2
+%            5 * 6                3 4 5
+%            4 7 8                6 7 8
+%
+%  Mouvements possibles depuis position 4:
+%  - HAUT (4-3=1) : échanger 0 et 2 → [1,0,3,5,2,6,4,7,8]
+%  - BAS (4+3=7)  : échanger 0 et 7 → [1,2,3,5,7,6,4,0,8]
+%  - GAUCHE (4-1=3) : échanger 0 et 5 → [1,2,3,0,5,6,4,7,8]
+%  - DROITE (4+1=5) : échanger 0 et 6 → [1,2,3,5,6,0,4,7,8]
 generate_moves(State, Successors) :-
     find_blank(State, BlankPos),
     % ORDRE OBLIGATOIRE pour reproductibilité: up, down, left, right
@@ -202,7 +217,7 @@ generate_moves(State, Successors) :-
         Successors).
 
 % =============================================================================
-% SECTION 4: UTILITAIRES DE MANIPULATION D'ÉTATS
+% SECTION 5: UTILITAIRES DE MANIPULATION D'ÉTATS
 % =============================================================================
 
 %! swap_tiles(+State:list, +Pos1:integer, +Pos2:integer, -NewState:list) is det.
@@ -228,16 +243,3 @@ replace_nth0(List, Index, Element, NewList) :-
     append(Prefix, [_|Suffix], List),
     append(Prefix, [Element|Suffix], NewList).
 
-%! is_goal(+State:list) is semidet.
-%  Vérifie si l'état est l'état but du cas test 1
-%  @param State État à vérifier
-is_goal(State) :-
-    goal_state(Goal),
-    states_equal(State, Goal).
-
-%! is_custom_goal(+State:list) is semidet.
-%  Vérifie si l'état est l'état but personnalisé du cas test 2
-%  @param State État à vérifier
-is_custom_goal(State) :-
-    custom_goal_state(Goal),
-    states_equal(State, Goal).
