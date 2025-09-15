@@ -1,33 +1,16 @@
-% =============================================================================
-% DISPLAY.PL - Affichage et formatage pour le solveur de Taquin
-% =============================================================================
+/** <module> Interface utilisateur terminale pour visualisation
+
+Rendu ASCII avec animation du chemin de solution.
+Formats: affichage grille, séquence chemin, métriques performance.
+
+@sections
+  1. Bannières et menus principaux
+  2. Affichage d'états du taquin
+  3. Affichage des résultats et solutions
+  4. Messages d'erreur et feedback
+*/
 
 :- encoding(utf8).
-%
-% ÉQUIPE       : Projet universitaire IFT-2003
-% COURS        : IFT-2003 - Intelligence Artificielle
-% INSTITUTION  : Université Laval
-% VERSION      : 1.0
-%
-% DESCRIPTION  : Module de présentation et interface utilisateur pour le
-%                solveur de taquin. Gère l'affichage professionnel des
-%                résultats et l'interaction avec l'utilisateur.
-%
-% FONCTIONNALITÉS PRINCIPALES :
-% - Affichage du plateau 3×3 avec représentation visuelle claire
-% - Messages du menu et bannière professionnelle
-% - Formatage des résultats Path A->B->C->D->E avec flèches
-% - Statistiques détaillées (Path/Cost/Expanded/Temps IA)
-% - Messages d'erreur et feedback utilisateur en français
-%
-% ARCHITECTURE DES SECTIONS :
-% 1. Bannières et menus principaux
-% 2. Affichage des plateaux et états
-% 3. Formatage des solutions
-% 4. Messages et feedback utilisateur
-% 5. Utilitaires d'affichage
-%
-% =============================================================================
 
 % =============================================================================
 % SECTION 1: BANNIÈRES ET MENUS PRINCIPAUX

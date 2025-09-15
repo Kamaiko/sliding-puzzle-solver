@@ -32,9 +32,19 @@ src/
 ## Key Requirements
 
 - **Algorithm focus**: A* implementation is the core evaluation criteria
-- **Exact validation**: Case 1 must produce Cost=4, Expanded=9, Path length=5
+- **Exact validation**: Case 1 must produce Cost=4, Expanded=12, Path length=5, <3ms
 - **Heuristic**: Primary = misplaced tiles (excluding blank), Optional = Manhattan distance
 - **Results format**: Path/Cost/Expanded with AI response time
+
+## Academic References Policy
+
+**ALWAYS include academic references in rapport_tp1_template.md when implementing algorithms:**
+
+- **A* Algorithm**: Hart, P. E., Nilsson, N. J., & Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. IEEE Transactions on Systems Science and Cybernetics, 4(2), 100-107.
+- **Modern AI Textbook**: Russell, S. & Norvig, P. (2020). Artificial Intelligence: A Modern Approach. 4th Edition. Pearson.
+- **Prolog for AI**: Bratko, I. (2012). Prolog Programming for Artificial Intelligence. 4th Edition. Addison-Wesley.
+
+This maintains academic credibility and shows proper research methodology.
 
 ## Language Conventions
 

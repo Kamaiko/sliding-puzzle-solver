@@ -43,6 +43,9 @@ start :-
         (   Error = unwind(halt(_)) ->
             % halt() normal - ne pas traiter comme erreur
             true
+        ;   (Error = error(existence_error(_, user_input), _) ; functor(Error, interrupt, _)) ->
+            % Ctrl+C ou fermeture normale - ignorer
+            true
         ;   handle_launcher_error(Error)
         )
     ).

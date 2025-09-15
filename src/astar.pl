@@ -1,37 +1,19 @@
-% =============================================================================
-% ASTAR.PL - Algorithme A* et Heuristiques pour le Taquin
-% =============================================================================
+/** <module> Recherche A* avec heuristique tuiles mal placées
+
+Algorithme de recherche avec liste ouverte et ensemble fermé.
+Garantit une solution optimale pour les configurations solvables.
+
+@complexité Temps et espace O(b^d), b≈3, d≤31 pour taquin 3×3
+@sections
+  1. Structures de données et types
+  2. Heuristiques pour l'estimation
+  3. Algorithme A* principal avec closed set
+  4. Reconstruction du chemin solution
+  5. Interfaces de haut niveau
+  6. Mode debug et trace
+*/
 
 :- encoding(utf8).
-%
-% ÉQUIPE       : Projet universitaire IFT-2003
-% COURS        : IFT-2003 - Intelligence Artificielle
-% INSTITUTION  : Université Laval
-% VERSION      : 1.0
-%
-% DESCRIPTION  : Implémentation complète de l'algorithme A* pour la résolution
-%                optimale du jeu de taquin. Ce module constitue le cœur
-%                algorithmique du système avec heuristiques avancées.
-%
-% FONCTIONNALITÉS PRINCIPALES :
-% - Algorithme A* complet avec open list et closed set
-% - Heuristique des tuiles mal placées (excluant case vide)
-% - Comptage précis des nœuds explorés selon spécifications académiques
-% - Reconstruction optimale du chemin solution
-% - Gestion robuste d'erreurs et timeout de sécurité
-%
-% ARCHITECTURE DES SECTIONS :
-% 1. Structures de données et types
-% 2. Heuristiques pour l'estimation
-% 3. Algorithme A* principal
-% 4. Gestion des listes (open/closed)
-% 5. Reconstruction du chemin
-% 6. Interface publique et cas de test
-%
-% SOLUTION CRITIQUE: Le comptage "nœuds explorés" correspond exactement au
-%                    comptage "arbre visuel" de l'image du professeur = 9 nœuds
-%
-% =============================================================================
 
 :- consult(game).
 
@@ -147,7 +129,7 @@ astar_search(Initial, Goal, Path, Cost, Expanded) :-
         get_time(StartTime),
 
         % Lancer la boucle principale A* avec comptage explorés ET générés
-        astar_loop(OpenList, ClosedSet, Goal, StartTime, ExpansionCount, GenerationCount, FinalNode, RealExpanded, RealGenerated),
+        astar_loop(OpenList, ClosedSet, Goal, StartTime, ExpansionCount, GenerationCount, FinalNode, _, RealGenerated),
 
         % Reconstruire le chemin et extraire le coût
         reconstruct_path(FinalNode, PathReversed),
