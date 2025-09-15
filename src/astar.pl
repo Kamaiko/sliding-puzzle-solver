@@ -141,36 +141,36 @@ astar_search(Initial, Goal, Path, Cost, Expanded) :-
         ClosedSet = [],
         ExpansionCount = 0,
 
-        % Démarrer temps pour timeout
+        % Démarrer temps précis pour timeout et mesure performance
         get_time(StartTime),
 
         % Lancer la boucle principale A*
-        astar_loop(OpenList, ClosedSet, Goal, StartTime, ExpansionCount, FinalNode),
+        astar_loop(OpenList, ClosedSet, Goal, StartTime, ExpansionCount, FinalNode, RealExpanded),
 
         % Reconstruire le chemin et extraire le coût
         reconstruct_path(FinalNode, PathReversed),
         reverse(PathReversed, Path),
         FinalNode = node(_, Cost, _, _, _),
 
-        % SOLUTION CRITIQUE: Utiliser le comptage "arbre visuel" pour correspondre à l'image du professeur
-        % Cela donne exactement 9 nœuds pour l'exemple de référence selon ExempleResolution.png
-        count_visual_tree_nodes(Path, Expanded)
+        % UTILISER LE VRAI COMPTAGE DES NŒUDS EXPLORÉS
+        Expanded = RealExpanded
     ).
 
-%! astar_loop(+OpenList:list, +ClosedSet:list, +Goal:list, +StartTime:float, +ExpCount:int, -FinalNode:compound) is det.
+%! astar_loop(+OpenList:list, +ClosedSet:list, +Goal:list, +StartTime:float, +ExpCount:int, -FinalNode:compound, -RealExpanded:int) is det.
 %  Boucle principale de l'algorithme A*
 %  Expand nœud avec plus petit f(n), générer successeurs, continuer jusqu'au but
 %  @param OpenList File de priorité des nœuds à explorer (triée par f croissant)
 %  @param ClosedSet Ensemble des états déjà explorés
 %  @param Goal État but à atteindre
 %  @param StartTime Temps de début (pour timeout)
-%  @param ExpCount Compteur actuel des nœuds explorés (non utilisé dans cette version)
+%  @param ExpCount Compteur actuel des nœuds explorés
 %  @param FinalNode Nœud solution trouvé
-astar_loop([], _, _, _, _, _) :-
+%  @param RealExpanded Nombre réel de nœuds explorés par A*
+astar_loop([], _, _, _, ExpCount, _, ExpCount) :-
     % Open list vide = pas de solution
     !, fail.
 
-astar_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, FinalNode) :-
+astar_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, FinalNode, RealExpanded) :-
     % Vérifier timeout (10 secondes maximum)
     get_time(CurrentTime),
     ElapsedTime is CurrentTime - StartTime,
@@ -183,12 +183,18 @@ astar_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, FinalNo
 
     % Vérifier si on a atteint le but
     (   states_equal(CurrentState, Goal) ->
-        FinalNode = CurrentNode
+        FinalNode = CurrentNode,
+        RealExpanded = ExpCount
     ;   % Vérifier si état déjà exploré (dans closed set)
         member(CurrentState, ClosedSet) ->
         % Ignorer et continuer avec le reste de l'open list
-        astar_loop(RestOpen, ClosedSet, Goal, StartTime, ExpCount, FinalNode)
-    ;   % Nouvel état à explorer
+        astar_loop(RestOpen, ClosedSet, Goal, StartTime, ExpCount, FinalNode, RealExpanded)
+    ;   % Nouvel état à explorer - INCRÉMENTER LE COMPTEUR
+        NewExpCount is ExpCount + 1,
+
+        % MODE DEBUG - Afficher exploration en cours
+        debug_trace(CurrentNode, NewExpCount, ClosedSet),
+
         % Ajouter au closed set
         NewClosedSet = [CurrentState|ClosedSet],
         % Générer tous les successeurs
@@ -200,7 +206,7 @@ astar_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, FinalNo
         append(RestOpen, SuccessorNodes, UpdatedOpenList),
         sort_by_f_value(UpdatedOpenList, SortedOpenList),
         % Continuer récursivement
-        astar_loop(SortedOpenList, NewClosedSet, Goal, StartTime, ExpCount, FinalNode)
+        astar_loop(SortedOpenList, NewClosedSet, Goal, StartTime, NewExpCount, FinalNode, RealExpanded)
     ).
 
 %! create_successor_nodes(+States:list, +Goal:list, +G:int, +Parent:compound, -Nodes:list) is det.
@@ -310,3 +316,43 @@ solve_puzzle(case2, result(Path, Cost, Expanded)) :-
 %  @param Result Structure result(Path, Cost, Expanded)
 solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)) :-
     astar_search(Initial, Goal, Path, Cost, Expanded).
+
+% =============================================================================
+% SECTION 7: MODE DEBUG ET TRACE
+% =============================================================================
+
+%! debug_trace(+Node:compound, +Count:int, +ClosedSet:list) is det.
+%  Affiche la trace de l'exploration A* pour prouver le calcul réel
+%  Mode discret par défaut (peut être activé via flag debug_astar)
+%  @param Node Nœud en cours d'exploration
+%  @param Count Numéro du nœud exploré
+%  @param ClosedSet États déjà explorés
+debug_trace(Node, Count, ClosedSet) :-
+    (   current_prolog_flag(debug_astar, true) ->
+        % Mode debug activé - afficher la trace
+        Node = node(State, G, H, F, _),
+        length(ClosedSet, ClosedCount),
+        format('[DEBUG] Noeud ~w : g=~w, h=~w, f=~w | ClosedSet=~w etats~n',
+               [Count, G, H, F, ClosedCount]),
+        display_debug_state(State)
+    ;   true  % Mode silencieux par défaut
+    ).
+
+%! display_debug_state(+State:list) is det.
+%  Affiche l'état sous forme compacte pour le debug
+display_debug_state([A,B,C,D,E,F,G,H,I]) :-
+    format('         ~w ~w ~w~n', [A,B,C]),
+    format('         ~w ~w ~w~n', [D,E,F]),
+    format('         ~w ~w ~w~n', [G,H,I]).
+
+%! enable_debug_mode is det.
+%  Active le mode debug A* pour voir l'exploration en temps réel
+enable_debug_mode :-
+    set_prolog_flag(debug_astar, true),
+    write('[INFO] Mode debug A* active - trace exploration visible'), nl.
+
+%! disable_debug_mode is det.
+%  Desactive le mode debug A* pour performance optimale
+disable_debug_mode :-
+    set_prolog_flag(debug_astar, false),
+    write('[INFO] Mode debug A* desactive - mode silencieux'), nl.

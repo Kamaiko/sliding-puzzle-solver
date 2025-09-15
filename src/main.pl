@@ -167,6 +167,7 @@ handle_choice(3) :-
     write('║    • Alexandre Gamache                                                       ║'), nl,
     write('║                                                                               ║'), nl,
     write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
+    nl,
     wait_for_continue,
     main_menu.
 
