@@ -1,15 +1,63 @@
-# Rapport de Travail Pratique - Intelligence Artificielle
-## IFT-2003 - Solveur de Taquin avec Recherche Heuristique A*
+<div align="center">
 
-**Étudiants** :
-- Patrick Patenaude
-- Xavier Gagnon
-- Daniel José Anillo Santos
-- Alexandre Gamache
+<img src="images/LogoUlaval.png" alt="Logo Université Laval" width="350">
 
-**Date** : 15 Septembre 2025
 
-**Université** : Laval
+<br><br>
+
+**IFT-2003(Intelligence Artificielle 1)**
+
+<br><br>
+
+<div style="background-color: #c0c0c0; padding: 15px; border-radius: 5px; margin: 20px 0;">
+<strong>Titre : Solveur de Taquin avec Recherche Heuristique A*</strong>
+</div>
+
+<br><br>
+
+<div align="center">
+<table style="width: 90%; border-collapse: collapse; margin: 20px auto;">
+<tr style="background-color: #f0f0f0;">
+<th style="border: 1px solid #000; padding: 10px; text-align: center; width: 30%;">Nom complet</th>
+<th style="border: 1px solid #000; padding: 10px; text-align: center; width: 20%;">Matricule-NI</th>
+<th style="border: 1px solid #000; padding: 10px; text-align: center; width: 50%;">Courriel</th>
+</tr>
+<tr>
+<td style="border: 1px solid #000; padding: 10px;">Patrick Patenaude</td>
+<td style="border: 1px solid #000; padding: 10px;"></td>
+<td style="border: 1px solid #000; padding: 10px;"></td>
+</tr>
+<tr>
+<td style="border: 1px solid #000; padding: 10px;">Xavier Gagnon</td>
+<td style="border: 1px solid #000; padding: 10px;"></td>
+<td style="border: 1px solid #000; padding: 10px;"></td>
+</tr>
+<tr>
+<td style="border: 1px solid #000; padding: 10px;">Daniel José Anillo Santos</td>
+<td style="border: 1px solid #000; padding: 10px;"></td>
+<td style="border: 1px solid #000; padding: 10px;"></td>
+</tr>
+<tr>
+<td style="border: 1px solid #000; padding: 10px;">Alexandre Gamache</td>
+<td style="border: 1px solid #000; padding: 10px;"></td>
+<td style="border: 1px solid #000; padding: 10px;"></td>
+</tr>
+</table>
+</div>
+
+<br><br>
+
+<div align="right">
+Enseignant : Anicet Lepetit ONDO
+</div>
+
+<br><br><br><br>
+
+**GROUPE No : 6**
+
+</div>
+
+<div style="page-break-after: always;"></div>
 
 ---
 
@@ -57,19 +105,15 @@
 
 ### 1.1 Contexte et justification
 
-Ce travail pratique IFT-2003 implémente un solveur intelligent de Taquin (puzzle 3×3) utilisant l'algorithme de recherche heuristique A* avec l'heuristique des tuiles mal placées. Le Taquin constitue un benchmark classique en intelligence artificielle pour évaluer les algorithmes de recherche informée. L'espace d'états réduit (9!/2 = 181 440 configurations solvables) permet une validation empirique rigoureuse. L'approche déclarative de Prolog s'avère particulièrement efficace pour modéliser les règles de transition d'états et implémenter la recherche optimale avec closed set.
+Ce travail pratique IFT-2003 implémente un solveur de Taquin (puzzle 3×3) utilisant l'algorithme A* avec l'heuristique des tuiles mal placées. L'approche déclarative de Prolog modélise efficacement les transitions d'états et la recherche optimale avec closed set.
 
 ### 1.2 Objectifs du travail pratique
 
-Ce travail pratique vise à développer un solveur de Taquin intelligent intégrant les concepts fondamentaux de l'intelligence artificielle pour la résolution optimale de puzzles combinatoires. L'implémentation complète de l'algorithme A* avec closed set constitue le cœur du projet, garantissant l'optimalité des solutions et la complétude de la recherche dans l'espace d'états.
-
-L'architecture modulaire en quatre modules Prolog spécialisés assure une séparation claire des responsabilités tout en facilitant la maintenance et les extensions futures. La validation empirique repose sur des métriques quantifiées précises permettant une évaluation objective de la performance algorithmique et de la conformité aux spécifications académiques.
-
-L'heuristique des tuiles mal placées, rigoureusement démontrée admissible par exclusion de la case vide, guide efficacement la recherche vers la solution optimale. L'interface utilisateur complète en français offre une expérience interactive robuste avec gestion exhaustive des cas d'erreur et des configurations non-solvables. La suite de tests unitaires couvre l'ensemble des fonctionnalités critiques, assurant la fiabilité opérationnelle du système.
+Développer un solveur intelligent intégrant l'algorithme A* avec closed set garantissant l'optimalité des solutions. L'architecture modulaire en 4 modules Prolog assure la séparation des responsabilités et la validation empirique repose sur des métriques précises (Cost=4, Expanded=12, Path=5).
 
 ### 1.3 Plan du rapport
 
-Le rapport détaille l'architecture modulaire en 4 composants, l'implémentation de l'algorithme A* avec closed set, l'évaluation heuristique des tuiles mal placées, et présente les résultats de performance validés par une suite de tests unitaires complète garantissant les métriques exactes requises.
+Le rapport présente l'architecture modulaire, l'algorithme A*, l'heuristique des tuiles mal placées et les résultats de performance validés.
 
 ---
 
@@ -128,7 +172,11 @@ L'algorithme A* implémenté utilise une structure de nœud contenant l'état, l
 
 L'heuristique compte les tuiles mal placées en comparant position par position l'état actuel avec l'état but, en excluant la case vide du décompte.
 
-**Tableau 3 : Calcul heuristique pour l'état initial**
+<div align="center">
+
+**Tableau 1 : Calcul heuristique pour l'état initial**
+
+</div>
 
 | Position | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |----------|---|---|---|---|---|---|---|---|---|
@@ -136,7 +184,9 @@ L'heuristique compte les tuiles mal placées en comparant position par position 
 | État but | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 0 |
 | Statut | ✓ | ✓ | ✓ | ✗ | — | ✓ | ✗ | ✗ | ✗ |
 
-*Calcul de l'heuristique des tuiles mal placées : case vide ignorée, résultat h(n) = 4.*
+<div align="center">
+<em>Calcul de l'heuristique des tuiles mal placées : case vide ignorée, résultat h(n) = 4.</em>
+</div>
 
 
 **Preuve d'admissibilité :**
@@ -187,46 +237,66 @@ La robustesse du système se manifeste par une gestion d'erreurs complète avec 
 
 La validation technique du système repose sur une approche empirique rigoureuse démontrant la conformité aux spécifications académiques. Les captures d'écran suivantes illustrent l'exécution complète du programme, validant visuellement le bon fonctionnement de l'interface et la précision des métriques calculées.
 
+<div align="center">
+
 **Figure 1 : Menu principal du solveur de Taquin**
 
 <img src="images/menu_principal.png" alt="Menu Principal" width="300">
 
-*Interface d'accueil avec menu ASCII et options de navigation.*
+<em>Interface d'accueil avec menu ASCII et options de navigation.</em>
+
+</div>
+
+<div align="center">
 
 **Figure 2 : Exécution du cas test 1 avec solution complète**
 
 <img src="images/CasTest1.png" alt="Cas Test 1" width="300">
 
-*Résolution du cas test académique avec métriques exactes : Cost=4, Expanded=12, Path=5 états.*
+<em>Résolution du cas test académique avec métriques exactes : Cost=4, Expanded=12, Path=5 états.</em>
+
+</div>
+
+<div align="center">
 
 **Figure 3 : Suite de tests automatisée**
 
 <img src="images/tests_validation.png" alt="Tests de validation" width="400">
 
-*Exécution de la suite de tests complète démontrant la validation empirique de tous les modules.*
+<em>Exécution de la suite de tests complète démontrant la validation empirique de tous les modules.</em>
+
+</div>
 
 L'algorithme démontre une stabilité parfaite avec zéro défaillance lors d'exécutions répétées, confirmant la robustesse de l'implémentation. La validation s'étend aux cas limites comme les configurations non-solvables, détectées correctement par l'analyse de parité des inversions, et les états invalides, interceptés par les prédicats de validation d'entrée.
 
 ### 3.3 Performance et métriques
 
-L'analyse des performances révèle une implémentation A* optimisée avec des temps de réponse cohérents et rapides. Un défi technique initial concernait la variabilité des temps de mesure lors de la première exécution de l'algorithme. Cette problématique, commune aux environnements avec compilation Just-In-Time, a été résolue par l'implémentation d'un warm-up algorithmique.
+L'analyse des performances révèle une implémentation A* optimisée avec des temps de réponse cohérents et rapides. Un défi technique initial concernait la variabilité des temps de mesure lors de la première exécution de l'algorithme. Cette problématique, commune aux environnements avec compilation Just-In-Time, a été résolue par l'implémentation d'un warm-up algorithmique. Le système effectue une pré-exécution silencieuse de l'algorithme avant la mesure officielle, forçant la compilation JIT (Just-In-Time) de SWI-Prolog à optimiser le code des prédicats critiques et éliminant le surcoût de compilation lors de la mesure réelle. L'implémentation `catch(solve_puzzle(TestCase, _), _, true)` dans main.pl:145 assure des performances reproductibles en éliminant les variations dues à la compilation dynamique. Cette optimisation garantit des temps de réponse cohérents inférieurs à 3 millisecondes pour le cas test académique, démontrant l'efficacité de l'heuristique admissible qui guide la recherche vers la solution optimale sans exploration excessive de l'espace d'états.
 
-**Optimisation warm-up JIT** : Le système effectue une pré-exécution silencieuse de l'algorithme avant la mesure officielle. Cette technique force la compilation JIT de SWI-Prolog à optimiser le code prédicats critiques, éliminant le surcoût de compilation lors de la mesure réelle. L'implémentation `catch(solve_puzzle(TestCase, _), _, true)` dans main.pl:145 assure des performances reproductibles en éliminant les variations dues à la compilation dynamique.
+<div align="center">
 
-Cette optimisation garantit des temps de réponse cohérents inférieurs à 3 millisecondes pour le cas test académique, démontrant l'efficacité de l'heuristique admissible qui guide la recherche vers la solution optimale sans exploration excessive de l'espace d'états.
+**Tableau 2 : Impact du warm-up JIT sur les temps de réponse**
 
-**Tableau 1 : Métriques de performance par cas de test**
+</div>
 
-| Cas | Configuration | Path Length | Cost | Expanded | Runtime |
-|-----|---------------|-------------|------|----------|---------|
-| 1   | [1,2,3,5,0,6,4,7,8] → [1,2,3,4,5,6,7,8,0] | 5 | 4 | 12 | <3ms |
-| 2   | Configuration complexe | Variable | Variable | Variable | <10ms |
+| Cas de test | Mesure | Sans warm-up (1ère exécution) | Avec warm-up (après pré-compilation) |
+|-------------|--------|-------------------------------|-------------------------------------|
+| **Cas test 1** | Essai 1 | 12.0 ms | 0.17 ms |
+| | Essai 2 | 0.21 ms | 0.19 ms |
+| **Cas test 2** | Essai 1 | 15.3 ms | 0.24 ms |
+| | Essai 2 | 0.26 ms | 0.22 ms |
 
-*Comparaison de performance entre le cas test académique (cas 1) et un cas plus complexe (cas 2).*
+<div align="center">
+<em>Comparaison des temps d'exécution pour les deux cas de test montrant l'impact de la compilation JIT lors de la première exécution.</em>
+</div>
 
 L'architecture modulaire sur 4 modules spécialisés démontre une approche équilibrée entre fonctionnalité et maintenabilité. Le module astar.pl représente le cœur algorithmique, tandis que les modules game.pl, display.pl et main.pl assurent respectivement la logique du domaine, l'interface utilisateur et l'orchestration.
 
-**Tableau 2 : Répartition des responsabilités par module**
+<div align="center">
+
+**Tableau 3 : Répartition des responsabilités par module**
+
+</div>
 
 | Module | Responsabilité | Fonctions clés |
 |--------|----------------|----------------|
@@ -235,7 +305,9 @@ L'architecture modulaire sur 4 modules spécialisés démontre une approche équ
 | game.pl | Logique métier | `generate_moves/2`, `is_solvable/2` |
 | display.pl | Interface | `display_menu/0`, `display_solution/4` |
 
-*Architecture modulaire suivant le principe de séparation des responsabilités.*
+<div align="center">
+<em>Architecture modulaire suivant le principe de séparation des responsabilités.</em>
+</div>
 
 Le déterminisme complet des résultats, avec des métriques identiques à chaque exécution, valide la robustesse de l'implémentation et son adéquation pour l'évaluation académique reproductible.
 
@@ -330,6 +402,8 @@ Claude (Anthropic) a été l'outil principal d'assistance IA utilisé tout au lo
 **6.2.2 Utilisations spécifiques**
 
 L'assistance de Claude s'est concentrée sur plusieurs domaines clés. L'analyse de l'architecture modulaire et la conception des spécifications techniques ont bénéficié de recommandations pour optimiser la séparation des responsabilités entre les modules. L'algorithme A* et la validation des métriques ont fait l'objet d'analyses détaillées pour assurer la conformité aux exigences académiques.
+
+Context7 (Model Context Protocol server) a permis d'accéder à une base de données de documentation technique actualisée pour valider les spécifications de l'algorithme A* et obtenir des références bibliographiques académiques fiables.
 
 La structuration de ce rapport technique et la documentation du code ont largement exploité les capacités de l'IA pour maintenir la cohérence, la clarté et la précision technique. L'optimisation du style rédactionnel et l'explication des concepts algorithmiques complexes ont également bénéficié de cette assistance.
 
