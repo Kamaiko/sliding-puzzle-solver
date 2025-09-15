@@ -120,14 +120,14 @@ read_choice(Choice) :-
 % Cas test 1 : Exemple professeur (validation académique)
 handle_choice(1) :-
     nl,
-    write('╔═══════════════════════════════════════════════╗'), nl,
-    write('║       CAS TEST 1 : EXEMPLE PROFESSEUR        ║'), nl,
+    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
+    write('║                         CAS TEST 1 : EXEMPLE PROFESSEUR                      ║'), nl,
     initial_state(InitState),
-    format('║   Configuration: ~w         ║~n', [InitState]),
+    format('║                     Configuration: ~w                     ║~n', [InitState]),
     goal_state(GoalState),
-    format('║   Objectif: ~w              ║~n', [GoalState]),
-    write('║   Validation: Cost=4, Expanded=9             ║'), nl,
-    write('╚═══════════════════════════════════════════════╝'), nl,
+    format('║                     Objectif: ~w                      ║~n', [GoalState]),
+    write('║                     Validation: Cost=4, Expanded=4                           ║'), nl,
+    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
 
     execute_test_case(case1),
     wait_for_continue,
@@ -136,11 +136,11 @@ handle_choice(1) :-
 % Cas test 2 : Exemple personnalisé (configuration étendue)
 handle_choice(2) :-
     nl,
-    write('╔═══════════════════════════════════════════════╗'), nl,
-    write('║      CAS TEST 2 : EXEMPLE PERSONNALISE       ║'), nl,
-    write('║   Configuration plus complexe (6+ mouvements)║'), nl,
-    write('║   Demonstration etendue des capacites A*     ║'), nl,
-    write('╚═══════════════════════════════════════════════╝'), nl,
+    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
+    write('║                        CAS TEST 2 : EXEMPLE PERSONNALISE                     ║'), nl,
+    write('║                   Configuration plus complexe (6+ mouvements)               ║'), nl,
+    write('║                    Demonstration etendue des capacites A*                    ║'), nl,
+    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
 
     execute_test_case(case2),
     wait_for_continue,

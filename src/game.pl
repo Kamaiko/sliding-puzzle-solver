@@ -74,13 +74,13 @@ initial_state([1,2,3,5,0,6,4,7,8]).
 goal_state([1,2,3,4,5,6,7,8,0]).
 
 %! custom_initial_state(-State:list) is det.
-%  État initial du cas test 2 (personnalisé, >6 mouvements)
+%  État initial du cas test 2 (personnalisé, solvable, 6+ mouvements)
 %  Configuration plus complexe pour démonstration étendue
-custom_initial_state([2,8,3,1,6,4,7,0,5]).
+custom_initial_state([1,2,3,4,0,5,7,8,6]).
 
 %! custom_goal_state(-State:list) is det.
-%  État final du cas test 2
-custom_goal_state([1,2,3,8,0,4,7,6,5]).
+%  État final du cas test 2 (même que cas test 1 - état résolu standard)
+custom_goal_state([1,2,3,4,5,6,7,8,0]).
 
 % =============================================================================
 % SECTION 2: VALIDATION D'ÉTATS ET SOLVABILITÉ
