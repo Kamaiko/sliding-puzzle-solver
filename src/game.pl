@@ -33,7 +33,30 @@
 % =============================================================================
 
 % =============================================================================
-% SECTION 1: DÉFINITIONS D'ÉTATS DE RÉFÉRENCE
+% SECTION 1: CONSTANTES DE CONFIGURATION GRILLE 3×3
+% =============================================================================
+
+%! Constantes définissant les dimensions et propriétés de la grille de taquin
+%  Support exclusif pour grilles 3×3 selon spécifications académiques
+
+%! grid_size(-Size:integer) is det.
+%  Taille du côté de la grille (3 pour une grille 3×3)
+grid_size(3).
+
+%! total_tiles(-Total:integer) is det.
+%  Nombre total de cases dans la grille (9 pour une grille 3×3)
+total_tiles(9).
+
+%! max_tile_value(-Max:integer) is det.
+%  Valeur maximale d'une tuile (8 pour 0-8)
+max_tile_value(8).
+
+%! blank_tile_value(-Value:integer) is det.
+%  Valeur représentant la case vide
+blank_tile_value(0).
+
+% =============================================================================
+% SECTION 2: DÉFINITIONS D'ÉTATS DE RÉFÉRENCE
 % =============================================================================
 
 %! initial_state(-State:list) is det.
@@ -68,10 +91,13 @@ custom_goal_state([1,2,3,8,0,4,7,6,5]).
 %  @param State Liste de 9 éléments représentant le plateau 3x3
 %  Critères: exactement 9 éléments, chiffres 0-8 uniques
 valid_state(State) :-
-    % Vérifier la longueur (exactement 9 cases)
-    length(State, 9),
-    % Vérifier que tous les chiffres 0-8 sont présents une seule fois
-    sort(State, [0,1,2,3,4,5,6,7,8]).
+    % Vérifier la longueur selon constante
+    total_tiles(RequiredLength),
+    length(State, RequiredLength),
+    % Vérifier que tous les chiffres 0-max sont présents une seule fois
+    max_tile_value(Max),
+    numlist(0, Max, ValidRange),
+    sort(State, ValidRange).
 
 %! is_solvable(+State:list, +Goal:list) is semidet.
 %  Détermine si un état peut être résolu vers l'état but
@@ -133,17 +159,24 @@ find_blank(State, Position) :-
 %                     3 4 5
 %                     6 7 8
 valid_move(BlankPos, up) :-
-    % Peut aller vers le haut si pas sur la première ligne (positions 0,1,2)
-    BlankPos >= 3.
+    % Peut aller vers le haut si pas sur la première ligne
+    grid_size(GridSize),
+    BlankPos >= GridSize.
 valid_move(BlankPos, down) :-
-    % Peut aller vers le bas si pas sur la dernière ligne (positions 6,7,8)
-    BlankPos =< 5.
+    % Peut aller vers le bas si pas sur la dernière ligne
+    grid_size(GridSize),
+    total_tiles(TotalTiles),
+    MaxDownPos is TotalTiles - GridSize - 1,
+    BlankPos =< MaxDownPos.
 valid_move(BlankPos, left) :-
-    % Peut aller à gauche si pas sur la première colonne (positions 0,3,6)
-    BlankPos mod 3 =\= 0.
+    % Peut aller à gauche si pas sur la première colonne
+    grid_size(GridSize),
+    BlankPos mod GridSize =\= 0.
 valid_move(BlankPos, right) :-
-    % Peut aller à droite si pas sur la dernière colonne (positions 2,5,8)
-    BlankPos mod 3 =\= 2.
+    % Peut aller à droite si pas sur la dernière colonne
+    grid_size(GridSize),
+    LastCol is GridSize - 1,
+    BlankPos mod GridSize =\= LastCol.
 
 %! get_target_position(+BlankPos:integer, +Direction:atom, -TargetPos:integer) is det.
 %  Calcule la position cible selon la direction du mouvement
@@ -151,9 +184,11 @@ valid_move(BlankPos, right) :-
 %  @param Direction Direction du mouvement
 %  @param TargetPos Position résultante après le mouvement
 get_target_position(BlankPos, up, TargetPos) :-
-    TargetPos is BlankPos - 3.  % Monter d'une ligne
+    grid_size(GridSize),
+    TargetPos is BlankPos - GridSize.  % Monter d'une ligne
 get_target_position(BlankPos, down, TargetPos) :-
-    TargetPos is BlankPos + 3.  % Descendre d'une ligne
+    grid_size(GridSize),
+    TargetPos is BlankPos + GridSize.  % Descendre d'une ligne
 get_target_position(BlankPos, left, TargetPos) :-
     TargetPos is BlankPos - 1.  % Aller à gauche
 get_target_position(BlankPos, right, TargetPos) :-

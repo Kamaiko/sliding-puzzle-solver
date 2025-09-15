@@ -63,7 +63,8 @@ test_valid_state :-
     % États valides
     assertion(valid_state([1,2,3,4,5,6,7,8,0])),
     assertion(valid_state([0,1,2,3,4,5,6,7,8])),
-    assertion(valid_state([1,2,3,5,0,6,4,7,8])),
+    initial_state(TestState),
+    assertion(valid_state(TestState)),
 
     % États invalides
     assertion(\+ valid_state([1,2,3,4,5,6,7,8])),      % 8 éléments seulement
@@ -129,7 +130,9 @@ test_solvability :-
     write('  -> Test solvabilite (inversions)...'),
 
     % États solvables
-    assertion(is_solvable([1,2,3,5,0,6,4,7,8], [1,2,3,4,5,6,7,8,0])),
+    initial_state(Initial),
+    goal_state(Goal),
+    assertion(is_solvable(Initial, Goal)),
     assertion(is_solvable([1,2,3,4,5,6,7,8,0], [1,2,3,4,5,6,7,8,0])),
 
     % État impossible (parité différente)
@@ -169,9 +172,9 @@ test_astar_module :-
 test_heuristic_misplaced_tiles :-
     write('  -> Test heuristique tuiles mal placees (CRITIQUE)...'),
 
-    % Test du cas académique exact : h([1,2,3,5,0,6,4,7,8]) = 4
-    Initial = [1,2,3,5,0,6,4,7,8],
-    Goal = [1,2,3,4,5,6,7,8,0],
+    % Test du cas académique exact : h(initial_state) = 4
+    initial_state(Initial),
+    goal_state(Goal),
     assertion((misplaced_tiles_heuristic(Initial, Goal, H), H =:= 4)),
 
     % Test état résolu : h = 0
@@ -246,8 +249,8 @@ test_path_reconstruction :-
 test_case_1_exact :-
     write('[CRITIQUE] TEST CRITIQUE - Validation academique cas test 1...'), nl,
 
-    Initial = [1,2,3,5,0,6,4,7,8],
-    Goal = [1,2,3,4,5,6,7,8,0],
+    initial_state(Initial),
+    goal_state(Goal),
 
     % Exécuter la résolution A*
     get_time(StartTime),

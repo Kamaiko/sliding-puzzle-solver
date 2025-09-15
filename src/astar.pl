@@ -105,8 +105,9 @@ manhattan_helper([Tile|RestState], Goal, Index, Acc, Distance) :-
 %  @param Pos2 Position destination (0-8)
 %  @param Distance Distance Manhattan |row1-row2| + |col1-col2|
 tile_manhattan_distance(Pos1, Pos2, Distance) :-
-    Row1 is Pos1 // 3, Col1 is Pos1 mod 3,
-    Row2 is Pos2 // 3, Col2 is Pos2 mod 3,
+    grid_size(GridSize),
+    Row1 is Pos1 // GridSize, Col1 is Pos1 mod GridSize,
+    Row2 is Pos2 // GridSize, Col2 is Pos2 mod GridSize,
     Distance is abs(Row1 - Row2) + abs(Col1 - Col2).
 
 % =============================================================================
@@ -261,38 +262,7 @@ reconstruct_path(node(State, _, _, _, Parent), [State|RestPath]) :-
     reconstruct_path(Parent, RestPath).
 
 % =============================================================================
-% SECTION 5: COMPTAGE "ARBRE VISUEL" SELON L'IMAGE DU PROFESSEUR
-% =============================================================================
-
-%! count_visual_tree_nodes(+Path:list, -VisualNodes:integer) is det.
-%  Compte les nœuds selon l'arbre VISUEL de l'image ExempleResolution.png
-%  Cette approche donne exactement 9 nœuds pour l'exemple de référence
-%
-%  Comptage selon l'image du professeur:
-%  - État A (initial) : 1 nœud
-%  - 4 enfants générés par A : 4 nœuds
-%  - État C (3ème dans le chemin) : 1 nœud
-%  - État D (4ème dans le chemin) : 1 nœud
-%  - 2 enfants de D visibles dans l'image : 2 nœuds
-%  Total = 1 + 4 + 1 + 1 + 2 = 9 nœuds
-%  @param Path Chemin solution optimal
-%  @param VisualNodes Nombre de nœuds selon comptage arbre visuel
-count_visual_tree_nodes(Path, VisualNodes) :-
-    (   length(Path, 1) ->
-        % Cas spécial : état déjà résolu (pas de recherche)
-        VisualNodes = 0
-    ;   length(Path, 5) ->
-        % Chemin standard A→B→C→D→E (5 états, 4 mouvements)
-        % Selon l'analyse de l'image ExempleResolution.png :
-        % A génère 4 enfants + C et D comptent + 2 enfants de D visibles
-        VisualNodes = 9
-    ;   % Fallback pour autres longueurs de chemin
-        length(Path, Len),
-        VisualNodes is Len + 4  % Approximation basée sur la structure
-    ).
-
-% =============================================================================
-% SECTION 6: INTERFACES DE HAUT NIVEAU
+% SECTION 5: INTERFACES DE HAUT NIVEAU
 % =============================================================================
 
 %! solve_puzzle(+TestCase:atom, -Result:compound) is det.
@@ -318,7 +288,7 @@ solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)) :-
     astar_search(Initial, Goal, Path, Cost, Expanded).
 
 % =============================================================================
-% SECTION 7: MODE DEBUG ET TRACE
+% SECTION 6: MODE DEBUG ET TRACE
 % =============================================================================
 
 %! debug_trace(+Node:compound, +Count:int, +ClosedSet:list) is det.

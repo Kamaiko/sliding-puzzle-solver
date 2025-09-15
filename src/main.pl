@@ -122,8 +122,10 @@ handle_choice(1) :-
     nl,
     write('╔═══════════════════════════════════════════════╗'), nl,
     write('║       CAS TEST 1 : EXEMPLE PROFESSEUR        ║'), nl,
-    write('║   Configuration: [1,2,3,5,0,6,4,7,8]         ║'), nl,
-    write('║   Objectif: [1,2,3,4,5,6,7,8,0]              ║'), nl,
+    initial_state(InitState),
+    format('║   Configuration: ~w         ║~n', [InitState]),
+    goal_state(GoalState),
+    format('║   Objectif: ~w              ║~n', [GoalState]),
     write('║   Validation: Cost=4, Expanded=9             ║'), nl,
     write('╚═══════════════════════════════════════════════╝'), nl,
 
