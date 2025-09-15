@@ -150,7 +150,8 @@ display_solution(Path, Cost, Expanded, ResponseTime) :-
     format('Path length : ~w etats~n', [PathLength]),
     format('Cost        : ~w mouvements~n', [Cost]),
     format('Expanded    : ~w noeuds~n', [Expanded]),
-    format('Temps       : ~3f secondes~n', [ResponseTime]),
+    TimeMs is ResponseTime * 1000,
+    format('Temps       : ~3f millisecondes~n', [TimeMs]),
     nl.
 
 %! display_path_sequence_with_labels(+Path:list, +Index:integer) is det.
