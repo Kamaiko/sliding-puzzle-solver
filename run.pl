@@ -72,7 +72,7 @@ setup_windows_utf8 :-
     catch(set_stream(user_input, encoding(utf8)), _, true),
     catch(set_stream(user_error, encoding(utf8)), _, true),
 
-    write('    [OK] Windows UTF-8 configuré'), nl.
+    write('    [OK] Windows UTF-8 configure'), nl.
 
 %! setup_unix_utf8 is det.
 %  Configuration UTF-8 pour Mac/Linux
@@ -85,12 +85,12 @@ setup_unix_utf8 :-
     catch(
         (getenv('LANG', Lang),
          (sub_atom(Lang, _, _, _, 'UTF-8') ->
-             write('    [OK] Unix UTF-8 détecté')
+             write('    [OK] Unix UTF-8 detecte')
          ;
-             write('    [WARN] Locale non-UTF-8, forçage UTF-8'))
+             write('    [WARN] Locale non-UTF-8, forcage UTF-8'))
         ),
         _,
-        write('    [OK] Unix UTF-8 configuré par défaut')
+        write('    [OK] Unix UTF-8 configure par defaut')
     ),
     nl.
 

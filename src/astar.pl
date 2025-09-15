@@ -238,7 +238,6 @@ astar_main_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, Ge
 
     % Étape 2: Extraction des données du nœud courant
     node_state(CurrentNode, CurrentState),
-    node_g_cost(CurrentNode, CurrentG),
 
     % Étape 3: Test d'arrivée au but
     (   is_goal_reached(CurrentState, Goal) ->
@@ -389,7 +388,7 @@ reconstruct_path_helper(node(State, _, _, _, Parent), [State|RestPath]) :-
 
 %! extract_search_results(+Result:compound, -Path:list, -Cost:integer, -Expanded:integer) is det.
 %  Extrait les résultats d'une recherche réussie
-extract_search_results(search_success(FinalNode, ExpCount, GenCount), Path, Cost, Expanded) :-
+extract_search_results(search_success(FinalNode, _, GenCount), Path, Cost, Expanded) :-
     % Reconstruire le chemin solution
     reconstruct_solution_path(FinalNode, Path),
     % Extraire le coût (= profondeur du nœud final)

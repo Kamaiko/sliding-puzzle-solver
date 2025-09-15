@@ -99,57 +99,23 @@ read_choice(Choice) :-
 
 % Cas test 1 : Exemple professeur (validation académique)
 handle_choice(1) :-
-    nl,
-    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
-    write('║                         CAS TEST 1 : EXEMPLE PROFESSEUR                      ║'), nl,
     initial_state(InitState),
-    format('║                     Configuration: ~w                     ║~n', [InitState]),
     goal_state(GoalState),
-    format('║                     Objectif: ~w                      ║~n', [GoalState]),
-    write('║                     Validation: Cost=4, Expanded=4                           ║'), nl,
-    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
-
+    display_case1_banner(InitState, GoalState),
     execute_test_case(case1),
     wait_for_continue,
     main_menu.
 
 % Cas test 2 : Exemple personnalisé (configuration étendue)
 handle_choice(2) :-
-    nl,
-    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
-    write('║                        CAS TEST 2 : EXEMPLE PERSONNALISE                     ║'), nl,
-    write('║                   Configuration plus complexe (6+ mouvements)               ║'), nl,
-    write('║                    Demonstration etendue des capacites A*                    ║'), nl,
-    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
-
+    display_case2_banner,
     execute_test_case(case2),
     wait_for_continue,
     main_menu.
 
 % A propos du programme
 handle_choice(3) :-
-    nl,
-    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
-    write('║                                   A PROPOS                                    ║'), nl,
-    write('╠═══════════════════════════════════════════════════════════════════════════════╣'), nl,
-    write('║                                                                               ║'), nl,
-    write('║  SOLVEUR DE TAQUIN A*                                                         ║'), nl,
-    write('║                                                                               ║'), nl,
-    write('║  COURS        : IFT-2003 - Intelligence Artificielle                         ║'), nl,
-    write('║  INSTITUTION  : Universite Laval                                             ║'), nl,
-    write('║  PROJET       : TP1 - Conception d\'un jeu integrant une recherche heuristique ║'), nl,
-    write('║  ECHEANCE     : 20 octobre 2025                                              ║'), nl,
-    write('║                                                                               ║'), nl,
-    write('║  ALGORITHME   : A* (A-star) avec heuristique tuiles mal placees             ║'), nl,
-    write('║                                                                               ║'), nl,
-    write('║  EQUIPE :                                                                    ║'), nl,
-    write('║    • Patrick Patenaude                                                       ║'), nl,
-    write('║    • Xavier Gagnon                                                           ║'), nl,
-    write('║    • Daniel Jose Anillo Santos                                               ║'), nl,
-    write('║    • Alexandre Gamache                                                       ║'), nl,
-    write('║                                                                               ║'), nl,
-    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
-    nl,
+    display_about_banner,
     wait_for_continue,
     main_menu.
 
