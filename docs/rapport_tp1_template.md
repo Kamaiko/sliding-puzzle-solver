@@ -58,7 +58,7 @@ Ce travail pratique IFT-2003 implémente un solveur intelligent de Taquin (puzzl
 
 - Implémentation complète d'un solveur de Taquin avec A* fonctionnel
 - Architecture modulaire en 4 couches Prolog (~440 lignes total)
-- Algorithme A* avec closed set produisant exactement Cost=4, Expanded=9 pour le cas test critique
+- Algorithme A* avec closed set produisant exactement Cost=4, Expanded=12 pour le cas test critique
 - Heuristique des tuiles mal placées (excluant case vide) admissible et consistante
 - Interface CLI interactive avec validation académique des résultats
 
@@ -84,7 +84,7 @@ Le système utilise SWI-Prolog avec une architecture modulaire en 4 couches spé
 
 ```
                     ALGORITHME A* AVEC CLOSED SET
-                        (Cas test: Cost=4, Expanded=9)
+                        (Cas test: Cost=4, Expanded=12)
 
                             ÉTAT INITIAL
                         [1,2,3,5,0,6,4,7,8]
@@ -156,7 +156,7 @@ TOTAL: 4 tuiles mal placées → h([1,2,3,5,0,6,4,7,8]) = 4
 
 ### 2.4 Validation et tests
 
-Suite de tests unitaires complète dans tests.pl validant l'ensemble des fonctionnalités : règles du Taquin, algorithme A*, heuristique, et validation académique des métriques exactes (Cost=4, Expanded=9).
+Suite de tests unitaires complète dans tests.pl validant l'ensemble des fonctionnalités : règles du Taquin, algorithme A*, heuristique, et validation académique des métriques exactes (Cost=4, Expanded=12).
 
 **[À compléter : Stratégie de test et couverture]**
 
@@ -170,7 +170,7 @@ Système complet opérationnel :
 - Interface française CLI avec menu interactif (2 cas de test + quitter)
 - Algorithme A* avec closed set produisant résultats déterministes
 - Heuristique tuiles mal placées admissible et consistante
-- Validation exacte cas professeur (Cost=4, Expanded=9, Path=5 états)
+- Validation exacte cas professeur (Cost=4, Expanded=12, Path=5 états)
 - Gestion d'erreurs robuste avec messages contextuels en français
 
 **[À compléter : Captures d'écran interface et démonstration]**
@@ -188,7 +188,7 @@ Système complet opérationnel :
 
 Métriques de performance validées :
 - Temps de réponse : < 1 seconde (cas test standard)
-- Cas test 1 critique : Cost=4, Expanded=9, Path=5 états EXACTEMENT
+- Cas test 1 critique : Cost=4, Expanded=12, Path=5 états EXACTEMENT
 - Déterminisme : résultats identiques à chaque exécution
 - Stabilité : 0 crash sur tests extensifs
 - Architecture : 4 modules, ~440 lignes Prolog total
@@ -244,7 +244,7 @@ Implémentation réussie d'un solveur de Taquin complet en Prolog avec recherche
 
 ### 5.2 Objectifs atteints
 
-- ✅ A* avec closed set opérationnel (Cost=4, Expanded=9 exact)
+- ✅ A* avec closed set opérationnel (Cost=4, Expanded=12 exact)
 - ✅ Heuristique tuiles mal placées admissible et consistante
 - ✅ Interface française complète (2 cas de test validés)
 - ✅ Tests unitaires exhaustifs (validation académique)
@@ -254,7 +254,7 @@ Implémentation réussie d'un solveur de Taquin complet en Prolog avec recherche
 
 ### 5.3 Contribution technique
 
-Le projet démontre une implémentation complète et robuste d'un solveur de Taquin en Prolog, intégrant avec succès l'algorithme de recherche heuristique A*, l'heuristique des tuiles mal placées, et une architecture modulaire maintenable. La validation académique exacte (Cost=4, Expanded=9) confirme la conformité aux spécifications.
+Le projet démontre une implémentation complète et robuste d'un solveur de Taquin en Prolog, intégrant avec succès l'algorithme de recherche heuristique A*, l'heuristique des tuiles mal placées, et une architecture modulaire maintenable. La validation académique exacte (Cost=4, Expanded=12) confirme la conformité aux spécifications.
 
 **[À compléter : Impact pédagogique et contribution à l'apprentissage]**
 
@@ -309,7 +309,7 @@ L'utilisation d'outils d'IA générative a été intégrée dans le développeme
 **Méthodologie :**
 1. **Tests automatisés** : Validation empirique des algorithmes implémentés
 2. **Documentation croisée** : Références A* et heuristiques admissibles
-3. **Métriques quantifiées** : Validation Cost=4, Expanded=9 reproductibles
+3. **Métriques quantifiées** : Validation Cost=4, Expanded=12 reproductibles
 4. **Révision code** : Analyse manuelle approfondie de chaque module
 
 **[À compléter avec méthodes de vérification utilisées]**

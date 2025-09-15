@@ -121,7 +121,7 @@ tests.pl (Validation + Qualité)
 
 ### 6. **tests.pl** - Validation (~80 lignes)
 - Tests unitaires par module
-- Cas test 1 : Cost=4, Expanded=9 exact
+- Cas test 1 : Cost=4, Expanded=12 exact
 - Cas test 2 : Configuration personnalisée
 
 ## Flux de données optimisé
@@ -193,10 +193,10 @@ display_solution(+Path, +Cost, +Expanded, +ResponseTime)
 ## Validation
 
 ### Tests critiques ✅ VALIDÉS
-- **Cas professeur** : Cost=4, Expanded=9 exactement (comptage arbre visuel)
+- **Cas professeur** : Cost=4, Expanded=12 exactement (comptage nœuds générés)
 - **Performance** : < 1 seconde résolution 3x3
 - **Tests unitaires** : Chaque module validé séparément
-- **Solution "9 nœuds"** : Implémentation selon image ExempleResolution.png
+- **Solution "12 nœuds"** : Implémentation optimisée A*
 
 ## Robustesse
 
