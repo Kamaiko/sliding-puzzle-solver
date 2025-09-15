@@ -89,49 +89,24 @@ main_menu :-
 
 %! read_choice(-Choice:integer) is det.
 %  Lit et valide le choix utilisateur depuis l'entrée standard
-%  Gère les erreurs de saisie avec redemande automatique et EOF
+%  Utilise get_char pour permettre une saisie simple (1, 2, 3, ou 4)
 %  @param Choice Choix valide de l'utilisateur (1-4)
 read_choice(Choice) :-
     flush_output,
-    catch(
-        (read(Input),
-         (   Input == end_of_file ->
-             % Gestion EOF : quitter proprement
-             (write('Programme interrompu.'), nl, halt)
-         ;   integer(Input),
-             Input >= 1,
-             Input =< 4 ->
-             Choice = Input
-         ;   fail  % Input invalide, aller au cas d'erreur
-         )),
-        _Error,
-        fail
-    ),
-    !.  % Couper si succès
-
-read_choice(Choice) :-
-    % Gestion des erreurs de saisie avec limite pour éviter boucle infinie
-    write('[ERREUR] Entree invalide. Veuillez entrer un nombre entre 1 et 4.'), nl,
-    % Nettoyer le buffer d'entrée si nécessaire
-    catch(
-        (repeat,
-         read(Next),
-         (Next == end_of_file -> halt ; true),
-         !),
-        _,
-        true
-    ),
-    read_choice(Choice).
-
-%! skip_to_newline is det.
-%  Nettoie le buffer d'entrée jusqu'à la prochaine ligne
-%  Utilisé pour récupérer des erreurs de saisie
-skip_to_newline :-
-    get_char(C),
-    (   C = '\n' -> true
-    ;   C = end_of_file -> true
-    ;   skip_to_newline
+    get_char(Char),
+    (   Char = end_of_file ->
+        % Gestion EOF : quitter proprement
+        (write('Programme interrompu.'), nl, halt)
+    ;   member(Char, ['1', '2', '3', '4']) ->
+        % Convertir le caractère en nombre
+        atom_number(Char, Choice),
+        skip_line  % Ignorer le reste de la ligne (comme Enter)
+    ;   % Choix invalide
+        write('Choix invalide. Veuillez entrer 1, 2, 3 ou 4.'), nl,
+        skip_line,  % Ignorer le reste de la ligne
+        read_choice(Choice)  % Réessayer
     ).
+
 
 % =============================================================================
 % SECTION 3: GESTION DES CHOIX UTILISATEUR
@@ -177,15 +152,13 @@ handle_choice(3) :-
     write('╠═══════════════════════════════════════════════════════════════════════════════╣'), nl,
     write('║                                                                               ║'), nl,
     write('║  SOLVEUR DE TAQUIN A*                                                         ║'), nl,
-    write('║  Version 1.0                                                                  ║'), nl,
     write('║                                                                               ║'), nl,
     write('║  COURS        : IFT-2003 - Intelligence Artificielle                         ║'), nl,
     write('║  INSTITUTION  : Universite Laval                                             ║'), nl,
-    write('║  PROJET       : Travail pratique - Algorithme de recherche A*                ║'), nl,
+    write('║  PROJET       : Travail pratique 1 - Algorithme tuiles mal placees           ║'), nl,
+    write('║  ECHEANCE     : 20 octobre 2025                                              ║'), nl,
     write('║                                                                               ║'), nl,
     write('║  ALGORITHME   : A* (A-star) avec heuristique tuiles mal placees             ║'), nl,
-    write('║  PERFORMANCE  : Solution optimale garantie                                   ║'), nl,
-    write('║  VALIDATION   : Cas academique - Cost=4, Expanded=9 noeuds                   ║'), nl,
     write('║                                                                               ║'), nl,
     write('║  EQUIPE :                                                                    ║'), nl,
     write('║    • Patrick Patenaude                                                       ║'), nl,

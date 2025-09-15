@@ -22,7 +22,8 @@
 %
 % =============================================================================
 
-% Point d'entrée via goal au lieu d'initialization
+% Point d'entrée automatique
+:- initialization(start).
 
 %! start is det.
 %  Point d'entrée principal du launcher
