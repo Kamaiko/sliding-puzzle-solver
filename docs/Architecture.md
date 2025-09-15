@@ -22,22 +22,104 @@ tests.pl (Validation + Qualité)
 - Mesure temps de réponse
 
 ### 2. **game.pl** - Logique métier (~100 lignes)
-- États : `initial_state/1`, `goal_state/1`
+
+**Fonctionnalités principales :**
+- Définitions des états de référence (cas tests académiques)
+- Validation complète des configurations (format et solvabilité)
+- Génération de mouvements dans l'ordre strict requis
+- Utilitaires de manipulation d'états optimisés
+- Algorithmes de vérification de solvabilité
+
+**Architecture des sections :**
+1. Constantes de configuration grille 3×3
+2. Définitions d'états de référence
+3. Validation des configurations et solvabilité
+4. Génération des mouvements (ordre critique)
+5. Utilitaires de manipulation d'états
+
+**Interfaces principales :**
+- États : `initial_state/1`, `goal_state/1`, `custom_initial_state/1`
 - Mouvements : `generate_moves/2`, `apply_move/3`
+- Validation : `valid_state/1`, `is_solvable/2`
 - Format : `[1,2,3,5,0,6,4,7,8]` (0=vide)
 
+**IMPORTANT** : Ordre des mouvements OBLIGATOIRE = HAUT, BAS, GAUCHE, DROITE pour garantir la reproductibilité académique
+
 ### 3. **astar.pl** - Algorithme A* (~150 lignes)
-- Structure : `node(State, F, G, Parent)`
-- Heuristique : Tuiles mal placées (sans case vide)
-- Interface : `solve_puzzle(Case, result(Path, Cost, Expanded))`
+
+**Fonctionnalités principales :**
+- Algorithme A* complet avec open list et closed set
+- Heuristique des tuiles mal placées (excluant case vide)
+- Comptage précis des nœuds générés selon spécifications académiques
+- Reconstruction optimale du chemin solution
+- Gestion robuste d'erreurs et timeout de sécurité
+
+**Architecture des sections :**
+1. Structures de données et types
+2. Heuristiques pour l'estimation
+3. Algorithme A* principal avec closed set
+4. Reconstruction du chemin solution
+5. Interfaces de haut niveau
+6. Mode debug et trace
+
+**Interfaces principales :**
+- Recherche : `astar_search/5`, `solve_puzzle/2`
+- Heuristiques : `misplaced_tiles_heuristic/3`, `manhattan_distance_heuristic/3`
+- Structure nœud : `node(State, G, H, F, Parent)`
 - File priorité : f(n) = g(n) + h(n)
 
-### 4. **display.pl** - Affichage (~50 lignes)
-- Plateau 3x3 ASCII avec bordures
-- Formatage Path/Cost/Expanded/Temps
-- Menu et bannière
+**CRITIQUE** : Le comptage "nœuds générés" correspond au "nombre total de nœuds générés et explorés" selon énoncé TP1
 
-### 5. **tests.pl** - Validation (~80 lignes)
+### 4. **display.pl** - Interface utilisateur (~50 lignes)
+
+**Fonctionnalités principales :**
+- Menu ASCII unifié avec titre stylisé et options
+- Visualisation plateau 3×3 avec bordures UTF-8 propres
+- Affichage séquentiel du chemin solution avec labels A→B→C→D→E
+- Messages d'erreur formatés selon type (timeout, invalid_state, unsolvable)
+- Feedback en temps réel durant l'exploration A*
+
+**Architecture des sections :**
+1. Bannières et menus principaux
+2. Affichage d'états du taquin (format compact et détaillé)
+3. Affichage des résultats et solutions
+4. Messages d'erreur et feedback
+
+**Interfaces principales :**
+- Menu : `display_menu/0`
+- États : `display_state/2`, `display_state_compact/1`
+- Solutions : `display_solution/4` (Path, Cost, Expanded, ResponseTime)
+- Erreurs : `display_error/2`, `display_thinking_message/0`
+- Format : Case vide affichée comme "#" selon conventions
+
+**IMPORTANT** : Utilise uniquement des caractères ASCII pour maximum compatibilité et professionnalisme
+
+### 5. **main.pl** - Orchestration (~60 lignes)
+
+**Fonctionnalités principales :**
+- Point d'entrée principal avec gestion arguments ligne de commande
+- Menu interactif avec choix utilisateur (1-4) et validation robuste
+- Exécution des cas de test avec mesure précise de performance
+- Gestion complète d'erreurs (timeout, états invalides, impossibles)
+- Interface pour configurations personnalisées
+
+**Architecture des sections :**
+1. Points d'entrée et initialisation
+2. Menu principal et navigation
+3. Gestion des choix utilisateur
+4. Exécution des cas de test
+5. Utilitaires essentiels
+
+**Interfaces principales :**
+- Entrée : `main/0`, `main/1` (avec arguments)
+- Navigation : `main_menu/0`, `handle_choice/1`
+- Tests : `execute_test_case/1` (case1 | case2)
+- Erreurs : `handle_execution_error/1`
+- Personnalisé : `solve_custom/2`
+
+**CRITIQUE** : Effectue un warm-up pour éliminer la compilation JIT et garantir des mesures de temps précises
+
+### 6. **tests.pl** - Validation (~80 lignes)
 - Tests unitaires par module
 - Cas test 1 : Cost=4, Expanded=9 exact
 - Cas test 2 : Configuration personnalisée

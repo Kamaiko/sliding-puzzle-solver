@@ -1,38 +1,18 @@
-% =============================================================================
-% MAIN.PL - Point d'entrée principal et orchestration du solveur de Taquin
-% =============================================================================
+/** <module> Orchestrateur CLI du solveur de taquin
+
+Point d'entrée avec warm-up JIT et mesure de performance.
+Coordonne les modules game.pl, astar.pl et display.pl.
+
+@benchmark Cas 1: 4 mouvements, 12 nœuds, <3ms attendu
+@sections
+  1. Points d'entrée et initialisation
+  2. Menu principal et navigation
+  3. Gestion des choix utilisateur
+  4. Exécution des cas de test
+  5. Utilitaires essentiels
+*/
 
 :- encoding(utf8).
-%
-% ÉQUIPE       : Projet universitaire IFT-2003
-% COURS        : IFT-2003 - Intelligence Artificielle
-% INSTITUTION  : Université Laval
-% VERSION      : 1.0
-%
-% DESCRIPTION  : Point d'entrée principal du système de résolution de taquin
-%                utilisant l'algorithme A*. Ce module orchestre l'ensemble
-%                du programme et fournit une interface utilisateur professionnelle.
-%
-% FONCTIONNALITÉS PRINCIPALES :
-% - Point d'entrée principal et initialisation système
-% - Menu interactif CLI avec validation robuste des entrées
-% - Gestion de cas de test académiques et personnalisés
-% - Mesure précise des temps de réponse de l'IA
-% - Gestion d'erreurs exhaustive avec messages informatifs
-% - Interface utilisateur fluide et professionnelle
-%
-% ARCHITECTURE DES SECTIONS :
-% 1. Points d'entrée et initialisation
-% 2. Menu principal et navigation
-% 3. Gestion des choix utilisateur
-% 4. Exécution des cas de test
-% 5. Utilitaires de développement et débogage
-% 6. Modes d'utilisation avancés
-%
-% UTILISATION  : swipl -g main src/main.pl
-%               ou depuis l'interpréteur : ?- main.
-%
-% =============================================================================
 
 :- consult(game).
 :- consult(astar).
@@ -200,56 +180,16 @@ handle_choice(InvalidChoice) :-
 %  Exécute un cas de test avec mesure de performance et gestion d'erreurs
 %  @param TestCase Identifiant du cas (case1 | case2)
 execute_test_case(TestCase) :-
-    % =============================================================================
-    % PHASE 1: WARM-UP ALGORITHMIQUE (PRECHAUFFAGE)
-    % =============================================================================
-    %
-    % PROBLÉMATIQUE: Lors du premier appel d'un prédicat Prolog, plusieurs
-    % opérations coûteuses se produisent simultanément:
-    %
-    % 1. COMPILATION JUST-IN-TIME: SWI-Prolog compile les prédicats en bytecode
-    % 2. ALLOCATION MÉMOIRE: Création des structures de données internes
-    % 3. CACHE FROID: Système d'exploitation n'a rien en cache
-    % 4. INDEXATION: Prolog optimise l'ordre des clauses après usage
-    %
-    % CONSÉQUENCE: Premier appel = ~12ms, appels suivants = ~0.2ms
-    %
-    % SOLUTION ACADÉMIQUE: Warm-up silencieux pour mesurer SEULEMENT
-    % la performance pure de l'algorithme A*, pas les artefacts du langage.
-    %
-    % STANDARDS: Cette approche est la norme en benchmarking algorithmique
-    % et dans les publications scientifiques en Intelligence Artificielle.
-    %
-    catch(
-        % Exécution silencieuse pour précompilation et cache warming
-        solve_puzzle(TestCase, _),  % Résultat ignoré volontairement
-        _,  % Ignorer les erreurs du warm-up
-        true  % Continuer même en cas d'erreur
-    ),
-
-    % =============================================================================
-    % PHASE 2: MESURE OFFICIELLE DE PERFORMANCE
-    % =============================================================================
-    %
-    % Maintenant que tous les prédicats sont compilés et en cache,
-    % nous mesurons la VRAIE performance de l'algorithme A*
-    %
+    % Warm-up pour eliminer la compilation JIT
+    catch(solve_puzzle(TestCase, _), _, true),
     display_thinking_message,
-
-    % Chronométrage précis de l'algorithme A* pur
     get_time(StartTime),
-
     catch(
-        % Tentative de résolution avec A* (mesure officielle)
         (solve_puzzle(TestCase, result(Path, Cost, Expanded)),
          get_time(EndTime),
          ResponseTime is EndTime - StartTime,
-
-         % Afficher la solution trouvée
          display_success_message,
          display_solution(Path, Cost, Expanded, ResponseTime)),
-
-        % Gestion des erreurs spécifiques
         Error,
         handle_execution_error(Error)
     ).
@@ -290,97 +230,14 @@ wait_for_continue :-
     nl.
 
 % =============================================================================
-% SECTION 5: UTILITAIRES DE DÉVELOPPEMENT ET DÉBOGAGE
-% =============================================================================
-
-%! run_performance_tests is det.
-%  Exécute une série de tests de performance sur les deux cas
-%  Utilitaire pour valider les performances et la stabilité
-run_performance_tests :-
-    write('🔬 TESTS DE PERFORMANCE'), nl,
-    write('========================'), nl, nl,
-
-    % Test du cas 1 (5 itérations)
-    write('Test cas 1 (5 iterations):'), nl,
-    run_multiple_tests(case1, 5, Times1),
-    calculate_statistics(Times1, Mean1, Min1, Max1),
-    format('  Moyenne: ~3f s | Min: ~3f s | Max: ~3f s~n', [Mean1, Min1, Max1]),
-
-    nl,
-
-    % Test du cas 2 (3 itérations)
-    write('Test cas 2 (3 iterations):'), nl,
-    run_multiple_tests(case2, 3, Times2),
-    calculate_statistics(Times2, Mean2, Min2, Max2),
-    format('  Moyenne: ~3f s | Min: ~3f s | Max: ~3f s~n', [Mean2, Min2, Max2]),
-
-    nl.
-
-%! run_multiple_tests(+TestCase:atom, +Count:integer, -Times:list) is det.
-%  Exécute un cas de test plusieurs fois et collecte les temps
-%  @param TestCase Cas à tester
-%  @param Count Nombre d'itérations
-%  @param Times Liste des temps mesurés
-run_multiple_tests(_, 0, []) :- !.
-run_multiple_tests(TestCase, Count, [Time|RestTimes]) :-
-    get_time(Start),
-    solve_puzzle(TestCase, _),
-    get_time(End),
-    Time is End - Start,
-    NextCount is Count - 1,
-    run_multiple_tests(TestCase, NextCount, RestTimes).
-
-%! calculate_statistics(+Times:list, -Mean:float, -Min:float, -Max:float) is det.
-%  Calcule les statistiques de base sur une liste de temps
-%  @param Times Liste des temps mesurés
-%  @param Mean Temps moyen
-%  @param Min Temps minimum
-%  @param Max Temps maximum
-calculate_statistics(Times, Mean, Min, Max) :-
-    length(Times, Count),
-    sum_list(Times, Sum),
-    Mean is Sum / Count,
-    min_list(Times, Min),
-    max_list(Times, Max).
-
-% =============================================================================
-% SECTION 6: MODES D'UTILISATION AVANCÉS
+% SECTION 5: UTILITAIRES ESSENTIELS
 % =============================================================================
 
 %! solve_custom(+Initial:list, +Goal:list) is det.
-%  Interface pour résoudre des configurations personnalisées
-%  Permet de tester des configurations non prédéfinies
-%  @param Initial État de départ personnalisé
-%  @param Goal État but personnalisé
+%  Interface pour configurations personnalisées
 solve_custom(Initial, Goal) :-
-    write('🎯 RÉSOLUTION PERSONNALISÉE'), nl,
-    format('De: ~w~n', [Initial]),
-    format('Vers: ~w~n', [Goal]),
-    nl,
-
     get_time(StartTime),
-    catch(
-        (solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)),
-         get_time(EndTime),
-         ResponseTime is EndTime - StartTime,
-         display_solution(Path, Cost, Expanded, ResponseTime)),
-        Error,
-        handle_execution_error(Error)
-    ).
-
-%! demo_mode is det.
-%  Mode démonstration automatique des deux cas de test
-%  Exécute séquentiellement les cas sans interaction utilisateur
-demo_mode :-
-    write('[DEMO] MODE DEMONSTRATION'), nl,
-    write('====================='), nl, nl,
-
-    write('→ Cas test 1...'), nl,
-    execute_test_case(case1),
-
-    nl, nl,
-    write('→ Cas test 2...'), nl,
-    execute_test_case(case2),
-
-    nl,
-    write('[OK] Demonstration terminee.'), nl.
+    solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)),
+    get_time(EndTime),
+    ResponseTime is EndTime - StartTime,
+    display_solution(Path, Cost, Expanded, ResponseTime).

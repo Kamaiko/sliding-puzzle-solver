@@ -1,36 +1,18 @@
-% =============================================================================
-% GAME.PL - Logique du jeu de Taquin (États et Mouvements)
-% =============================================================================
+/** <module> Représentation de l'espace d'états du taquin 3×3
+
+Définit les mouvements légaux, vérification de solvabilité par parité
+d'inversions, et génération des successeurs en ordre déterministe (H,B,G,D).
+
+@invariant Format état: liste de 9 entiers [0-8], 0=case vide
+@sections
+  1. Constantes de configuration grille 3×3
+  2. Définitions d'états de référence
+  3. Validation d'états et solvabilité
+  4. Génération de mouvements (ordre critique)
+  5. Utilitaires de manipulation d'états
+*/
 
 :- encoding(utf8).
-%
-% ÉQUIPE       : Projet universitaire IFT-2003
-% COURS        : IFT-2003 - Intelligence Artificielle
-% INSTITUTION  : Université Laval
-% VERSION      : 1.0
-%
-% DESCRIPTION  : Module de logique métier pour le jeu de taquin. Gère la
-%                représentation des états, la validation des configurations
-%                et la génération des mouvements possibles.
-%
-% FONCTIONNALITÉS PRINCIPALES :
-% - Définitions des états de référence (cas tests académiques)
-% - Validation complète des configurations (format et solvabilité)
-% - Génération de mouvements dans l'ordre strict requis
-% - Utilitaires de manipulation d'états optimisés
-% - Algorithmes de vérification de solvabilité
-%
-% ARCHITECTURE DES SECTIONS :
-% 1. Définitions d'états de référence
-% 2. Validation des configurations
-% 3. Génération des mouvements
-% 4. Utilitaires d'état
-% 5. Tests de solvabilité
-%
-% IMPORTANT: Ordre des mouvements OBLIGATOIRE = HAUT, BAS, GAUCHE, DROITE
-%           pour garantir la reproductibilité académique (9 nœuds explorés)
-%
-% =============================================================================
 
 % =============================================================================
 % SECTION 1: CONSTANTES DE CONFIGURATION GRILLE 3×3
