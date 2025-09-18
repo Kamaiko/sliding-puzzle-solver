@@ -14,6 +14,22 @@ game.pl  display.pl
 tests.pl (Validation + Qualité)
 ```
 
+## 📖 Guide de lecture du code pour l'équipe
+
+### Ordre de lecture recommandé :
+1. **game.pl** - Comprendre la représentation des états et mouvements
+2. **astar.pl:1-30** - Lire les commentaires de structure et guide de lecture
+3. **astar.pl:166-180** - Point d'entrée `astar_search/5`
+4. **astar.pl:229-254** - Boucle principale `astar_main_loop/7`
+5. **display.pl** - Interface utilisateur pour visualiser les résultats
+6. **main.pl** - Orchestration et menu principal
+
+### Points clés d'implémentation :
+- **Ordre des mouvements** : OBLIGATOIRE = HAUT, BAS, GAUCHE, DROITE (game.pl:214)
+- **Comptage nœuds** : Chaque nœud généré compte dans "Expanded" (astar.pl:338-339)
+- **Heuristique** : Tuiles mal placées, case vide IGNORÉE (astar.pl:113-130)
+- **Tie-breaking** : Si f(n) égaux, priorité au plus petit g(n) (astar.pl:360-370)
+
 ## Modules et responsabilités
 
 ### 1. **main.pl** - Point d'entrée (~60 lignes)
@@ -124,7 +140,19 @@ tests.pl (Validation + Qualité)
 - Cas test 1 : Cost=4, Expanded=12 exact
 - Cas test 2 : Configuration personnalisée
 
-## Flux de données optimisé
+## 🔄 Diagramme 1 : Flux algorithmique A*
+
+![Flux algorithmique A*](astar_flowchart_refined.svg)
+
+**Points clés :** Ordre critique HAUT→BAS→GAUCHE→DROITE (game.pl:214) • Comptage précis GenCount++ (astar.pl:338) • Tie-breaking f(n) égaux → g(n) min (astar.pl:360)
+
+## 🔧 Diagramme 2 : Gestion des états du taquin
+
+![Gestion des états du taquin](taquin_states_structured.svg)
+
+**Guide de lecture :** Suivez la timeline de progression à gauche (1→2→3→4→5→6) pour comprendre le flux complet de traitement des états. Chaque étape est connectée visuellement pour une lecture fluide et organisée.
+
+## 🔀 Flux de données entre modules optimisé
 
 ### Résolution d'un puzzle (workflow principal)
 1. **main.pl** → Lecture choix utilisateur et sélection cas de test
@@ -140,66 +168,109 @@ tests.pl (Validation + Qualité)
 % État du puzzle (représentation unique)
 State = [1,2,3,5,0,6,4,7,8]  % 0 = case vide
 
-% Nœud A* (structure algorithmique)
-Node = node(State, F, G, Parent)
-  % F = f(n) = g(n) + h(n) (fonction d'évaluation)
-  % G = profondeur (coût réel depuis initial)
+% Nœud A* (structure algorithmique) - CORRECTION DE LA STRUCTURE
+Node = node(State, G, H, F, Parent)
+  % State = état du taquin [1,2,3,5,0,6,4,7,8]
+  % G = coût réel g(n) depuis initial (profondeur)
+  % H = heuristique h(n) vers but (tuiles mal placées)
+  % F = fonction d'évaluation f(n) = g(n) + h(n)
   % Parent = nœud parent pour reconstruction chemin
 
 % Résultat de recherche (interface de sortie)
 Result = result(Path, Cost, Expanded)
   % Path = [État_Initial, État_Intermédiaire, ..., État_Final]
   % Cost = nombre de mouvements pour atteindre la solution
-  % Expanded = nombre de nœuds explorés (excluant initial)
+  % Expanded = nombre de nœuds générés selon énoncé TP1
 ```
 
-## Interfaces entre modules (Couplage minimal)
+## 🔌 Interfaces entre modules (Couplage minimal)
 
 ### game.pl → astar.pl
 ```prolog
 % États de référence
-initial_state(-State)
-goal_state(-State) 
-custom_initial_state(-State)
+initial_state(-State)           % [1,2,3,5,0,6,4,7,8]
+goal_state(-State)              % [1,2,3,4,5,6,7,8,0]
+custom_initial_state(-State)    % [2,0,3,1,4,6,7,5,8]
 
-% Génération des successeurs
-generate_moves(+State, -Successors)
+% Génération des successeurs (ORDRE CRITIQUE)
+generate_moves(+State, -Successors)  % HAUT, BAS, GAUCHE, DROITE
 
-% Validation
-is_goal(+State)
+% Validation états
+valid_state(+State)             % Format 3×3, chiffres 0-8 uniques
+is_solvable(+State, +Goal)      % Parité des inversions
+states_equal(+State1, +State2)  % Test égalité pour but atteint
 ```
 
 ### astar.pl → main.pl
 ```prolog
 % Interface principale de résolution
 solve_puzzle(+TestCase, -result(Path, Cost, Expanded))
+% TestCase = case1 | case2
+% Result structure complète avec métriques A*
+
+% Interface personnalisée
+solve_custom_puzzle(+Initial, +Goal, -Result)
 ```
 
 ### main.pl → display.pl
 ```prolog
-% Interface d'affichage
-display_banner
-display_menu
+% Interface d'affichage complète
+display_menu/0                      % Menu principal avec ASCII art
+display_case1_banner(+Init, +Goal)  % Bannière cas test 1 avec états
+display_case2_banner/0              % Bannière cas test 2
+display_about_banner/0              % Section à propos
+
+% Affichage résultats
 display_solution(+Path, +Cost, +Expanded, +ResponseTime)
+display_thinking_message/0          % Message pendant calcul
+display_success_message/0           % Confirmation solution trouvée
+
+% Gestion erreurs formatées
+display_error(+Type, +Details)      % timeout, invalid_state, unsolvable
 ```
 
-## Avantages architecture
+## 🧩 Points critiques d'implémentation
 
-- **Focus IA** : Algorithme A* centralisé dans astar.pl
-- **Charge équilibrée** : 60-150 lignes par module
-- **Travail parallèle** : Interfaces découplées
-- **Évaluation académique** : Structure claire
+| Aspect | Localisation | Description critique |
+|--------|-------------|---------------------|
+| **Ordre mouvements** | `game.pl:214` | OBLIGATOIRE: `[up, down, left, right]` pour reproductibilité |
+| **Comptage nœuds** | `astar.pl:338` | `GenCount++` pour chaque nœud créé = métrique "Expanded" |
+| **Tie-breaking** | `astar.pl:360` | Si f(n) égaux → priorité g(n) minimum |
+| **Heuristique** | `astar.pl:124` | Condition: `(mal_placée ET ≠ case_vide)` pour admissibilité |
+| **Structure nœud** | `astar.pl:49` | `node(State, G, H, F, Parent)` - ordre des paramètres exact |
+## ✅ Avantages architecture
 
-## Validation
+- **🎯 Focus IA** : Algorithme A* centralisé dans astar.pl avec documentation technique détaillée
+- **⚖️ Charge équilibrée** : 60-150 lignes par module permettant travail d'équipe efficace
+- **🔗 Interfaces découplées** : Modules indépendants facilitant développement parallèle
+- **📊 Structure académique** : Organisation claire pour évaluation et maintenance
+- **🔍 Traçabilité** : Références de lignes de code dans documentation pour navigation rapide
+- **🎓 Valeur éducative** : Exemples concrets et diagrammes spécifiques à l'implémentation
+
+## 🧪 Validation empirique
 
 ### Tests critiques ✅ VALIDÉS
-- **Cas professeur** : Cost=4, Expanded=12 exactement (comptage nœuds générés)
-- **Performance** : < 1 seconde résolution 3x3
-- **Tests unitaires** : Chaque module validé séparément
-- **Solution "12 nœuds"** : Implémentation optimisée A*
+- **📋 Cas test académique** : Cost=4, Expanded=12 exactement selon énoncé TP1
+- **⚡ Performance optimisée** : <3ms après warm-up JIT, temps reproductibles
+- **🔬 Tests unitaires** : Validation isolée de chaque module (tests.pl)
+- **🎯 Métriques exactes** : Comptage nœuds générés conforme spécifications
 
-## Robustesse
+### Robustesse système
+- **⏱️ Timeout sécurisé** : 10s limite avec gestion gracieuse des erreurs
+- **✅ Validation entrées** : États vérifiés avant traitement (format + solvabilité)
+- **📝 Messages informatifs** : Feedback utilisateur clair selon type d'erreur
+- **🔄 Reproductibilité** : Résultats identiques garantis par ordre déterministe
 
-- **Timeout** : 10s limite + 10k nœuds maximum
-- **Validation** : États vérifiés avant traitement
-- **Messages d'erreur** : Feedback utilisateur clair
+## 📈 Recommandations pour coéquipiers
+
+### Pour comprendre rapidement :
+1. **Lire d'abord** le guide de lecture (section 📖)
+2. **Examiner** les diagrammes spécifiques avec références aux lignes de code
+3. **Tester** les cas validés pour confirmer compréhension
+4. **Consulter** les points critiques d'implémentation pour éviter erreurs
+
+### Pour debug efficacement :
+- Activer le mode debug A* : `enable_debug_mode.` (astar.pl:465)
+- Vérifier l'ordre des mouvements dans game.pl:214
+- Contrôler le comptage dans astar.pl:338-339
+- Valider l'heuristique avec le tableau des tuiles mal placées
