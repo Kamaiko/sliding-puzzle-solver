@@ -19,7 +19,7 @@
 <img src="docs/images/menu_principal.png" alt="Menu principal Solveur Taquin" width="450">
 </div>
 
-## 🚀 Installation & Lancement
+## Installation & Lancement
 
 ### Lancement Simple (Recommandé)
 ```bash
@@ -42,7 +42,7 @@ Le fichier `run.pl` configure automatiquement :
 - ✅ Compatibilité Windows, macOS et Linux
 - ✅ Aucune configuration manuelle requise
 
-## 🏗️ Architecture
+## Architecture
 
 <table>
 <tr><td><strong>Module</strong></td><td><strong>Responsabilité</strong></td></tr>
@@ -53,7 +53,7 @@ Le fichier `run.pl` configure automatiquement :
 </table>
 
 
-## 🤖 Intelligence Artificielle
+## Intelligence Artificielle
 
 | Composante | Description | Performance |
 |------------|-------------|-------------|
@@ -70,7 +70,7 @@ Le fichier `run.pl` configure automatiquement :
 </div>
 
 
-## 🎮 Usage
+## Usage
 
 ### Format d'entrée
 ```
@@ -80,10 +80,10 @@ Sortie: Path A→B→C→D→E, Cost: 4, Expanded: 12
 ```
 
 ### Modes disponibles
-- 🎯 **Cas classique** · Configuration standard (4 mouvements)
-- 🚀 **Cas avancé** · Configuration complexe pour démonstration étendue
+- **Cas classique** · Configuration standard (4 mouvements)
+- **Cas avancé** · Configuration complexe pour démonstration étendue
 
-## 🧪 Tests
+## Tests
 
 *Suite de tests automatisés : 15/15 tests passés, validation confirmée*
 
@@ -96,7 +96,7 @@ swipl -g run_all_tests src/tests.pl
 # Tests par module disponibles
 ```
 
-## 📋 Prérequis Système
+## Prérequis Système
 
 | Composant | Version | Notes |
 |-----------|---------|-------|
@@ -104,19 +104,19 @@ swipl -g run_all_tests src/tests.pl
 | **OS** | Windows/Linux/macOS | Multiplateforme |
 | **Mémoire** | 256 MB+ | Algorithme A* avec closed set |
 
-## 📚 Documentation Technique
+## Documentation Technique
 
 | Document | Description |
 |----------|-------------|
-| 🏗️ [**Architecture Guide**](docs/architecture.md) | Guide technique détaillé pour l'équipe |
-| 📄 [**Product Requirements**](docs/prd.md) | Spécifications et exigences du projet |
-| 📝 [**Rapport de Remise**](docs/rapport_tp1.md) | Rapport final de TP1 |
-| 📋 [**Énoncé Original**](archive/tp1_enonce.md) | Exigences officielles du projet |
+| [**Architecture Guide**](docs/architecture.md) | Guide technique détaillé pour l'équipe |
+| [**Product Requirements**](docs/prd.md) | Spécifications et exigences du projet |
+| [**Rapport de Remise**](docs/rapport_tp1.md) | Rapport final de TP1 |
+| [**Énoncé Original**](archive/tp1_enonce.md) | Exigences officielles du projet |
 
 ---
 
 <div align="center">
 
-*🎓 Projet Universitaire · 🏛️ Université Laval · 🤖 IFT-2003 Intelligence Artificielle 1*
+*Projet Universitaire · Université Laval · IFT-2003 Intelligence Artificielle 1*
 
 </div>
