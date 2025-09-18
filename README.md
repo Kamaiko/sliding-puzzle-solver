@@ -57,8 +57,8 @@ Le fichier `run.pl` configure automatiquement :
 
 | Composante | Description | Performance |
 |------------|-------------|-------------|
-| **Algorithme** | A* avec closed set¹ | Optimal garanti |
-| **Heuristique** | Tuiles mal placées² (excluant case vide) | Admissible + consistante |
+| **Algorithme** | A* avec closed set | Optimal garanti |
+| **Heuristique** | Tuiles mal placées (excluant case vide) | Admissible + consistante |
 | **État-espace** | 9!/2 = 181 440 configurations solvables | Résolution < 1 seconde |
 | **Validation** | Métriques exactes cas professeur | Conformité complète |
 
