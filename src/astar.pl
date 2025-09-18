@@ -1,14 +1,14 @@
 /** <module> Recherche A* avec heuristique tuiles mal placées
 
 Algorithme de recherche avec liste ouverte et ensemble fermé.
-Garantit une solution optimale pour les configurations solvables.
+
 
 @complexité Temps et espace O(b^d), b≈3, d≤31 pour taquin 3×3
 @sections
   1. Constantes et configuration
   2. Types et structures de données
   3. Heuristiques pour l'estimation
-  4. Cœur algorithme A* (SECTION ÉVALUÉE)
+  4. Cœur algorithme A* 
   5. Utilitaires A*
   6. Interfaces publiques
   7. Debug et instrumentation
@@ -93,23 +93,7 @@ create_node(State, G, H, Parent, node(State, G, H, F, Parent)) :-
 %  @param State État actuel du taquin
 %  @param Goal État but à atteindre
 %  @param Count Nombre de tuiles dans mauvaise position (h(n))
-%
-%  EXEMPLE DE CALCUL:
-%  État: [1,2,3,5,0,6,4,7,8] vs But: [1,2,3,4,5,6,7,8,0]
-%
-%  Position | État | But | Comparaison
-%  ---------|------|-----|-------------
-%     0     |  1   |  1  |     ✓
-%     1     |  2   |  2  |     ✓
-%     2     |  3   |  3  |     ✓
-%     3     |  5   |  4  |     ✗ (mal placée)
-%     4     |  0   |  5  |  IGNORÉE (case vide)
-%     5     |  6   |  6  |     ✓
-%     6     |  4   |  7  |     ✗ (mal placée)
-%     7     |  7   |  8  |     ✗ (mal placée)
-%     8     |  8   |  0  |     ✗ (mal placée)
-%
-%  RÉSULTAT: h(état_initial) = 4 tuiles mal placées
+
 misplaced_tiles_heuristic(State, Goal, Count) :-
     misplaced_tiles_helper(State, Goal, 0, Count).
 
