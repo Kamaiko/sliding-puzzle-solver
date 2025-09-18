@@ -105,11 +105,11 @@ Enseignant : Anicet Lepetit ONDO
 
 ### 1.1 Contexte et justification
 
-Ce travail implémente un solveur de Taquin (puzzle 3×3) utilisant A* avec l'heuristique des tuiles mal placées. Le Taquin constitue un benchmark classique en IA dans un espace d'états réduit (181 440 configurations solvables). Prolog modélise efficacement les transitions d'états et la recherche avec closed set<sup>[2]</sup>.
+Ce travail présente un solveur de Taquin (puzzle 3×3) utilisant A* avec l'heuristique des tuiles mal placées. Le Taquin est un problème classique en IA avec un espace d'états limité (181 440 configurations solvables). Prolog permet de bien modéliser les transitions d'états et la recherche avec closed set<sup>[3]</sup>.
 
 ### 1.2 Objectifs du travail pratique
 
-Développer un solveur intégrant A* avec closed set garantissant l'optimalité. Architecture modulaire 4 modules Prolog avec séparation des responsabilités. Heuristique des tuiles mal placées prouvée admissible (exclusion case vide). Validation empirique sur métriques précises selon les spécifications académiques.
+Développer un solveur qui utilise A* avec closed set pour garantir l'optimalité. Architecture modulaire avec 4 modules Prolog et séparation des responsabilités. Heuristique des tuiles mal placées admissible (exclusion case vide). Validation sur des métriques précises selon les spécifications du projet.
 
 ### 1.3 Plan du rapport
 
@@ -184,7 +184,7 @@ Flux A* : validation états, initialisation nœud racine, insertion open list, e
 
 ### 2.6 Pipeline de résolution
 
-Processus en cinq étapes : validation entrée (format 3×3, solvabilité par parité des inversions<sup>[4]</sup>), génération mouvements déterministe, recherche A*, évaluation heuristique, reconstruction chemin.
+Processus en cinq étapes : validation entrée (format 3×3, solvabilité par parité des inversions<sup>[3]</sup>), génération mouvements déterministe, recherche A*, évaluation heuristique, reconstruction chemin.
 
 ### 2.7 Validation et tests
 
@@ -274,19 +274,19 @@ Implémentation optimisée avec warm-up JIT éliminant la variabilité de compil
 
 ### 4.1 Architecture et qualité du code
 
-L'architecture modulaire illustre l'application rigoureuse du principe de responsabilité unique et la séparation des préoccupations. Chaque module assume une responsabilité bien définie facilitant la maintenance, les tests isolés et l'extension future. Documentation extensive utilisant les conventions PlDoc de SWI-Prolog, prédicats clairement nommés et gestion d'erreurs cohérente.
+L'architecture modulaire respecte le principe de responsabilité unique et la séparation des préoccupations. Chaque module assume une responsabilité bien définie facilitant la maintenance, les tests isolés et l'extension future. Documentation extensive utilisant les conventions PlDoc de SWI-Prolog, prédicats clairement nommés et gestion d'erreurs cohérente.
 
 ### 4.2 Interprétation des résultats et comparaison avec les attentes
 
-Les métriques obtenues correspondent exactement aux valeurs théoriquement attendues pour A* avec l'heuristique des tuiles mal placées. Le coût de 4 mouvements représente effectivement la solution optimale pour la configuration académique [1,2,3,5,0,6,4,7,8], confirmant que l'algorithme trouve le chemin le plus court possible. L'expansion de 12 nœuds démontre l'efficacité du guidage heuristique, évitant l'exploration exhaustive des 181 440 configurations solvables possibles.
+Les métriques obtenues correspondent aux valeurs attendues pour A* avec l'heuristique des tuiles mal placées. Le coût de 4 mouvements représente effectivement la solution optimale pour la configuration académique [1,2,3,5,0,6,4,7,8], confirmant que l'algorithme trouve le chemin le plus court possible. L'expansion de 12 nœuds démontre l'efficacité du guidage heuristique, évitant l'exploration exhaustive des 181 440 configurations solvables possibles.
 
 ### 4.3 Performance et limites identifiées
 
-**Forces** : architecture modulaire facilitant maintenance et extension, A* avec closed set garantissant résultats déterministes et optimaux, reproductibilité parfaite pour évaluation académique. **Limites** : heuristique des tuiles mal placées relativement conservatrice comparée à la distance de Manhattan<sup>[1]</sup>, interface console fonctionnelle mais limitée dans ses capacités de visualisation pour fins éducatives.
+**Forces** : architecture modulaire facilitant maintenance et extension, A* avec closed set garantissant résultats déterministes et optimaux, reproductibilité parfaite pour évaluation académique. **Limites** : heuristique des tuiles mal placées relativement conservatrice comparée à la distance de Manhattan<sup>[6]</sup>, interface console fonctionnelle mais limitée dans ses capacités de visualisation pour fins éducatives.
 
 ### 4.4 Améliorations possibles et extensions futures
 
-Adoption de l'heuristique de distance de Manhattan<sup>[1]</sup> calculant pour chaque tuile la distance réelle nécessaire, optimisation de l'ordonnancement des successeurs selon leur potentiel heuristique plutôt que l'ordre rigide haut-bas-gauche-droite, extension vers IDA* (Iterative Deepening A*)<sup>[3]</sup> pour problèmes de plus grande complexité, interface graphique interactive offrant visualisation du processus de résolution en temps réel.
+Adoption de l'heuristique de distance de Manhattan<sup>[6]</sup> calculant pour chaque tuile la distance réelle nécessaire, optimisation de l'ordonnancement des successeurs selon leur potentiel heuristique plutôt que l'ordre rigide haut-bas-gauche-droite, extension vers IDA* (Iterative Deepening A*)<sup>[3]</sup> pour problèmes de plus grande complexité, interface graphique interactive offrant visualisation du processus de résolution en temps réel.
 
 ---
 
@@ -294,7 +294,7 @@ Adoption de l'heuristique de distance de Manhattan<sup>[1]</sup> calculant pour 
 
 ### 5.1 Bilan du travail pratique
 
-Réussite technique complète démontrant la maîtrise des concepts fondamentaux de l'intelligence artificielle. L'implémentation Prolog illustre parfaitement l'adéquation des langages déclaratifs pour la résolution de problèmes de recherche heuristique, exploitant la nature logique du paradigme pour exprimer naturellement les règles de transition d'états et les contraintes du domaine. La validation empirique rigoureuse confirme l'exactitude avec des métriques parfaitement reproductibles correspondant aux spécifications académiques.
+Réussite technique qui démontre une bonne compréhension des concepts fondamentaux de l'intelligence artificielle. L'implémentation Prolog illustre parfaitement l'adéquation des langages déclaratifs pour la résolution de problèmes de recherche heuristique, exploitant la nature logique du paradigme pour exprimer naturellement les règles de transition d'états et les contraintes du domaine. La validation empirique rigoureuse confirme l'exactitude avec des métriques parfaitement reproductibles correspondant aux spécifications académiques.
 
 ### 5.2 Accomplissements par rapport aux objectifs
 
@@ -308,27 +308,27 @@ L'analyse comparative entre les objectifs initiaux et les réalisations concrèt
 
 ## 6. UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE
 
-Dans un contexte académique où l'usage de l'IA générative suscite encore des débats, cette section vise à présenter une utilisation transparente et éthique de ces outils. Claude (Anthropic) a servi d'assistant technique pour l'analyse des besoins, l'analyse architecturale et l'optimisation du style rédactionnel. Context7 (Model Context Protocol server) a fourni l'accès à une documentation technique actualisée, facilitant la validation des spécifications A* et l'obtention de références bibliographiques fiables.
+Cette section présente une utilisation transparente et éthique des outils d'IA générative. Claude (Anthropic)<sup>[1]</sup> a servi d'assistant technique pour l'analyse des besoins, l'architecture et l'optimisation rédactionnelle. Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) a facilité la validation des spécifications A* et l'obtention de références bibliographiques.
 
-**Domaines d'assistance** : L'IA a contribué à l'analyse des besoins initiaux, à la définition des spécifications fonctionnelles, à la structuration de l'architecture modulaire, à l'implémentation de l'algorithme A*, à la conception d'heuristiques admissibles, à la génération de tests unitaires et à la documentation technique.
-
-**Travail personnel authentique** : La compréhension des concepts A*, la résolution des défis d'implémentation Prolog et l'analyse des résultats demeurent personnels. L'IA a fourni une assistance substantielle pour l'architecture système, l'optimisation du code, la rédaction des tests unitaires et la documentation technique.
-
-**Valeur ajoutée éthique** : L'assistance IA a permis d'améliorer la qualité de la documentation et d'accélérer certaines tâches répétitives, libérant du temps pour approfondir les aspects techniques fondamentaux appris dans le cadre du cours. La vérification systématique par validation empirique et tests garantit l'exactitude technique et l'authenticité académique du travail présenté.
+L'IA a contribué à l'analyse des besoins, la définition des spécifications, la structuration de l'architecture modulaire, l'implémentation A*, la conception d'heuristiques et la génération de tests. L'ensemble du travail a été réalisé sous supervision humaine constante, avec validation de chaque étape. La compréhension des concepts A*, la résolution des défis Prolog et l'analyse des résultats constituent la partie personnelle authentique. Cette collaboration a optimisé l'efficacité tout en préservant l'authenticité académique par validation empirique systématique.
 
 ---
 
 ## 7. RÉFÉRENCES BIBLIOGRAPHIQUES
 
-[1] Russell, S. & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*. 4th Edition. Pearson.
+[1] Anthropic. (2024). *Claude: AI Assistant*. https://claude.ai/
 
-[2] Hart, P. E., Nilsson, N. J., & Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. IEEE Transactions on Systems Science and Cybernetics, 4(2), 100-107.
+[2] Aycock, J. (2003). A brief history of just-in-time compilation. ACM Computing Surveys, 35(2), 97-113.
 
-[3] SWI-Prolog Documentation. (2025). https://www.swi-prolog.org/
+[3] Bratko, I. (2012). *Prolog Programming for Artificial Intelligence*. 4th Edition. Addison-Wesley.
 
-[4] Bratko, I. (2012). *Prolog Programming for Artificial Intelligence*. 4th Edition. Addison-Wesley.
+[4] Context7. (2024). *Model Context Protocol Server for Technical Documentation*. https://context7.com/
 
-[5] Aycock, J. (2003). A brief history of just-in-time compilation. ACM Computing Surveys, 35(2), 97-113.
+[5] Hart, P. E., Nilsson, N. J., & Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. IEEE Transactions on Systems Science and Cybernetics, 4(2), 100-107.
+
+[6] Russell, S. & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*. 4th Edition. Pearson.
+
+[7] SWI-Prolog Documentation. (2025). https://www.swi-prolog.org/
 
 ---
 

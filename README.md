@@ -60,7 +60,7 @@ Le fichier `run.pl` configure automatiquement :
 | **Algorithme** | A* avec closed set¹ | Optimal garanti |
 | **Heuristique** | Tuiles mal placées² (excluant case vide) | Admissible + consistante |
 | **État-espace** | 9!/2 = 181 440 configurations solvables | Résolution < 1 seconde |
-| **Validation** | Métriques exactes cas professeur | 100% conformité académique |
+| **Validation** | Métriques exactes cas professeur | Conformité complète |
 
 ### Exemple de résolution A*
 
@@ -80,14 +80,14 @@ Sortie: Path A→B→C→D→E, Cost: 4, Expanded: 12
 ```
 
 ### Modes disponibles
-- 🎯 **Cas classique** · Configuration académique standard (4 mouvements)
+- 🎯 **Cas classique** · Configuration standard (4 mouvements)
 - 🚀 **Cas avancé** · Configuration complexe pour démonstration étendue
 
 ## 🧪 Tests
 
-*Suite de tests automatisés : 15/15 tests passés, validation académique confirmée*
+*Suite de tests automatisés : 15/15 tests passés, validation confirmée*
 
-**Couverture complète :** Tests répartis sur 5 modules (game, astar, display, intégration, validation académique)
+**Couverture complète :** Tests répartis sur 5 modules (game, astar, display, intégration, validation fonctionnelle)
 
 ```bash
 # Suite complète
@@ -111,7 +111,7 @@ swipl -g run_all_tests src/tests.pl
 | 🏗️ [**Architecture Guide**](docs/architecture.md) | Guide technique détaillé pour l'équipe |
 | 📄 [**Product Requirements**](docs/prd.md) | Spécifications et exigences du projet |
 | 📝 [**Rapport de Remise**](docs/rapport_tp1.md) | Rapport final de TP1 |
-| 📋 [**Énoncé Original**](archive/tp1_enonce.md) | Exigences académiques officielles |
+| 📋 [**Énoncé Original**](archive/tp1_enonce.md) | Exigences officielles du projet |
 
 ---
 
