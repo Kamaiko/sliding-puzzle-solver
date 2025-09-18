@@ -3,9 +3,22 @@
 
 > **Échéance projet** : 📅 20 octobre 2025
 
+## Table des Matières
+
+1. [Aperçu Produit](#aperçu-produit)
+2. [Objectifs Académiques](#objectifs-académiques)
+3. [Utilisateurs Cibles](#utilisateurs-cibles)
+4. [Exigences Fonctionnelles](#exigences-fonctionnelles)
+5. [Expérience Utilisateur](#expérience-utilisateur)
+6. [Vision Étudiante (User Story)](#vision-étudiante-user-story)
+7. [Critères de Succès](#critères-de-succès)
+8. [Contraintes Techniques](#contraintes-techniques)
+9. [Phases Développement](#phases-développement)
+10. [Cas d'Usage Essentiels](#cas-dusage-essentiels)
+
 ---
 
-## 🎮 Aperçu Produit
+## Aperçu Produit
 
 | Aspect | Description |
 |--------|-------------|
@@ -17,13 +30,13 @@
 | **Pondération** | 10% de la note finale du cours |
 | **Langage** | Prolog (SWI-Prolog) exclusivement |
 
-## 🎓 Objectifs Académiques
+## Objectifs Académiques
 
 - ✅ **Maîtriser la recherche heuristique A*** avec tuiles mal placées
 - ✅ **Programmation logique modulaire** en Prolog SWI
 - ✅ **Validation algorithmique précise** (Coût=4, Expansés=12)
 
-## 👥 Utilisateurs Cibles
+## Utilisateurs Cibles
 
 | Utilisateur | Rôle | Besoins |
 |-------------|------|---------|
@@ -31,9 +44,9 @@
 | **Étudiant développeur** | Utilisateur principal | Interface claire, guide d'utilisation, temps de réponse acceptables, débogage facilité |
 | **Évaluateurs pairs** | Observateurs de démonstration | Démonstration claire du fonctionnement, résultats visibles, explications compréhensibles |
 
-## ⚙️ Exigences Fonctionnelles
+## Exigences Fonctionnelles
 
-### 🎯 Obligatoires (P0) - Cœur du projet
+### Obligatoires (P0) - Cœur du projet
 
 - **Algorithme A*** : Implémentation complète avec recherche heuristique
 - **Heuristique des tuiles mal placées** : Exclusion de la case vide dans le calcul
@@ -45,12 +58,12 @@
 - **Menu principal** : Interface CLI avec options de navigation
 - **Gestion d'erreurs** : Compilation et exécution sans erreurs
 
-### ⭐ Importantes (P1)
+### Importantes (P1)
 
 - **Affichage formaté** : Configurations 3x3 et temps d'exécution IA
 - **Validation robuste** : Gestion erreurs et configurations invalides
 
-## 🎮 Expérience Utilisateur
+## Expérience Utilisateur
 
 | Étape | Action | Résultat attendu |
 |-------|--------|------------------|
@@ -60,11 +73,11 @@
 | **Résultats** | Fin de résolution | Coût, nombre d'expansions, temps d'exécution affichés |
 | **Navigation** | Retour au menu | Possibilité de tester autres configurations |
 
-## 🎯 Vision Étudiante
+## Vision Étudiante (User Story)
 
 > "En tant qu'étudiant en intelligence artificielle, je veux utiliser un solveur de Taquin qui me permet de comprendre concrètement le fonctionnement de l'algorithme A* et des heuristiques. L'outil doit me fournir tous les détails nécessaires pour analyser l'efficacité de la recherche heuristique et valider ma compréhension théorique par des résultats pratiques mesurables."
 
-## ✅ Critères de Succès
+## Critères de Succès
 
 | Critère | Objectif |
 |---------|----------|
@@ -72,14 +85,14 @@
 | **Qualité code** | Compilation/exécution sans erreur, documentation complète |
 | **Tests complets** | 2 cas fonctionnels avec métriques vérifiables |
 
-## 🔧 Contraintes Techniques
+## Contraintes Techniques
 
 - **SWI-Prolog** exclusivement, interface CLI obligatoire
 - **Heuristique imposée** : Tuiles mal placées (sans case vide)
 - **Architecture** : 4 modules (main, game, astar, display, tests)
 - **Format sortie** : Path/Cost/Expanded selon spécifications académiques
 
-## 📈 Phases Développement
+## Phases Développement
 
 1. **Phase 1** - Modélisation : Représentation des états et transitions
 2. **Phase 2** - Algorithme A* : Implémentation de la recherche heuristique
@@ -87,7 +100,7 @@
 4. **Phase 4** - Tests et validation : Cas de test et vérification des résultats
 5. **Phase 5** - Documentation : Guide d'utilisation et commentaires code
 
-## 🎯 Cas d'Usage Essentiels
+## Cas d'Usage Essentiels
 
 - **CU-001** : Menu principal et navigation CLI
 - **CU-002** : Résolution cas test 1 → Coût=4, Expansés=9, Path A→B→C→D→E  
