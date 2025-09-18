@@ -111,7 +111,7 @@ swipl -g run_all_tests src/tests.pl
 | [**Architecture Guide**](docs/architecture.md) | Guide technique détaillé pour l'équipe |
 | [**Product Requirements**](docs/prd.md) | Spécifications et exigences du projet |
 | [**Rapport de Remise**](docs/rapport_tp1.md) | Rapport final de TP1 |
-| [**Énoncé Original**](archive/tp1_enonce.md) | Exigences officielles du projet |
+| [**Énoncé Original**](archive/TP1_Aut_2025%20(1).pdf) | Exigences officielles du projet |
 
 ---
 
