@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/DevTools/Projects/Ecole/IFT-2003_IA1/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
