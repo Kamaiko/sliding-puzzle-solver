@@ -126,36 +126,36 @@ Taille mémoire par nœud : ~40-60 bytes selon implémentation
 
 ```
 fonction A_STAR(initial, goal) → (chemin, coût) ou ÉCHEC
-01:  open_list ← PRIORITY_QUEUE()
-02:  closed_set ← HASH_SET()
-03:  initial_node ← CREATE_NODE(initial, g=0, h=HEURISTIC(initial, goal), parent=null)
-04:  open_list.INSERT(initial_node)
+01:  open_list ← PRIORITY_QUEUE()                                    // Initialiser file de priorité
+02:  closed_set ← HASH_SET()                                         // Initialiser ensemble états explorés
+03:  initial_node ← CREATE_NODE(initial, g=0, h=HEURISTIC(initial, goal), parent=null)  // Créer nœud initial
+04:  open_list.INSERT(initial_node)                                  // Ajouter nœud initial à la file
 05:
-06:  tant que NOT open_list.EMPTY() faire
-07:      current ← open_list.EXTRACT_MIN()  // Nœud avec plus petit f(n)
+06:  tant que NOT open_list.EMPTY() faire                            // Boucle principale
+07:      current ← open_list.EXTRACT_MIN()                           // Prendre nœud avec plus petit f(n)
 08:
-09:      si current.state = goal alors
-10:          retourner RECONSTRUCT_PATH(current)
+09:      si current.state = goal alors                               // Test d'arrivée au but
+10:          retourner RECONSTRUCT_PATH(current)                     // Reconstruire et retourner chemin
 11:      fin si
 12:
-13:      closed_set.INSERT(current.state)
+13:      closed_set.INSERT(current.state)                            // Marquer état comme exploré
 14:
-15:      pour chaque action dans ACTIONS(current.state) faire
-16:          next_state ← APPLY(current.state, action)
+15:      pour chaque action dans ACTIONS(current.state) faire        // Générer tous les successeurs
+16:          next_state ← APPLY(current.state, action)               // Appliquer action pour obtenir nouvel état
 17:
-18:          si next_state ∈ closed_set alors
-19:              continuer  // État déjà exploré
+18:          si next_state ∈ closed_set alors                        // Éviter re-exploration
+19:              continuer                                           // Passer au successeur suivant
 20:          fin si
 21:
-22:          g_new ← current.g + COST(current.state, action, next_state)
-23:          h_new ← HEURISTIC(next_state, goal)
-24:          next_node ← CREATE_NODE(next_state, g_new, h_new, current)
+22:          g_new ← current.g + COST(current.state, action, next_state)  // Calculer coût réel
+23:          h_new ← HEURISTIC(next_state, goal)                     // Calculer estimation heuristique
+24:          next_node ← CREATE_NODE(next_state, g_new, h_new, current)   // Créer nouveau nœud
 25:
-26:          open_list.INSERT(next_node)
+26:          open_list.INSERT(next_node)                             // Ajouter à la file de priorité
 27:      fin pour
 28:  fin tant que
 29:
-30:  retourner ÉCHEC  // Aucune solution trouvée
+30:  retourner ÉCHEC                                                 // Aucune solution trouvée
 ```
 
 ### Analyse détaillée ligne par ligne
@@ -460,28 +460,6 @@ create_node(State, G, H, Parent, node(State, G, H, F, Parent)) :-
 % Test but dès extraction, pas à l'insertion
 (   is_goal_reached(CurrentState, Goal) ->
     Result = search_success(CurrentNode, ExpCount, GenCount)
-```
-
-### Optimisations avancées possibles
-
-#### 1. Bidirectional A*
-```
-Recherche simultanée depuis initial et goal
-Complexité théorique : O(b^(d/2))
-Difficulté : gestion des deux frontières
-```
-
-#### 2. Pattern Databases
-```
-Précalcul distances exactes pour sous-problèmes
-h_pattern(s) = max(h_pattern1(s), h_pattern2(s), ...)
-Plus informative que heuristiques simples
-```
-
-#### 3. JPS (Jump Point Search) adapté
-```
-Élagage symétries pour réduire facteur branchement
-Spécialement efficace sur grilles régulières
 ```
 
 ---
