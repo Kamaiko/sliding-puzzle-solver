@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Read(//c/DevTools/Projects/Ecole/IFT-2003_IA1/**)"
+      "mcp__context7__get-library-docs",
+      "mcp__sequential-thinking__sequentialthinking",
+      "mcp__context7__resolve-library-id",
+      "Read(//c/DevTools/Projects/Ecole/IFT-2003_IA1/**)",
+      "mcp__filesystem__list_allowed_directories",
+      "Bash(mv:*)",
+      "Bash(git add:*)",
+      "Bash(swipl:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
