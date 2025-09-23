@@ -308,9 +308,9 @@ L'analyse comparative entre les objectifs initiaux et les réalisations concrèt
 
 ## 6. UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE
 
-Cette section présente une utilisation transparente et éthique des outils d'IA générative. Claude (Anthropic)<sup>[1]</sup> a servi d'assistant technique pour l'analyse des besoins, l'architecture et l'optimisation rédactionnelle. Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) a facilité la validation des spécifications A* et l'obtention de références bibliographiques.
+Claude Opus (Anthropic)<sup>[1]</sup> et GPT-5 (OpenAI)<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, l'architecture et l'optimisation rédactionnelle. Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) a facilité la validation des spécifications A* et l'obtention de références bibliographiques.
 
-L'IA a contribué à l'analyse des besoins, la définition des spécifications, la structuration de l'architecture modulaire, l'implémentation A*, la conception d'heuristiques et la génération de tests. L'ensemble du travail a été réalisé sous supervision humaine constante, avec validation de chaque étape. La compréhension des concepts A*, la résolution des défis Prolog et l'analyse des résultats constituent la partie personnelle authentique. Cette collaboration a optimisé l'efficacité tout en préservant l'authenticité académique par validation empirique systématique.
+L'IA a fourni un support technique pour certains aspects du développement. L'ensemble du travail a été réalisé en collaboration active, avec contrôle et validation empirique rigoureuse à chaque étape. Notre contribution personnelle authentique couvre l'intégralité du projet, particulièrement la maîtrise conceptuelle et l'implémentation de l'algorithme A*, la résolution des défis Prolog et l'analyse critique des résultats. Cette collaboration a permis d'accélérer les tâches de développement périphériques, nous concentrant pleinement sur l'apprentissage approfondi des concepts d'intelligence artificielle.
 
 ---
 
@@ -326,9 +326,11 @@ L'IA a contribué à l'analyse des besoins, la définition des spécifications, 
 
 [5] Hart, P. E., Nilsson, N. J., & Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. IEEE Transactions on Systems Science and Cybernetics, 4(2), 100-107.
 
-[6] Russell, S. & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*. 4th Edition. Pearson.
+[6] OpenAI. (2024). *GPT-5: AI Language Model*. https://openai.com/
 
-[7] SWI-Prolog Documentation. (2025). https://www.swi-prolog.org/
+[7] Russell, S. & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*. 4th Edition. Pearson.
+
+[8] SWI-Prolog Documentation. (2025). https://www.swi-prolog.org/
 
 ---
 
