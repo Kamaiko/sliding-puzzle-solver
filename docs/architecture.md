@@ -476,7 +476,7 @@ create_node(State, G, H, Parent, node(State, G, H, F, Parent)) :-
 
 ### Trace étape par étape
 
-| Itération | Nœud exploré | g | h | f | Action | Open Size | Closed Size | Commentaire |
+| Itération | Nœud exploré | g | h | f | Action | Open List | Closed List | Commentaire |
 |-----------|--------------|---|---|---|---------|-----------|-------------|-------------|
 | 1 | Initial | 0 | 4 | 4 | - | 1 | 0 | Amorçage |
 | 2 | Initial | 0 | 4 | 4 | Expansion | 4 | 1 | 4 successeurs générés |
