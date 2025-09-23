@@ -89,7 +89,7 @@ create_node(State, G, H, Parent, node(State, G, H, F, Parent)) :-
 
 %! misplaced_tiles_heuristic(+State:list, +Goal:list, -Count:integer) is det.
 %  Heuristique principale : nombre de tuiles mal placées
-%  IMPORTANT: Case vide (0) ignorée selon spécifications académiques
+%  IMPORTANT: Case vide (0) ignorée selon spécifications 
 %  @param State État actuel du taquin
 %  @param Goal État but à atteindre
 %  @param Count Nombre de tuiles dans mauvaise position (h(n))
@@ -115,7 +115,7 @@ misplaced_tiles_helper([StateHead|StateTail], [GoalHead|GoalTail], Acc, Count) :
 
 
 % =============================================================================
-% SECTION 4: CŒUR ALGORITHME A* (SECTION ÉVALUÉE)
+% SECTION 4: CŒUR ALGORITHME A* 
 % =============================================================================
 
 %! astar_search(+Initial:list, +Goal:list, -Path:list, -Cost:integer, -Expanded:integer) is det.
@@ -146,7 +146,7 @@ misplaced_tiles_helper([StateHead|StateTail], [GoalHead|GoalTail], Acc, Count) :
 %  @param Goal État à atteindre
 %  @param Path Chemin solution (liste des états depuis initial vers goal)
 %  @param Cost Coût de la solution (nombre de mouvements)
-%  @param Expanded Nombre de nœuds explorés selon comptage académique
+%  @param Expanded Nombre de nœuds explorés 
 astar_search(Initial, Goal, Path, Cost, Expanded) :-
     % Étape 1: Validation préalable des états
     validate_search_inputs(Initial, Goal),
@@ -196,7 +196,7 @@ execute_astar_search(_InitialNode, Context, Result) :-
 %  Cette boucle implémente l'algorithme A* standard avec les optimisations suivantes:
 %  - File de priorité triée par f(n) croissant avec tie-breaking sur g(n)
 %  - Closed set pour éviter la re-exploration des états
-%  - Comptage précis des nœuds générés selon spécifications académiques
+%  - Comptage précis des nœuds générés 
 %  - Timeout de sécurité pour éviter les boucles infinies
 %
 %  ÉTAPES DE CHAQUE ITÉRATION:
@@ -385,7 +385,7 @@ extract_search_results(search_success(FinalNode, _, GenCount), Path, Cost, Expan
 % =============================================================================
 
 %! solve_puzzle(+TestCase:atom, -Result:compound) is det.
-%  Interface principale pour résoudre les cas de test académiques
+%  Interface principale pour résoudre les cas de test 
 %  @param TestCase Identifiant du cas (case1 | case2)
 %  @param Result Structure result(Path, Cost, Expanded)
 solve_puzzle(case1, result(Path, Cost, Expanded)) :-
@@ -408,7 +408,7 @@ solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)) :-
 
 % TODO: Analyser si solve_custom/2 est nécessaire dans le cadre du TP1
 %       Cette fonction semble redondante avec solve_custom_puzzle/3
-%       À évaluer : utilité académique vs complexité ajoutée
+%       À évaluer : utilité  vs complexité ajoutée
 %! solve_custom(+Initial:list, +Goal:list) is det.
 %  Interface pour configurations personnalisées avec affichage automatique
 %  @param Initial État de départ personnalisé
