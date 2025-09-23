@@ -24,17 +24,19 @@
 ### Prérequis
 - **SWI-Prolog 9.x+** : Moteur Prolog principal
 
-### Lancement Simple (Recommandé)
+| OS | Installation |
+|-----|-------------|
+| **Windows** | Télécharger SWI-Prolog puis installer le .exe<br>`winget install SWI-Prolog.SWI-Prolog` (avec winget) |
+| **macOS** | `brew install swi-prolog` |
+| **Linux** | `sudo apt install swi-prolog` (Ubuntu/Debian)<br>`sudo dnf install pl` (Fedora) |
+
+### Lancement
 ```bash
-# Une seule commande pour tous les systèmes :
-swipl -g start run.pl
+swipl run.pl
 ```
 
-### Autres Commandes
+### Tests
 ```bash
-# Lancement manuel (si problème avec le launcher)
-swipl -g main src/main.pl
-
 # Exécuter la suite de tests
 swipl -g run_all_tests src/tests.pl
 ```
