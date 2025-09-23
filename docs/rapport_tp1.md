@@ -274,19 +274,21 @@ Implémentation optimisée avec warm-up JIT éliminant la variabilité de compil
 
 ### 4.1 Architecture et qualité du code
 
-L'architecture modulaire respecte le principe de responsabilité unique et la séparation des préoccupations. Chaque module assume une responsabilité bien définie facilitant la maintenance, les tests isolés et l'extension future. Documentation extensive utilisant les conventions PlDoc de SWI-Prolog, prédicats clairement nommés et gestion d'erreurs cohérente.
+L'architecture modulaire suit le principe de séparation des responsabilités. Chaque module a une fonction précise : main.pl gère l'interface, astar.pl implémente l'algorithme, game.pl gère la logique du taquin et display.pl s'occupe de l'affichage. Cette organisation facilite la maintenance et les tests. La documentation suit les conventions PlDoc et les prédicats ont des noms clairs.
 
 ### 4.2 Interprétation des résultats et comparaison avec les attentes
 
-Les métriques obtenues correspondent aux valeurs attendues pour A* avec l'heuristique des tuiles mal placées. Le coût de 4 mouvements représente effectivement la solution optimale pour la configuration académique [1,2,3,5,0,6,4,7,8], confirmant que l'algorithme trouve le chemin le plus court possible. L'expansion de 12 nœuds démontre l'efficacité du guidage heuristique, évitant l'exploration exhaustive des 181 440 configurations solvables possibles.
+Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique des tuiles mal placées. Pour le cas test [1,2,3,5,0,6,4,7,8], on obtient un coût de 4 mouvements, ce qui est optimal. L'algorithme explore 12 nœuds, ce qui montre que l'heuristique guide bien la recherche sans explorer inutilement l'espace d'états complet (181 440 configurations possibles).
 
 ### 4.3 Performance et limites identifiées
 
-**Forces** : architecture modulaire facilitant maintenance et extension, A* avec closed set garantissant résultats déterministes et optimaux, reproductibilité parfaite pour évaluation académique. **Limites** : heuristique des tuiles mal placées relativement conservatrice comparée à la distance de Manhattan<sup>[6]</sup>, interface console fonctionnelle mais limitée dans ses capacités de visualisation pour fins éducatives.
+**Points forts** : L'architecture modulaire rend le code facile à maintenir. A* avec closed set donne des résultats reproductibles et optimaux. Les temps d'exécution sont rapides (<3ms).
+
+**Limites** : L'heuristique des tuiles mal placées est moins efficace que la distance de Manhattan. L'interface console fonctionne bien mais reste basique comparée à une interface graphique.
 
 ### 4.4 Améliorations possibles et extensions futures
 
-Adoption de l'heuristique de distance de Manhattan<sup>[6]</sup> calculant pour chaque tuile la distance réelle nécessaire, optimisation de l'ordonnancement des successeurs selon leur potentiel heuristique plutôt que l'ordre rigide haut-bas-gauche-droite, extension vers IDA* (Iterative Deepening A*)<sup>[3]</sup> pour problèmes de plus grande complexité, interface graphique interactive offrant visualisation du processus de résolution en temps réel.
+L'heuristique de distance de Manhattan<sup>[6]</sup> calculerait la distance réelle de chaque tuile vers sa position finale et serait plus efficace. L'implémentation d'IDA* (Iterative Deepening A*)<sup>[3]</sup> permettrait de traiter des problèmes plus complexes. Une interface graphique offrirait une meilleure visualisation du processus de résolution.
 
 ---
 
@@ -294,15 +296,15 @@ Adoption de l'heuristique de distance de Manhattan<sup>[6]</sup> calculant pour 
 
 ### 5.1 Bilan du travail pratique
 
-Réussite technique qui démontre une bonne compréhension des concepts fondamentaux de l'intelligence artificielle. L'implémentation Prolog illustre parfaitement l'adéquation des langages déclaratifs pour la résolution de problèmes de recherche heuristique, exploitant la nature logique du paradigme pour exprimer naturellement les règles de transition d'états et les contraintes du domaine. La validation empirique rigoureuse confirme l'exactitude avec des métriques parfaitement reproductibles correspondant aux spécifications académiques.
+Ce projet a permis de bien comprendre les concepts de base de l'intelligence artificielle. L'implémentation en Prolog montre que ce langage convient bien aux problèmes de recherche heuristique grâce à sa nature logique. Les tests confirment que notre algorithme fonctionne correctement avec des résultats reproductibles qui correspondent aux attentes.
 
 ### 5.2 Accomplissements par rapport aux objectifs
 
-L'analyse comparative entre les objectifs initiaux et les réalisations concrètes révèle un taux de succès intégral sur tous les critères établis. A* avec closed set délivre des performances remarquables, générant systématiquement des solutions optimales avec les métriques exactes d'après les exigences du projet requises pour la validation académique. L'heuristique des tuiles mal placées, développée avec une rigueur mathématique stricte, respecte intégralement les propriétés d'admissibilité et de consistance nécessaires à l'optimalité.
+Tous les objectifs du projet ont été atteints. A* avec closed set produit des solutions optimales avec les bonnes métriques (coût=4, expanded=12). L'heuristique des tuiles mal placées respecte les propriétés d'admissibilité et de consistance requises pour garantir l'optimalité des solutions.
 
 ### 5.3 Perspectives et recommandations
 
-**Perspectives** : Plateforme solide pour exploration d'heuristiques alternatives, extension vers autres domaines de recherche, potentiel pédagogique excellent. **Recommandations** : Adopter la distance de Manhattan pour améliorer l'efficacité, développer une interface graphique pour l'enseignement, explorer l'applicabilité industrielle pour l'optimisation combinatoire complexe.
+Le solveur pourrait être étendu à des taquins plus grands (4x4, 5x5) ou adapté à d'autres problèmes de recherche comme le problème des 8-reines. Comme améliorations futures, on recommande d'adopter la distance de Manhattan pour plus d'efficacité et de développer une interface graphique pour améliorer l'expérience utilisateur.
 
 ---
 
