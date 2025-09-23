@@ -26,7 +26,7 @@
 
 | OS | Installation |
 |-----|-------------|
-| **Windows** | Télécharger SWI-Prolog puis installer le .exe<br>`winget install SWI-Prolog.SWI-Prolog` (avec winget) |
+| **Windows** | [Télécharger SWI-Prolog](https://www.swi-prolog.org/download/stable) puis installer le .exe<br>`winget install SWI-Prolog.SWI-Prolog` (avec winget) |
 | **macOS** | `brew install swi-prolog` |
 | **Linux** | `sudo apt install swi-prolog` (Ubuntu/Debian)<br>`sudo dnf install pl` (Fedora) |
 
@@ -41,11 +41,6 @@ swipl run.pl
 swipl -g run_all_tests src/tests.pl
 ```
 
-### Configuration Automatique
-Le fichier `run.pl` configure automatiquement :
-- ✅ Encodage UTF-8 pour l'affichage des caractères spéciaux
-- ✅ Compatibilité Windows, macOS et Linux
-- ✅ Aucune configuration manuelle requise
 
 ## Architecture
 
@@ -54,7 +49,7 @@ Le fichier `run.pl` configure automatiquement :
 <tr><td><code>main.pl</code></td><td>🖥️ Interface CLI, orchestration, cas de test</td></tr>
 <tr><td><code>game.pl</code></td><td>🎮 États du puzzle, mouvements, validation</td></tr>
 <tr><td><code>astar.pl</code></td><td>🧠 Algorithme A*, heuristiques, recherche optimale</td></tr>
-<tr><td><code>display.pl</code></td><td>🎨 Affichage formaté, interface utilisateur</td></tr>
+<tr><td><code>display.pl</code></td><td>🎨 Affichage formaté UTF-8, interface utilisateur</td></tr>
 </table>
 
 
@@ -63,7 +58,7 @@ Le fichier `run.pl` configure automatiquement :
 | Composante | Description | Performance |
 |------------|-------------|-------------|
 | **Algorithme** | A* avec closed set | Optimal garanti |
-| **Heuristique** | Tuiles mal placées (excluant case vide) | Admissible + consistante |
+| **Heuristique** | Tuiles mal placées | Admissible + consistante |
 | **État-espace** | 9!/2 = 181 440 configurations solvables | Résolution < 1 seconde |
 | **Validation** | Métriques exactes cas professeur | Conformité complète |
 
