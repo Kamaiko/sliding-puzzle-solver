@@ -21,6 +21,9 @@
 
 ## Installation & Lancement
 
+### Prérequis
+- **SWI-Prolog 9.x+** : Moteur Prolog principal
+
 ### Lancement Simple (Recommandé)
 ```bash
 # Une seule commande pour tous les systèmes :
@@ -83,26 +86,7 @@ Sortie: Path A→B→C→D→E, Cost: 4, Expanded: 12
 - **Cas classique** · Configuration standard (4 mouvements)
 - **Cas avancé** · Configuration complexe pour démonstration étendue
 
-## Tests
 
-*Suite de tests automatisés : 15/15 tests passés, validation confirmée*
-
-**Couverture complète :** Tests répartis sur 5 modules (game, astar, display, intégration, validation fonctionnelle)
-
-```bash
-# Suite complète
-swipl -g run_all_tests src/tests.pl
-
-# Tests par module disponibles
-```
-
-## Prérequis Système
-
-| Composant | Version | Notes |
-|-----------|---------|-------|
-| **SWI-Prolog** | 9.x+ | Moteur Prolog principal |
-| **OS** | Windows/Linux/macOS | Multiplateforme |
-| **Mémoire** | 256 MB+ | Algorithme A* avec closed set |
 
 ## Documentation Technique
 
