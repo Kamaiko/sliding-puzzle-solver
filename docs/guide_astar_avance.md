@@ -1,4 +1,6 @@
-# 🎯 Guide Technique Avancé de l'Algorithme A*
+# 🎯 Guide A* : Fonctionnement Détaillé de l'Algorithme
+
+> ⚠️ **Note** : Ce guide plonge plus en détail dans le fonctionnement de l'algorithme A* déjà présenté dans `architecture.md`.
 
 ## Table des matières
 1. [Formalisation mathématique et théorique](#formalisation)
@@ -578,17 +580,6 @@ h(n) proche de h*(n)  (informativité)
 où C* = coût solution optimale
 ```
 
-### Comparaison avec autres algorithmes
-
-| Algorithme | Complet | Optimal | Complexité Temps | Complexité Espace |
-|------------|---------|---------|------------------|-------------------|
-| **A*** | ✅ | ✅ | O(b^d) | O(b^d) |
-| Dijkstra | ✅ | ✅ | O(b^d) | O(b^d) |
-| Greedy | ❌ | ❌ | O(b^m) | O(b^m) |
-| BFS | ✅ | ✅* | O(b^d) | O(b^d) |
-| DFS | ❌ | ❌ | O(b^m) | O(bm) |
-
-*\* Optimal seulement avec coûts uniformes*
 
 ---
 
@@ -789,77 +780,6 @@ Mouvement 4: HAUT
 - **Coût** : 4 mouvements
 - **Nœuds explorés** : 12 états examinés
 - **Temps** : < 3 millisecondes
-
----
-
-## 🎯 Points clés à retenir {#points-cles}
-
-### Les 5 concepts essentiels
-
-1. **A* = Recherche intelligente**
-   - Combine exploration systématique + intuition
-   - Comme un GPS qui trouve le meilleur chemin
-
-2. **Open List vs Closed Set**
-   - Open LIST = possibilités à explorer (ordre important)
-   - Closed SET = déjà visité (ordre sans importance)
-
-3. **f(n) = g(n) + h(n)**
-   - g(n) = coût réel depuis le début
-   - h(n) = estimation vers le but
-   - f(n) = estimation du coût total
-
-4. **Heuristique = estimation intelligente**
-   - "Tuiles mal placées" pour le taquin
-   - Doit être admissible (ne jamais surestimer)
-
-5. **Garantie d'optimalité**
-   - A* trouve TOUJOURS le chemin le plus court
-   - Plus rapide que la recherche exhaustive
-
-### Comparaison avec d'autres approches
-
-| Méthode | Trouve solution optimale ? | Vitesse | Mémoire |
-|---------|---------------------------|---------|---------|
-| **Recherche exhaustive** | ✅ Oui | ❌ Très lent | ❌ Énorme |
-| **Recherche aléatoire** | ❌ Peut-être | ⚡ Rapide | ✅ Faible |
-| **A*** | ✅ Oui | ⚡ Rapide | ⚠️ Modérée |
-
-### Le génie de A*
-
-A* est génial parce qu'il combine **le meilleur des deux mondes** :
-- La **garantie** de trouver la solution optimale
-- La **rapidité** d'une recherche intelligente
-
-C'est pourquoi A* est utilisé partout : GPS, jeux vidéo, robotique, planification...
-
----
-
-## 🔍 Pour aller plus loin
-
-### Questions de réflexion
-
-1. **Que se passerait-il si l'heuristique surestimait ?**
-   - A* pourrait rater la solution optimale
-
-2. **Pourquoi ne pas toujours utiliser A* ?**
-   - Parfois on préfère une solution "assez bonne" très rapidement
-
-3. **Comment améliorer la vitesse de A* ?**
-   - Meilleure heuristique (distance de Manhattan)
-   - Structures de données optimisées
-
-### Analogies alternatives
-
-- **Randonnée** : A* = guide expérimenté qui connaît les raccourcis
-- **Études** : A* = étudiant qui priorise les matières selon leur importance
-- **Nettoyage** : A* = commencer par le plus urgent/visible
-
-### Liens avec d'autres domaines
-
-- **Économie** : Optimisation de ressources limitées
-- **Biologie** : Comment les animaux trouvent la nourriture
-- **Psychologie** : Comment nous prenons des décisions
 
 ---
 
