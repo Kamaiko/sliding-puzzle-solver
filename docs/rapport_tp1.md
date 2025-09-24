@@ -280,13 +280,13 @@ Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique des
 
 ### 4.3 Performance et limites identifiées
 
-**Points forts** : L'architecture modulaire rend le code facile à maintenir. A* avec closed set donne des résultats reproductibles et optimaux. Les temps d'exécution sont rapides (<3ms).
+**Forces** : L'architecture modulaire facilite la maintenance et permet une séparation claire des responsabilités. A* avec closed set garantit l'optimalité et la reproductibilité des résultats. Les temps d'exécution respectent les contraintes académiques (<3ms).
 
-**Limites** : L'heuristique des tuiles mal placées est moins efficace que la distance de Manhattan. L'interface console fonctionne bien mais reste basique comparée à une interface graphique.
+**Limites** : Notre implémentation présente deux limitations. D'abord, notre méthode de tri de l'open list n'est pas optimisée : on retrie toute la liste à chaque nouveau nœud, ce qui devient lent pour des problèmes plus gros. Ensuite, l'heuristique choisie (tuiles mal placées) donne parfois des estimations faibles, forçant A* à explorer plus de chemins avant de trouver la solution.
 
 ### 4.4 Améliorations possibles et extensions futures
 
-L'heuristique de distance de Manhattan<sup>[6]</sup> calculerait la distance réelle de chaque tuile vers sa position finale et serait plus efficace. L'implémentation d'IDA* (Iterative Deepening A*)<sup>[3]</sup> permettrait de traiter des problèmes plus complexes. Une interface graphique offrirait une meilleure visualisation du processus de résolution.
+L'implémentation d'une file de priorité optimisée (heap binaire) réduirait la complexité de gestion de l'open list de O(n log n) à O(log n). L'intégration de l'heuristique de distance de Manhattan<sup>[6]</sup> améliorerait significativement l'efficacité de la recherche en fournissant une estimation plus précise. L'adoption d'IDA* (Iterative Deepening A*)<sup>[3]</sup> permettrait de traiter des instances plus complexes avec une consommation mémoire constante O(d) plutôt qu'exponentielle.
 
 ---
 
@@ -302,7 +302,9 @@ Tous les objectifs du projet ont été atteints. A* avec closed set produit des 
 
 ### 5.3 Perspectives et recommandations
 
-Le solveur pourrait être étendu à des taquins plus grands (4x4, 5x5) ou adapté à d'autres problèmes de recherche comme le problème des 8-reines. Comme améliorations futures, on recommande d'adopter la distance de Manhattan pour plus d'efficacité et de développer une interface graphique pour améliorer l'expérience utilisateur.
+**Directions de recherche futures** : L'extension vers des domaines de recherche plus complexes (taquins N×N, problèmes de planification, jeux à deux joueurs) constitue une progression naturelle. L'exploration de techniques avancées comme les bases de données de motifs (pattern databases) ou la recherche bidirectionnelle ouvrirait de nouvelles perspectives d'optimisation.
+
+**Recommandations méthodologiques** : Intégrer une approche comparative systématique entre différentes heuristiques pour quantifier les gains de performance. Développer une architecture modulaire permettant l'expérimentation avec différents algorithmes de recherche (RBFS, SMA*) tout en conservant l'interface commune.
 
 ---
 
@@ -310,7 +312,7 @@ Le solveur pourrait être étendu à des taquins plus grands (4x4, 5x5) ou adapt
 
 Claude Opus (Anthropic)<sup>[1]</sup> et GPT-5 (OpenAI)<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, l'architecture et l'amélioration rédactionnelle. Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) a facilité la validation des spécifications A* et l'obtention de références bibliographiques.
 
-Ces technologies d'IA ont été employées de manière responsable comme outils d'assistance technique pour certains aspects du développement. L'ensemble du travail a été réalisé sous supervision directe avec validation continue de chaque étape. Notre démarche d'apprentissage personnel englobe l'intégralité du projet, particulièrement la maîtrise conceptuelle et l'implémentation de l'algorithme A*, la résolution des défis Prolog et l'analyse des résultats. Cette méthodologie nous a permis d'optimiser l'allocation de temps consacrée aux tâches secondaires afin de nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
+Ces technologies d'IA ont été employées de manière responsable comme outils d'assistance technique pour certains aspects du développement. L'ensemble du travail a été réalisé sous supervision directe avec validation continue de chaque étape. Notre contribution personnelle englobe l'intégralité du projet, particulièrement la maîtrise conceptuelle et l'implémentation de l'algorithme A*, la résolution des défis Prolog et l'analyse des résultats. Cette méthodologie nous a permis d'optimiser l'allocation de temps consacrée aux tâches secondaires afin de nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
 
 ---
 
@@ -342,11 +344,13 @@ Ces technologies d'IA ont été employées de manière responsable comme outils 
 %! astar_search(+Initial:list, +Goal:list, -Path:list, -Cost:integer, -Expanded:integer) is det.
 %  Point d'entrée principal de l'algorithme A*
 astar_search(Initial, Goal, Path, Cost, Expanded) :-
-    validate_state(Initial),           % Vérifier format état initial
-    validate_state(Goal),              % Vérifier format état but
-    create_initial_node(Initial, Goal, InitialNode),  % Créer nœud racine
-    astar_main_loop([InitialNode], [], Goal, 0, 0, Result),  % Lancer recherche
-    finalize_search_result(Result, Path, Cost, Expanded).    % Extraire résultats
+    validate_search_inputs(Initial, Goal),            % Validation préalable
+    (   states_equal(Initial, Goal) ->               % Cas trivial résolu
+        Path = [Initial], Cost = 0, Expanded = 0
+    ;   initialize_search(Initial, Goal, InitialNode, SearchContext),
+        execute_astar_search(InitialNode, SearchContext, Result),
+        extract_search_results(Result, Path, Cost, Expanded)
+    ).
 ```
 
 ### Heuristique tuiles mal placées (astar.pl)
@@ -361,6 +365,18 @@ misplaced_tiles_helper([], [], Count, Count).
 misplaced_tiles_helper([S|ST], [G|GT], Acc, Count) :-
     (   (S \= G, S \= 0) -> NewAcc is Acc + 1 ; NewAcc = Acc ),
     misplaced_tiles_helper(ST, GT, NewAcc, Count).
+```
+
+### Utilisation de l'heuristique pour créer les successeurs (astar.pl)
+
+```prolog
+%! create_successor_nodes(+States:list, +Goal:list, +G:integer, +Parent:compound, -Nodes:list, +GenCountIn:integer, -GenCountOut:integer) is det.
+%  Crée les nœuds A* pour tous les états successeurs
+create_successor_nodes([State|RestStates], Goal, G, Parent, [Node|RestNodes], GenCountIn, GenCountOut) :-
+    GenCountMid is GenCountIn + 1,                    % Incrémenter compteur
+    misplaced_tiles_heuristic(State, Goal, H),        % Calculer h(n)
+    create_node(State, G, H, Parent, Node),           % Créer nœud avec f=g+h
+    create_successor_nodes(RestStates, Goal, G, Parent, RestNodes, GenCountMid, GenCountOut).
 ```
 
 ### Génération des mouvements (game.pl)
@@ -381,22 +397,23 @@ generate_moves_from_position(Pos, State, Moves) :-
         Moves).
 ```
 
-### Gestion des états et validation (game.pl)
+### Tri de l'open list avec tie-breaking (astar.pl)
 
 ```prolog
-%! valid_state(+State:list) is semidet.
-%  Vérifie qu'un état de taquin est valide (9 éléments, chiffres 0-8 uniques)
-valid_state(State) :-
-    length(State, 9),                         % Exactement 9 éléments
-    sort(State, [0,1,2,3,4,5,6,7,8]).        % Tous chiffres présents une fois
+%! sort_open_list_by_f_value(+Nodes:list, -SortedNodes:list) is det.
+%  Trie les nœuds par f(n) croissant, avec tie-breaking sur g(n)
+sort_open_list_by_f_value(Nodes, SortedNodes) :-
+    predsort(compare_node_f_values, Nodes, SortedNodes).
 
-%! is_solvable(+State:list, +Goal:list) is semidet.
-%  Détermine si un état peut être résolu via parité des inversions
-is_solvable(State, Goal) :-
-    valid_state(State), valid_state(Goal),
-    count_inversions(State, InvState),        % Compter inversions état
-    count_inversions(Goal, InvGoal),          % Compter inversions but
-    InvState mod 2 =:= InvGoal mod 2.         % Même parité = solvable
+%! compare_node_f_values(-Order:atom, +Node1:compound, +Node2:compound) is det.
+%  Fonction de comparaison : priorité f(n), puis g(n) en cas d'égalité
+compare_node_f_values(Order, Node1, Node2) :-
+    node_f_cost(Node1, F1), node_f_cost(Node2, F2),
+    (   F1 =:= F2 ->                          % Si f égaux : tie-breaking
+        node_g_cost(Node1, G1), node_g_cost(Node2, G2),
+        compare(Order, G1, G2)                % Priorité au plus petit g
+    ;   compare(Order, F1, F2)                % Sinon : priorité au plus petit f
+    ).
 ```
 
 ---
