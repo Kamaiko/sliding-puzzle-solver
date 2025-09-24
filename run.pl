@@ -23,7 +23,7 @@
 % =============================================================================
 
 % Point d'entrée automatique avec gestion d'erreurs
-:- initialization(start).
+:- initialization(start, main).
 
 %! start is det.
 %  Point d'entrée principal du launcher
@@ -36,16 +36,10 @@ start :-
 
     % Charger et lancer le programme principal
     catch(
-        % Utiliser le chemin relatif direct
-        (consult('src/main.pl'),
-         main),
+        (consult('src/main.pl'), main),
         Error,
         (   Error = unwind(halt(_)) ->
-            % halt() normal - fermeture propre
-            halt(0)
-        ;   (Error = error(existence_error(_, user_input), _) ; functor(Error, interrupt, _)) ->
-            % Ctrl+C ou fermeture normale - ignorer
-            true
+            true  % Sortie normale, ignorer silencieusement
         ;   handle_launcher_error(Error)
         )
     ).
