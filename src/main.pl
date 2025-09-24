@@ -74,17 +74,19 @@ main_menu :-
 read_choice(Choice) :-
     flush_output,
     get_single_char(Code),
-    char_code(Char, Code),
     (   Code = -1 ->
         % Gestion EOF ou Ctrl+C : quitter proprement
         halt(0)
-    ;   member(Char, ['1', '2', '3', '4']) ->
-        % Convertir le caractère en nombre
-        atom_number(Char, Choice)
-    ;   % Choix invalide
-        nl,
-        write('CHOIX INVALIDE. Veuillez choisir entre 1-4'), nl,
-        read_choice(Choice)  % Réessayer
+    ;   % Code valide : convertir en caractère
+        char_code(Char, Code),
+        (   member(Char, ['1', '2', '3', '4']) ->
+            % Convertir le caractère en nombre
+            atom_number(Char, Choice)
+        ;   % Choix invalide
+            nl,
+            write('CHOIX INVALIDE. Veuillez choisir entre 1-4'), nl,
+            read_choice(Choice)  % Réessayer
+        )
     ).
 
 
