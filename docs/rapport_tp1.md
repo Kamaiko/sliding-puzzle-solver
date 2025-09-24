@@ -23,12 +23,7 @@
 <th style="border: 1px solid #000; padding: 10px; text-align: center; width: 50%;">Courriel</th>
 </tr>
 <tr>
-<td style="border: 1px solid #000; padding: 10px;">Patrick Patenaude</td>
-<td style="border: 1px solid #000; padding: 10px;"></td>
-<td style="border: 1px solid #000; padding: 10px;"></td>
-</tr>
-<tr>
-<td style="border: 1px solid #000; padding: 10px;">Xavier Gagnon</td>
+<td style="border: 1px solid #000; padding: 10px;">Alexandre Gamache</td>
 <td style="border: 1px solid #000; padding: 10px;"></td>
 <td style="border: 1px solid #000; padding: 10px;"></td>
 </tr>
@@ -38,7 +33,12 @@
 <td style="border: 1px solid #000; padding: 10px;"></td>
 </tr>
 <tr>
-<td style="border: 1px solid #000; padding: 10px;">Alexandre Gamache</td>
+<td style="border: 1px solid #000; padding: 10px;">Patrick Patenaude</td>
+<td style="border: 1px solid #000; padding: 10px;"></td>
+<td style="border: 1px solid #000; padding: 10px;"></td>
+</tr>
+<tr>
+<td style="border: 1px solid #000; padding: 10px;">Xavier Gagnon</td>
 <td style="border: 1px solid #000; padding: 10px;"></td>
 <td style="border: 1px solid #000; padding: 10px;"></td>
 </tr>
@@ -149,8 +149,6 @@ SOLVEUR TAQUIN A*
     ├── Transitions d'états
     └── Configuration des cas test
 ```
-
-Cette architecture favorise la maintenabilité, l'extensibilité et facilite les tests isolés.
 
 ### 2.3 Étapes de réalisation du travail pratique
 
@@ -300,7 +298,7 @@ Ce projet a permis de bien comprendre les concepts de base de l'intelligence art
 
 ### 5.2 Accomplissements par rapport aux objectifs
 
-Tous les objectifs du projet ont été atteints. A* avec closed set produit des solutions optimales avec les bonnes métriques (coût=4, expanded=12). L'heuristique des tuiles mal placées respecte les propriétés d'admissibilité et de consistance requises pour garantir l'optimalité des solutions.
+Tous les objectifs du projet ont été atteints. A* avec closed set produit des solutions optimales avec les bonnes métriques. L'heuristique des tuiles mal placées respecte les propriétés d'admissibilité et de consistance requises pour garantir l'optimalité des solutions.
 
 ### 5.3 Perspectives et recommandations
 
@@ -310,9 +308,9 @@ Le solveur pourrait être étendu à des taquins plus grands (4x4, 5x5) ou adapt
 
 ## 6. UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE
 
-Claude Opus (Anthropic)<sup>[1]</sup> et GPT-5 (OpenAI)<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, l'architecture et l'optimisation rédactionnelle. Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) a facilité la validation des spécifications A* et l'obtention de références bibliographiques.
+Claude Opus (Anthropic)<sup>[1]</sup> et GPT-5 (OpenAI)<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, l'architecture et l'amélioration rédactionnelle. Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) a facilité la validation des spécifications A* et l'obtention de références bibliographiques.
 
-L'IA a fourni un support technique pour certains aspects du développement. L'ensemble du travail a été réalisé en collaboration active, avec contrôle et validation empirique rigoureuse à chaque étape. Notre contribution personnelle authentique couvre l'intégralité du projet, particulièrement la maîtrise conceptuelle et l'implémentation de l'algorithme A*, la résolution des défis Prolog et l'analyse critique des résultats. Cette collaboration a permis d'accélérer les tâches de développement périphériques, nous concentrant pleinement sur l'apprentissage approfondi des concepts d'intelligence artificielle.
+Ces technologies d'IA ont été employées de manière responsable comme outils d'assistance technique pour certains aspects du développement. L'ensemble du travail a été réalisé sous supervision directe avec validation continue de chaque étape. Notre démarche d'apprentissage personnel englobe l'intégralité du projet, particulièrement la maîtrise conceptuelle et l'implémentation de l'algorithme A*, la résolution des défis Prolog et l'analyse des résultats. Cette méthodologie nous a permis d'optimiser l'allocation de temps consacrée aux tâches secondaires afin de nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
 
 ---
 
