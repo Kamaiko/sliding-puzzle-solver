@@ -312,7 +312,7 @@ Tous les objectifs du projet ont été atteints. A* avec closed set produit des 
 
 Sonnet 4 et Opus 4.1<sup>[1]</sup> ainsi que GPT-5<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, l'architecture et l'amélioration rédactionnelle. Des outils spécialisés comme Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) ont facilité la validation des spécifications A* et l'obtention de références bibliographiques.
 
-Ces technologies ont été employées de manière responsable en tant qu'outils d'assistance technique. L'ensemble du travail a été réalisé sous supervision directe avec une validation continue de chaque étape. Notre contribution personnelle englobe l'intégralité du projet, notamment la maîtrise conceptuelle et l'implémentation de l'algorithme A*, la résolution des défis techniques en Prolog ainsi que l'analyse des résultats. Cette méthodologie nous a permis d'optimiser le temps alloué aux tâches secondaires afin de nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
+L'ensemble du travail a été réalisé sous supervision directe avec une validation continue de chaque étape. Notre contribution personnelle couvre l'ensemble du développement, incluant la conception de l'architecture modulaire, l'implémentation complète de l'algorithme A* avec ses heuristiques, l'optimisation des performances et la validation des résultats selon les spécifications du projet. Cette approche nous a permis de mieux gérer le temps alloué aux tâches secondaires pour nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
 
 ---
 
