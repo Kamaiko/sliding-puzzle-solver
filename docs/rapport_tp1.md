@@ -113,7 +113,7 @@ Développer un solveur qui utilise A* avec closed set pour garantir l'optimalit�
 
 ### 1.3 Plan du rapport
 
-Le rapport présente l'architecture, l'implémentation A*, l'heuristique et les résultats validés.
+Le rapport présente la méthodologie (architecture modulaire, algorithme A*, heuristique), les résultats (validation technique et métriques) et l'analyse (qualité, limitations, améliorations).
 
 ---
 
@@ -310,15 +310,15 @@ Tous les objectifs du projet ont été atteints. A* avec closed set produit des 
 
 ## 6. UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE
 
-Claude Opus (Anthropic)<sup>[1]</sup> et GPT-5 (OpenAI)<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, l'architecture et l'amélioration rédactionnelle. Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) a facilité la validation des spécifications A* et l'obtention de références bibliographiques.
+Sonnet 4 et Opus 4.1<sup>[1]</sup> ainsi que GPT-5<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, l'architecture et l'amélioration rédactionnelle. Des outils spécialisés comme Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) ont facilité la validation des spécifications A* et l'obtention de références bibliographiques.
 
-Ces technologies d'IA ont été employées de manière responsable comme outils d'assistance technique pour certains aspects du développement. L'ensemble du travail a été réalisé sous supervision directe avec validation continue de chaque étape. Notre contribution personnelle englobe l'intégralité du projet, particulièrement la maîtrise conceptuelle et l'implémentation de l'algorithme A*, la résolution des défis Prolog et l'analyse des résultats. Cette méthodologie nous a permis d'optimiser l'allocation de temps consacrée aux tâches secondaires afin de nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
+Ces technologies ont été employées de manière responsable en tant qu'outils d'assistance technique. L'ensemble du travail a été réalisé sous supervision directe avec une validation continue de chaque étape. Notre contribution personnelle englobe l'intégralité du projet, notamment la maîtrise conceptuelle et l'implémentation de l'algorithme A*, la résolution des défis techniques en Prolog ainsi que l'analyse des résultats. Cette méthodologie nous a permis d'optimiser le temps alloué aux tâches secondaires afin de nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
 
 ---
 
 ## 7. RÉFÉRENCES BIBLIOGRAPHIQUES
 
-[1] Anthropic. (2024). *Claude: AI Assistant*. https://claude.ai/
+[1] Anthropic. (2024). *Sonnet 4 et Opus 4.1: AI Assistants*. https://claude.ai/
 
 [2] Aycock, J. (2003). A brief history of just-in-time compilation. ACM Computing Surveys, 35(2), 97-113.
 
@@ -328,7 +328,7 @@ Ces technologies d'IA ont été employées de manière responsable comme outils 
 
 [5] Hart, P. E., Nilsson, N. J., & Raphael, B. (1968). A formal basis for the heuristic determination of minimum cost paths. IEEE Transactions on Systems Science and Cybernetics, 4(2), 100-107.
 
-[6] OpenAI. (2024). *GPT-5: AI Language Model*. https://openai.com/
+[6] GPT-5: AI Language Model. (2024). https://openai.com/
 
 [7] Russell, S. & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*. 4th Edition. Pearson.
 
