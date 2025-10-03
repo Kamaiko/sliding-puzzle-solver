@@ -22,7 +22,7 @@
 ## Installation & Lancement
 
 ### Prérequis
-- **SWI-Prolog 9.x+** : Moteur Prolog principal
+- **SWI-Prolog 9.x+** 
 
 | OS | Installation |
 |-----|-------------|
