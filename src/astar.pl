@@ -1,33 +1,15 @@
 /** <module> Recherche A* avec heuristique tuiles mal placées
-
-Algorithme de recherche avec liste ouverte et ensemble fermé.
-
-
-@complexité Temps et espace O(b^d), b≈3, d≤31 pour taquin 3×3
-@sections
-  1. Constantes et configuration
-  2. Types et structures de données
-  3. Heuristiques pour l'estimation
-  4. Cœur algorithme A* 
-  5. Utilitaires A*
-  6. Interfaces publiques
-  7. Debug et instrumentation
-
-%% GUIDE DE LECTURE DU MODULE
-%% ==========================
-%%
-%% Pour comprendre l'algorithme A*, commencez par :
-%% 1. Section 2 - Structure node/5 et son utilisation
-%% 2. Section 3 - Heuristique misplaced_tiles
-%% 3. Section 6 - astar_search/5 (point d'entrée)
-%% 4. Section 4 - astar_loop/9 (cœur de l'algorithme)
-%%
-%% Points clés de l'implémentation :
-%% - Open list : Liste triée par f(n) croissant
-%% - Closed set : Liste des états déjà explorés
-%% - Comptage : Chaque nœud généré est compté
-%% - Tie-breaking : Si f égaux, priorité au plus petit g
-*/
+ *
+ * Implémentation de l'algorithme A* avec liste ouverte (open list) et
+ * ensemble fermé (closed set). Garantit l'optimalité grâce à une
+ * heuristique admissible.
+ *
+ * @author Équipe 6
+ * @see [3] Bratko, I. (2012). Prolog Programming for Artificial Intelligence
+ * @see [5] Hart, P.E., et al. (1968). IEEE Trans. on Systems Science and Cybernetics
+ * @see [7] Russell, S. & Norvig, P. (2020). Artificial Intelligence: A Modern Approach
+ * @complexity Temps et espace O(b^d) où b≈2.67, d≤31 pour taquin 3×3
+ */
 
 :- encoding(utf8).
 
@@ -88,11 +70,16 @@ create_node(State, G, H, Parent, node(State, G, H, F, Parent)) :-
 % =============================================================================
 
 %! misplaced_tiles_heuristic(+State:list, +Goal:list, -Count:integer) is det.
-%  Heuristique principale : nombre de tuiles mal placées
-%  IMPORTANT: Case vide (0) ignorée selon spécifications 
-%  @param State État actuel du taquin
-%  @param Goal État but à atteindre
-%  @param Count Nombre de tuiles dans mauvaise position (h(n))
+%  Heuristique admissible comptant les tuiles mal placées.
+%
+%  La case vide (0) est ignorée car elle sert d'outil pour déplacer
+%  les tuiles, pas une tuile à placer. Chaque mouvement corrige au plus
+%  une tuile, donc h(n) ≤ h*(n) (admissibilité garantie).
+%
+%  @arg State État actuel du taquin
+%  @arg Goal État but à atteindre
+%  @arg Count Nombre de tuiles mal placées (h(n))
+%  @see [5] Hart et al. (1968) pour propriétés d'admissibilité
 
 misplaced_tiles_heuristic(State, Goal, Count) :-
     misplaced_tiles_helper(State, Goal, 0, Count).
@@ -119,34 +106,20 @@ misplaced_tiles_helper([StateHead|StateTail], [GoalHead|GoalTail], Acc, Count) :
 % =============================================================================
 
 %! astar_search(+Initial:list, +Goal:list, -Path:list, -Cost:integer, -Expanded:integer) is det.
-%  ALGORITHME A* - Point d'entrée principal
+%  Point d'entrée principal de l'algorithme A*.
 %
-%  VUE D'ENSEMBLE DE L'ALGORITHME:
-%  ===============================
+%  Recherche le chemin optimal depuis Initial vers Goal en utilisant
+%  la fonction d'évaluation f(n) = g(n) + h(n). Garantit l'optimalité
+%  avec heuristique admissible.
 %
-%  1. INITIALISATION
-%     Open = [nœud_initial avec f(n) = g(0) + h(initial)]
-%     Closed = []
-%     Compteurs = 0
-%
-%  2. BOUCLE PRINCIPALE (astar_loop)
-%     TANT QUE Open ≠ ∅:
-%       n = extract_min_f(Open)    // Nœud avec plus petit f(n)
-%       SI n.state = goal: SUCCESS → reconstruction chemin
-%       Closed ← Closed ∪ {n.state}
-%       POUR CHAQUE successeur s de n:
-%         SI s ∉ Closed:
-%           Open ← Open ∪ {create_node(s, g+1, h(s), n)}
-%           counter_generated++
-%
-%  3. RECONSTRUCTION
-%     Path = remonter_parents(nœud_final) → [état_initial, ..., état_final]
-%
-%  @param Initial État de départ
-%  @param Goal État à atteindre
-%  @param Path Chemin solution (liste des états depuis initial vers goal)
-%  @param Cost Coût de la solution (nombre de mouvements)
-%  @param Expanded Nombre de nœuds explorés 
+%  @arg Initial État de départ
+%  @arg Goal État à atteindre
+%  @arg Path Chemin solution (liste des états depuis initial vers goal)
+%  @arg Cost Coût de la solution (nombre de mouvements)
+%  @arg Expanded Nombre de nœuds générés durant la recherche
+%  @throws error(timeout, _) Si le temps d'exécution dépasse 10 secondes
+%  @throws error(unsolvable, _) Si la configuration est impossible à résoudre
+%  @see [5] Hart et al. (1968) pour l'algorithme A* original 
 astar_search(Initial, Goal, Path, Cost, Expanded) :-
     % Étape 1: Validation préalable des états
     validate_search_inputs(Initial, Goal),
@@ -191,24 +164,14 @@ execute_astar_search(_InitialNode, Context, Result) :-
     astar_main_loop(OpenList, ClosedSet, Goal, StartTime, ExpCount, GenCount, Result).
 
 %! astar_main_loop(+OpenList:list, +ClosedSet:list, +Goal:list, +StartTime:float, +ExpCount:int, +GenCount:int, -Result:compound) is det.
-%  BOUCLE PRINCIPALE DE L'ALGORITHME A*
+%  Boucle principale de l'algorithme A*.
 %
-%  Cette boucle implémente l'algorithme A* standard avec les optimisations suivantes:
-%  - File de priorité triée par f(n) croissant avec tie-breaking sur g(n)
-%  - Closed set pour éviter la re-exploration des états
-%  - Comptage précis des nœuds générés 
-%  - Timeout de sécurité pour éviter les boucles infinies
+%  Explore les nœuds par ordre de f(n) croissant jusqu'à atteindre le but.
+%  Utilise un closed set pour éviter la re-exploration.
 %
-%  ÉTAPES DE CHAQUE ITÉRATION:
-%  1. Vérifier timeout de sécurité
-%  2. Extraire le nœud avec le plus petit f(n)
-%  3. Tester si le but est atteint
-%  4. Vérifier si l'état n'est pas déjà dans closed set
-%  5. Ajouter l'état au closed set et incrémenter compteur expanded
-%  6. Générer tous les successeurs valides
-%  7. Créer les nœuds successeurs et incrémenter compteur generated
-%  8. Ajouter à l'open list et trier par f(n)
-%  9. Récursion avec les nouvelles structures
+%  @invariant OpenList triée par f(n) croissant, tie-breaking sur g(n)
+%  @invariant États dans ClosedSet ne sont jamais ré-explorés
+%  @invariant f(n) monotone non-décroissant lors de l'exploration
 
 % Cas de base: Open list vide = échec de la recherche
 astar_main_loop([], _, _, _, ExpCount, GenCount, search_failed(ExpCount, GenCount)) :-
@@ -308,15 +271,17 @@ update_open_list_and_continue(SuccessorNodes, RestOpen, ClosedSet, Goal, StartTi
 % =============================================================================
 
 %! create_successor_nodes(+States:list, +Goal:list, +G:int, +Parent:compound, -Nodes:list, +GenCountIn:int, -GenCountOut:int) is det.
-%  Crée les nœuds successeurs avec évaluation f(n) pour tous états
-%  COMPTAGE CRITIQUE : Incrémente le compteur pour chaque nœud généré selon énoncé TP1
-%  @param States Liste des états successeurs possibles
-%  @param Goal État but (pour calcul heuristique)
-%  @param G Coût g(n) pour ces successeurs
-%  @param Parent Nœud parent (pour reconstruction chemin)
-%  @param Nodes Nœuds successeurs créés
-%  @param GenCountIn Compteur nœuds générés en entrée
-%  @param GenCountOut Compteur nœuds générés en sortie (incremente)
+%  Crée les nœuds successeurs avec évaluation f(n) = g(n) + h(n).
+%
+%  Incrémente le compteur de nœuds générés pour chaque successeur créé.
+%
+%  @arg States Liste des états successeurs possibles
+%  @arg Goal État but (pour calcul heuristique)
+%  @arg G Coût g(n) pour ces successeurs
+%  @arg Parent Nœud parent (pour reconstruction chemin)
+%  @arg Nodes Nœuds successeurs créés
+%  @arg GenCountIn Compteur nœuds générés en entrée
+%  @arg GenCountOut Compteur nœuds générés en sortie
 create_successor_nodes([], _, _, _, [], GenCount, GenCount).
 create_successor_nodes([State|RestStates], Goal, G, Parent, [Node|RestNodes], GenCountIn, GenCountOut) :-
     % Incrémenter le compteur pour ce nœud généré
@@ -385,9 +350,13 @@ extract_search_results(search_success(FinalNode, _, GenCount), Path, Cost, Expan
 % =============================================================================
 
 %! solve_puzzle(+TestCase:atom, -Result:compound) is det.
-%  Interface principale pour résoudre les cas de test 
-%  @param TestCase Identifiant du cas (case1 | case2)
-%  @param Result Structure result(Path, Cost, Expanded)
+%  Interface principale pour résoudre les cas de test.
+%
+%  @arg TestCase Identifiant du cas (case1 | case2)
+%  @arg Result Structure result(Path, Cost, Expanded)
+%  @throws error(timeout, _) Si temps d'exécution >10s
+%  @throws error(unsolvable, _) Si configuration impossible
+%  @see astar_search/5 pour l'implémentation de l'algorithme
 solve_puzzle(case1, result(Path, Cost, Expanded)) :-
     initial_state(Initial),
     goal_state(Goal),

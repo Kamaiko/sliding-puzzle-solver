@@ -99,7 +99,7 @@ read_choice(Choice) :-
 %  Exécute l'action correspondante avec gestion d'erreurs
 %  @param Choice Choix de l'utilisateur (1=cas test 1, 2=cas test 2, 3=a propos, 4=quitter)
 
-% Cas test 1 : Exemple professeur (validation académique)
+% Cas test 1 : Exemple professeur
 handle_choice(1) :-
     initial_state(InitState),
     goal_state(GoalState),
