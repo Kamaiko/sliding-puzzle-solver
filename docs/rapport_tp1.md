@@ -105,11 +105,11 @@ Enseignant : Anicet Lepetit ONDO
 
 ### 1.1 Contexte et justification
 
-Ce travail présente un solveur de Taquin (puzzle 3×3) utilisant A* avec l'heuristique des tuiles mal placées. Le Taquin est un problème classique en IA avec un espace d'états limité (181 440 configurations solvables). Prolog permet de bien modéliser les transitions d'états et la recherche avec closed set<sup>[3]</sup>.
+Ce travail présente un solveur de Taquin (puzzle 3×3) utilisant l'algorithme A* avec l'heuristique des tuiles mal placées. Le Taquin est un problème classique en IA avec un espace d'états limité (181 440 configurations solvables). Prolog permet de bien modéliser les transitions d'états et l'implémentation de recherches heuristiques<sup>[3]</sup>.
 
 ### 1.2 Objectifs du travail pratique
 
-Développer un solveur qui utilise A* avec closed set pour garantir l'optimalité. Architecture modulaire avec 4 modules Prolog et séparation des responsabilités. Heuristique des tuiles mal placées admissible (exclusion case vide). Validation sur des métriques précises selon les spécifications du projet.
+Développer un solveur qui utilise A* pour garantir l'optimalité. Architecture modulaire avec 4 modules Prolog et séparation des responsabilités. Heuristique des tuiles mal placées admissible (exclusion case vide). Validation sur des métriques précises.
 
 ### 1.3 Plan du rapport
 
@@ -139,7 +139,7 @@ SOLVEUR TAQUIN A*
 │   ├── Résultats et solutions
 │   └── Messages d'erreur
 ├── astar.pl (algorithme IA)
-│   ├── Recherche A* avec closed set
+│   ├── Recherche A*
 │   ├── Heuristique tuiles mal placées
 │   ├── Structures de données (nœuds)
 │   └── Reconstruction du chemin
@@ -156,7 +156,7 @@ Quatre phases : analyse et conception, implémentation séquentielle (game.pl �
 
 ### 2.4 Algorithmes implémentés
 
-A* utilise une structure de nœud contenant l'état, les coûts g(n), h(n), f(n), et un pointeur parent. Boucle principale avec open list triée par f(n) et closed set.
+A* utilise une structure de nœud contenant l'état, les coûts g(n), h(n), f(n), et un pointeur parent. Boucle principale avec open list triée par f(n) et évitement de la re-exploration.
 
 <div align="center">
 
@@ -194,7 +194,7 @@ Tests ciblés validant chaque module pour confirmer métriques exactes.
 
 ### 3.1 Fonctionnalités implémentées
 
-Solveur complet utilisant A* avec closed set, interface CLI en français avec configuration automatique UTF-8 multiplateforme, deux cas de test validés (configuration académique standard et cas personnalisé complexe). Résultats parfaitement déterministes garantis par l'ordre strict de génération des mouvements, le tri cohérent de l'open list et l'heuristique mathématiquement prouvée admissible.
+Solveur complet utilisant A*, interface CLI en français avec configuration automatique UTF-8 multiplateforme, deux cas de test validés (configuration standard et cas personnalisé complexe). Résultats parfaitement déterministes garantis par l'ordre strict de génération des mouvements, le tri cohérent de l'open list et l'heuristique mathématiquement prouvée admissible.
 
 ### 3.2 Validation technique
 
@@ -214,7 +214,7 @@ Solveur complet utilisant A* avec closed set, interface CLI en français avec co
 
 <img src="images/CasTest1.png" alt="Cas Test 1" width="300">
 
-<em>Résolution du cas test académique avec métriques exactes conformément à l'énoncé du TP.</em>
+<em>Résolution du cas test standard avec métriques exactes.</em>
 
 </div>
 
@@ -280,7 +280,7 @@ Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique des
 
 ### 4.3 Performance et limites identifiées
 
-**Forces** : L'architecture modulaire facilite la maintenance et permet une séparation claire des responsabilités. A* avec closed set garantit l'optimalité et la reproductibilité des résultats. Les temps d'exécution respectent les contraintes académiques (<3ms).
+**Forces** : L'architecture modulaire facilite la maintenance et permet une séparation claire des responsabilités. A* garantit l'optimalité et la reproductibilité des résultats. Les temps d'exécution respectent les contraintes de performance (<3ms).
 
 **Limites** : Notre implémentation présente deux limitations. D'abord, notre méthode de tri de l'open list n'est pas optimisée : on retrie toute la liste à chaque nouveau nœud, ce qui devient lent pour des problèmes plus gros. Ensuite, l'heuristique choisie (tuiles mal placées) donne parfois des estimations faibles, forçant A* à explorer plus de chemins avant de trouver la solution.
 
@@ -298,7 +298,7 @@ Ce projet a permis de bien comprendre les concepts de base de l'intelligence art
 
 ### 5.2 Accomplissements par rapport aux objectifs
 
-Tous les objectifs du projet ont été atteints. A* avec closed set produit des solutions optimales avec les bonnes métriques. L'heuristique des tuiles mal placées respecte les propriétés d'admissibilité et de consistance requises pour garantir l'optimalité des solutions.
+Tous les objectifs du projet ont été atteints. A* produit des solutions optimales avec les bonnes métriques. L'heuristique des tuiles mal placées respecte les propriétés d'admissibilité et de consistance requises pour garantir l'optimalité des solutions.
 
 ### 5.3 Perspectives et recommandations
 

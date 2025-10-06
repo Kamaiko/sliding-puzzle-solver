@@ -109,7 +109,7 @@ format_tile(Tile, Tile).   % Autres tuiles inchangées
 
 %! display_solution(+Path:list, +Cost:integer, +Expanded:integer, +ResponseTime:float) is det.
 %  Affiche la solution complète avec statistiques détaillées
-%  Format professionnel avec chemin complet et métriques académiques
+%  Format professionnel avec chemin complet et métriques
 %  @param Path Chemin solution (liste des états)
 %  @param Cost Nombre de mouvements (coût de la solution)
 %  @param Expanded Nombre de nœuds explorés par A*

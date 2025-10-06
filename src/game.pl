@@ -19,7 +19,7 @@ d'inversions, et génération des successeurs en ordre déterministe (H,B,G,D).
 % =============================================================================
 
 %! Constantes définissant les dimensions et propriétés de la grille de taquin
-%  Support exclusif pour grilles 3×3 selon spécifications académiques
+%  Support exclusif pour grilles 3×3
 
 %! grid_size(-Size:integer) is det.
 %  Taille du côté de la grille (3 pour une grille 3×3)
@@ -191,7 +191,7 @@ apply_move(State, Direction, NewState) :-
 
 %! generate_moves(+State:list, -Successors:list) is det.
 %  Génère tous les mouvements valides depuis un état
-%  ORDRE CRITIQUE: HAUT, BAS, GAUCHE, DROITE (requis pour validation académique)
+%  ORDRE DÉTERMINISTE: HAUT, BAS, GAUCHE, DROITE
 %  @param State État de départ
 %  @param Successors Liste des états successeurs dans l'ordre déterministe
 %
