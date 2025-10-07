@@ -105,11 +105,11 @@ Ce travail présente un solveur de Taquin (puzzle 3×3) utilisant l'algorithme A
 
 ### 1.2 Objectifs du travail pratique
 
-Développer un solveur qui utilise A* pour garantir l'optimalité. Architecture modulaire avec 4 modules Prolog et séparation des responsabilités. Heuristique de distance Manhattan admissible et consistante. Validation sur des scénarios de test représentatifs.
+L'objectif principal consiste à développer un solveur qui utilise A* pour garantir l'optimalité des solutions trouvées. Le projet adopte une architecture modulaire avec 4 modules Prolog respectant la séparation des responsabilités. L'heuristique de distance Manhattan est choisie pour ses propriétés d'admissibilité et de consistance. La validation s'effectue sur des scénarios de test représentatifs.
 
 ### 1.3 Plan du rapport
 
-Le rapport présente d'abord la méthodologie avec le matériel utilisé, la modélisation du problème, les étapes de réalisation, les algorithmes et le programme. Ensuite, les résultats couvrent les fonctionnalités implémentées, la validation technique, les performances et l'analyse comparative. Enfin, la conclusion synthétise le bilan, les accomplissements et les perspectives futures.
+Le rapport présente d'abord la méthodologie avec le matériel utilisé, la modélisation du problème, les étapes de réalisation, les algorithmes et le programme. Ensuite, les résultats couvrent les fonctionnalités implémentées, la validation technique, les performances et l'analyse comparative. Enfin, la conclusion synthétise le bilan du projet, les accomplissements par rapport aux objectifs et les recommandations pour de futures améliorations.
 
 ---
 
@@ -117,7 +117,7 @@ Le rapport présente d'abord la méthodologie avec le matériel utilisé, la mod
 
 ### 2.1 Matériel, logiciels et outils utilisés
 
-Le développement a été réalisé avec SWI-Prolog 9.0.4<sup>[9]</sup>, Visual Studio Code et Git/GitHub, avec des tests sur Windows 10/11 pour assurer la portabilité multiplateforme.
+Le développement a été réalisé avec SWI-Prolog 9.0.4<sup>[9]</sup> comme environnement d'exécution et de compilation, Visual Studio Code comme éditeur de texte et IDE pour la rédaction du code, et Git/GitHub pour le contrôle de version et la collaboration. Les tests ont été effectués sur Windows 10/11 pour assurer la portabilité multiplateforme.
 
 ### 2.2 Modélisation du problème
 
