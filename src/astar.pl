@@ -103,6 +103,56 @@ misplaced_tiles_helper([StateHead|StateTail], [GoalHead|GoalTail], Acc, Count) :
     ),
     misplaced_tiles_helper(StateTail, GoalTail, NewAcc, Count).
 
+%! manhattan_distance_heuristic(+State:list, +Goal:list, -Distance:integer) is det.
+%  Heuristique de distance de Manhattan pour le taquin 3×3.
+%
+%  Pour chaque tuile (sauf la case vide 0), calcule la distance Manhattan :
+%  |row_actuelle - row_but| + |col_actuelle - col_but|
+%
+%  Cette heuristique est :
+%  - **Admissible** : h(n) ≤ h*(n) car chaque mouvement déplace une tuile d'une case
+%  - **Consistante** : h(n) ≤ c(n,n') + h(n') car |Δh| ≤ 1 par mouvement
+%  - **Plus précise** que tuiles mal placées : réduit drastiquement l'espace de recherche
+%
+%  Pour un puzzle 3×3, position i (0-8) → row = i // 3, col = i mod 3
+%
+%  @arg State État actuel du taquin [T1,T2,...,T8,0]
+%  @arg Goal État but [1,2,3,4,5,6,7,8,0]
+%  @arg Distance Somme des distances Manhattan de toutes les tuiles
+%  @see [6] Russell & Norvig (2020, p.103-104) pour heuristiques admissibles du taquin
+manhattan_distance_heuristic(State, Goal, Distance) :-
+    manhattan_sum(State, Goal, 0, 0, Distance).
+
+%! manhattan_sum(+State:list, +Goal:list, +Pos:int, +Acc:int, -Distance:int) is det.
+%  Helper récursif pour calculer la somme des distances Manhattan.
+%
+%  @param State Reste de l'état à traiter
+%  @param Goal Reste du but (utilisé pour trouver position but de chaque tuile)
+%  @param Pos Position actuelle dans la grille (0-8)
+%  @param Acc Accumulateur de la distance totale
+%  @param Distance Somme finale des distances Manhattan
+manhattan_sum([], [], _, Acc, Acc).
+manhattan_sum([Tile|RestState], [_|RestGoal], Pos, Acc, Distance) :-
+    (   Tile =:= 0 ->
+        % Case vide (blank), distance = 0
+        NewAcc = Acc
+    ;   % Trouver la position but de cette tuile dans l'état objectif
+        nth0(GoalPos, [1,2,3,4,5,6,7,8,0], Tile),
+        % Position actuelle : row = Pos // 3, col = Pos mod 3
+        CurrentRow is Pos // 3,
+        CurrentCol is Pos mod 3,
+        % Position but : row = GoalPos // 3, col = GoalPos mod 3
+        GoalRow is GoalPos // 3,
+        GoalCol is GoalPos mod 3,
+        % Distance Manhattan = |ΔRow| + |ΔCol|
+        RowDiff is abs(CurrentRow - GoalRow),
+        ColDiff is abs(CurrentCol - GoalCol),
+        TileDist is RowDiff + ColDiff,
+        NewAcc is Acc + TileDist
+    ),
+    NextPos is Pos + 1,
+    manhattan_sum(RestState, RestGoal, NextPos, NewAcc, Distance).
+
 
 % =============================================================================
 % SECTION 4: CŒUR ALGORITHME A* 
@@ -154,7 +204,7 @@ validate_search_inputs(Initial, Goal) :-
 %  @param Context Contexte de recherche search_context(Goal, StartTime, OpenList, ClosedSet, ExpansionCount, GenerationCount)
 initialize_search(Initial, Goal, InitialNode, search_context(Goal, StartTime, [InitialNode], [], 0, 0)) :-
     % Calculer l'heuristique pour le nœud initial
-    misplaced_tiles_heuristic(Initial, Goal, InitialH),
+    manhattan_distance_heuristic(Initial, Goal, InitialH),
     % Créer le nœud initial avec g=0
     create_node(Initial, 0, InitialH, nil, InitialNode),
     % Enregistrer le temps de début pour le timeout
@@ -368,7 +418,7 @@ create_successor_nodes([State|RestStates], Goal, G, Parent, [Node|RestNodes], Ge
     % Incrémenter le compteur pour ce nœud généré
     GenCountMid is GenCountIn + 1,
     % Créer le nœud avec évaluation heuristique
-    misplaced_tiles_heuristic(State, Goal, H),
+    manhattan_distance_heuristic(State, Goal, H),
     create_node(State, G, H, Parent, Node),
     % Continuer récursivement avec le compteur mis à jour
     create_successor_nodes(RestStates, Goal, G, Parent, RestNodes, GenCountMid, GenCountOut).
