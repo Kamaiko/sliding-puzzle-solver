@@ -70,12 +70,10 @@ Enseignant : Anicet Lepetit ONDO
 
 2. [MÉTHODOLOGIE](#2-méthodologie)
    - 2.1 [Matériel, logiciels et outils utilisés](#21-matériel-logiciels-et-outils-utilisés)
-   - 2.2 [Architecture technique](#22-architecture-technique)
+   - 2.2 [Modélisation du problème](#22-modélisation-du-problème)
    - 2.3 [Étapes de réalisation du travail pratique](#23-étapes-de-réalisation-du-travail-pratique)
-   - 2.4 [Algorithmes implémentés](#24-algorithmes-implémentés)
-   - 2.5 [Diagrammes et schémas de fonctionnement](#25-diagrammes-et-schémas-de-fonctionnement)
-   - 2.6 [Pipeline de résolution](#26-pipeline-de-résolution)
-   - 2.7 [Validation et tests](#27-validation-et-tests)
+   - 2.4 [Algorithmes, schémas et diagrammes de fonctionnement](#24-algorithmes-schémas-et-diagrammes-de-fonctionnement)
+   - 2.5 [Programme](#25-programme)
 
 3. [RÉSULTATS ET DISCUSSION](#3-résultats-et-discussion)
    - 3.1 [Fonctionnalités implémentées](#31-fonctionnalités-implémentées)
@@ -121,14 +119,19 @@ Le rapport présente la méthodologie (architecture modulaire, algorithme A*, he
 
 SWI-Prolog 9.0.4, Visual Studio Code, Git/GitHub. Tests sur Windows 10/11 pour portabilité multiplateforme.
 
-### 2.2 Architecture technique
+### 2.2 Modélisation du problème
 
-Le système utilise SWI-Prolog avec une architecture modulaire en 4 couches spécialisées respectant le principe de séparation des responsabilités :
+Le problème du taquin consiste à réorganiser des tuiles numérotées sur une grille 3×3 contenant une case vide, en effectuant des déplacements successifs jusqu'à atteindre une configuration cible. Ce problème classique d'intelligence artificielle permet d'illustrer les concepts de recherche heuristique et d'optimalité de solutions.
 
-- **main.pl** : Orchestration, menu principal, exécution des cas de test
-- **game.pl** : Logique métier, validation d'états, génération de mouvements
-- **astar.pl** : Algorithme A* avec heuristique Manhattan, structures de données, reconstruction du chemin
-- **display.pl** : Interface utilisateur, affichage des résultats, messages d'erreur
+**État initial.** Deux configurations de départ sont étudiées dans ce travail. Le premier cas de test utilise la configuration classique `[1,2,3,5,0,6,4,7,8]`, où la case vide (représentée par 0) se trouve en position centrale. Cette configuration nécessite 4 mouvements optimaux pour atteindre le but. Le second cas de test présente une configuration plus complexe `[1,3,6,5,2,8,4,0,7]`, requérant 9 mouvements optimaux. Ces deux cas permettent de valider l'algorithme sur des instances de difficultés différentes tout en maintenant des temps d'exécution acceptables pour une démonstration pédagogique.
+
+**État final.** L'état but recherché est unique et correspond à la configuration ordonnée `[1,2,3,4,5,6,7,8,0]`, où les tuiles sont placées en ordre croissant de gauche à droite et de haut en bas, la case vide occupant la dernière position. Cette configuration standard facilite le calcul des heuristiques et la validation des résultats.
+
+**Mouvements.** Quatre mouvements sont possibles selon la position de la case vide : déplacer une tuile vers le haut (UP), vers le bas (DOWN), vers la gauche (LEFT) ou vers la droite (RIGHT). Notre implémentation génère les successeurs dans cet ordre précis pour garantir le déterminisme des résultats. Lorsque la case vide se trouve en bordure ou dans un coin, certains mouvements deviennent impossibles et ne sont pas générés. Cette approche évite l'exploration d'états invalides et optimise les performances.
+
+**Technique de recherche.** L'algorithme A* a été choisi pour sa capacité à garantir l'optimalité des solutions tout en explorant efficacement l'espace d'états. A* combine le coût réel g(n) depuis l'état initial avec une estimation heuristique h(n) du coût restant vers le but, utilisant la fonction d'évaluation f(n) = g(n) + h(n) pour prioriser l'exploration. L'heuristique de distance Manhattan calcule pour chaque tuile la somme des déplacements horizontaux et verticaux nécessaires. Cette heuristique est admissible car elle ne surestime jamais le coût réel, et consistante car la différence d'estimation entre deux états successifs ne dépasse jamais le coût du mouvement. L'algorithme maintient une liste ouverte des nœuds à explorer, triée par f(n) croissant, et un ensemble fermé pour éviter la re-exploration d'états déjà visités.
+
+**Résultats attendus.** Pour le cas test classique, les résultats attendus sont un coût de 4 mouvements, l'exploration de 12 nœuds, et un chemin solution de 5 états. Pour le cas test avancé, on attend un coût de 9 mouvements avec 25 nœuds explorés et un chemin de 10 états. L'optimalité est garantie par l'admissibilité de l'heuristique Manhattan, et le déterminisme est assuré par l'ordre fixe de génération des mouvements et le tie-breaking cohérent sur les valeurs de g(n) lors du tri de la liste ouverte.
 
 ### 2.3 Étapes de réalisation du travail pratique
 
@@ -139,39 +142,25 @@ Le développement s'est déroulé en quatre phases structurées :
 3. **Tests et validation** : Suite de tests unitaires et d'intégration, validation des métriques exactes (Cost=4, Expanded=12 pour cas test 1), vérification de l'optimalité
 4. **Optimisation et documentation** : Amélioration des performances (warm-up JIT, gestion mémoire), documentation PlDoc, préparation du livrable
 
-### 2.4 Algorithmes implémentés
+### 2.4 Algorithmes, schémas et diagrammes de fonctionnement
 
-A* utilise une structure de nœud contenant l'état, les coûts g(n), h(n), f(n), et un pointeur parent. Boucle principale avec open list triée par f(n) et évitement de la re-exploration.
+L'algorithme A* repose sur une structure de nœud contenant cinq composantes essentielles : l'état du taquin représenté par une liste de neuf éléments, le coût réel g(n) correspondant à la profondeur dans l'arbre de recherche, l'estimation heuristique h(n) calculée par la distance Manhattan, la fonction d'évaluation f(n) égale à g(n) + h(n), et un pointeur vers le nœud parent permettant la reconstruction du chemin solution.
 
-<div align="center">
+Le flux d'exécution de A* suit une séquence structurée. La validation initiale vérifie le format de l'état de départ et teste la solvabilité de la configuration par calcul de la parité des inversions, garantissant qu'aucun effort de calcul n'est dépensé sur une configuration impossible à résoudre. L'initialisation crée ensuite le nœud racine avec son estimation heuristique h(n) et l'insère dans la liste ouverte. La boucle principale extrait itérativement le nœud ayant la plus petite valeur f(n), teste s'il correspond à l'état but, et dans le cas contraire génère ses successeurs selon l'ordre déterministe UP, DOWN, LEFT, RIGHT. Chaque successeur nouvellement créé reçoit son estimation heuristique et est ajouté à la liste ouverte si son état n'a pas déjà été exploré. Le nœud traité est transféré dans l'ensemble fermé pour éviter toute re-exploration. Ce processus se poursuit jusqu'à l'atteinte du but, moment où la reconstruction du chemin s'effectue par remontée récursive des pointeurs parents depuis le nœud final jusqu'au nœud racine.
 
-**Tableau 1 : Calcul heuristique pour l'état initial**
+L'heuristique de distance Manhattan se calcule en parcourant chaque tuile de l'état actuel et en déterminant sa position cible dans l'état but. Pour une grille 3×3, la position d'une tuile se traduit en coordonnées ligne-colonne par division et modulo de son index. La distance Manhattan d'une tuile correspond à la somme des valeurs absolues des différences de lignes et de colonnes entre sa position actuelle et sa position but. L'accumulation de ces distances pour toutes les tuiles, en excluant la case vide, produit l'estimation h(n). Cette heuristique respecte la propriété d'admissibilité car chaque tuile nécessite au minimum sa distance Manhattan en mouvements pour atteindre sa position finale, et la propriété de consistance car un seul mouvement peut au mieux rapprocher une tuile d'une case vers sa destination.
 
-</div>
+### 2.5 Programme
 
-| Position | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-|----------|---|---|---|---|---|---|---|---|---|
-| État actuel | 1 | 2 | 3 | 5 | 0 | 6 | 4 | 7 | 8 |
-| État but | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 0 |
-| Statut | ✓ | ✓ | ✓ | ✗ | — | ✓ | ✗ | ✗ | ✗ |
+**Implémentation.** Le système adopte une architecture modulaire en quatre couches spécialisées respectant le principe de séparation des responsabilités. Le module game.pl encapsule la logique métier du taquin, fournissant les prédicats de validation d'états, de génération de mouvements valides et de test de solvabilité. Le module astar.pl implémente l'algorithme de recherche avec ses structures de données (nœuds, liste ouverte, ensemble fermé) et l'heuristique Manhattan. Le module display.pl gère l'interface utilisateur terminale avec les bannières ASCII, l'affichage formaté des grilles 3×3 et la présentation des résultats. Le module main.pl orchestre l'ensemble en gérant le menu principal, l'exécution des cas de test et la gestion des erreurs. Cette séparation facilite la maintenance du code, permet les tests unitaires indépendants de chaque composante, et respecte les conventions de développement modulaire en Prolog.
 
-<div align="center">
-<em>Calcul de l'heuristique de distance Manhattan : somme des distances |Δrow| + |Δcol| pour chaque tuile (case vide ignorée), résultat h(n) = 4.</em>
-</div>
+**Guide d'utilisation.** Le programme se lance via la commande `swipl run.pl` qui initialise l'environnement Prolog et affiche le menu principal. L'interface propose deux cas de test prédéfinis accessibles par sélection numérique. Le cas test classique valide le fonctionnement de base avec une configuration simple, tandis que le cas test avancé démontre les capacités sur une instance plus complexe. Une section informative présente les détails du projet et les références académiques. La navigation s'effectue par saisie du numéro correspondant à l'option désirée, et le programme boucle jusqu'à la sélection de l'option de sortie.
 
-**Admissibilité** : h(n) ≤ h*(n) car chaque tuile nécessite au minimum sa distance Manhattan en mouvements. **Consistance** : h(n) ≤ c(n,n') + h(n') car chaque mouvement réduit la distance d'au plus 1.
+**Code de la recherche heuristique.** L'implémentation de l'heuristique Manhattan parcourt récursivement l'état actuel en ignorant la case vide. Pour chaque tuile, la fonction détermine sa position but via un prédicat de recherche d'index, calcule les coordonnées ligne-colonne de ses positions actuelle et cible par opérations arithmétiques de division entière et modulo, puis accumule la somme des différences absolues. Cette approche fonctionnelle en Prolog exploite la récursion terminale et l'accumulation de valeurs pour maintenir l'efficacité. Le prédicat principal `manhattan_distance_heuristic/3` délègue le calcul à un helper récursif qui traite la liste état position par position, maintenant un accumulateur de distance totale jusqu'au cas de base où la liste est épuisée.
 
-### 2.5 Diagrammes et schémas de fonctionnement
+**Compilation et exécution.** Le pipeline d'exécution débute par le lancement du programme via `swipl run.pl`, qui provoque la consultation automatique des quatre modules dans l'ordre game.pl, astar.pl, display.pl puis main.pl, assurant la disponibilité de tous les prédicats nécessaires. La configuration UTF-8 s'active automatiquement pour garantir l'affichage correct des caractères étendus sur les systèmes Windows. L'interface présente ensuite le menu principal avec le titre ASCII stylisé et les options de navigation. Lorsque l'utilisateur sélectionne un cas de test, le système effectue d'abord la validation de la configuration en vérifiant le format de l'état initial (neuf éléments, valeurs uniques de 0 à 8) et en testant la solvabilité via le calcul de parité des inversions. L'algorithme A* s'exécute ensuite en initialisant le nœud racine avec son heuristique, puis en itérant sa boucle principale qui extrait le meilleur nœud selon f(n), génère les successeurs avec l'ordre déterministe UP, DOWN, LEFT, RIGHT, et teste l'atteinte du but. Une fois la solution trouvée, la reconstruction du chemin s'effectue par remontée des parents, et l'affichage présente la séquence complète des états traversés accompagnée des métriques de performance (coût, nœuds explorés, temps d'exécution). Pour la validation du système, la commande `swipl -g run_all_tests src/tests.pl` exécute la suite de tests automatisés couvrant les fonctionnalités de chaque module.
 
-Flux A* : validation états, initialisation nœud racine, insertion open list, extraction nœud minimal f(n), test but, génération successeurs (ordre haut-bas-gauche-droite).
-
-### 2.6 Pipeline de résolution
-
-Processus en cinq étapes : validation entrée (format 3×3, solvabilité par parité des inversions<sup>[3]</sup>), génération mouvements déterministe, recherche A*, évaluation heuristique, reconstruction chemin.
-
-### 2.7 Validation et tests
-
-Tests ciblés validant chaque module pour confirmer métriques exactes.
+**Documentation.** Le code source suit les conventions PlDoc de SWI-Prolog pour la documentation inline. Chaque prédicat public est accompagné d'un commentaire structuré spécifiant son mode d'utilisation (déterministe, semi-déterministe, non-déterministe), ses paramètres avec leur type et direction (+, -, ?), et une description textuelle de sa fonction. Les prédicats complexes incluent des annotations supplémentaires précisant les invariants, les propriétés garanties et les références bibliographiques pertinentes. Cette approche de documentation permet la génération automatique d'une référence API via l'outil pldoc de SWI-Prolog et facilite la compréhension du code lors de la maintenance ou de l'extension du système.
 
 ---
 
@@ -182,6 +171,10 @@ Tests ciblés validant chaque module pour confirmer métriques exactes.
 Solveur complet utilisant A*, interface CLI en français avec configuration automatique UTF-8 multiplateforme, deux cas de test validés (configuration standard et cas personnalisé complexe). Résultats parfaitement déterministes garantis par l'ordre strict de génération des mouvements, le tri cohérent de l'open list et l'heuristique mathématiquement prouvée admissible.
 
 ### 3.2 Validation technique
+
+La validation du système s'appuie sur une suite de tests automatisée couvrant l'ensemble des modules développés. Le fichier `tests.pl` implémente 14 tests unitaires regroupés en quatre sections correspondant aux modules principaux : game.pl (localisation case vide, génération mouvements, validation états, détection solvabilité), astar.pl (heuristique Manhattan, création nœuds, tri liste ouverte, reconstruction chemin), display.pl (affichage états, formatage tuiles), et main.pl (résolution cas test 1 et 2). Deux tests d'intégration end-to-end complètent cette couverture en validant le pipeline complet depuis l'initialisation jusqu'à l'affichage des résultats, incluant la mesure des temps d'exécution pour garantir les contraintes de performance (<1s pour cas 1, <3s pour cas 2).
+
+Les tests critiques vérifient les métriques exactes attendues : le cas test classique `[1,2,3,5,0,6,4,7,8]` doit produire exactement Cost=4, Expanded=12, et Path de longueur 5, tandis que le cas test avancé `[1,3,6,5,2,8,4,0,7]` doit retourner Cost=9, Expanded=25, et Path de longueur 10. Ces validations empiriques confirment l'optimalité des solutions et le comportement déterministe de l'algorithme. La suite de tests s'exécute via la commande `swipl -g run_all_tests src/tests.pl` et affiche un résumé détaillé avec le temps total d'exécution, permettant de détecter immédiatement toute régression lors de modifications du code.
 
 <div align="center">
 
