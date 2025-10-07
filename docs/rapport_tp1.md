@@ -245,7 +245,7 @@ L'adoption d'IDA* (Iterative Deepening A*)<sup>[3]</sup> permettrait de traiter 
 
 ### 4.1 Bilan du travail pratique
 
-Ce projet a permis d'approfondir notre compréhension de l'algorithme A* et de ses propriétés d'optimalité. L'implémentation en Prolog s'est révélée bien adaptée pour modéliser les états, les transitions et le backtracking nécessaire à la reconstruction des chemins. La suite de tests automatisée confirme que l'algorithme produit systématiquement les solutions optimales attendues (4 mouvements pour le scénario classique, 9 pour le scénario avancé) avec un comportement parfaitement déterministe.
+Ce projet a permis d'approfondir notre compréhension de l'algorithme A* et de sa capacité à garantir les solutions avec le coût minimal. L'implémentation en Prolog s'est révélée bien adaptée pour modéliser les états, les transitions et le backtracking nécessaire à la reconstruction des chemins. La suite de tests automatisée confirme que l'algorithme produit systématiquement les solutions optimales attendues (4 mouvements pour le scénario classique, 9 pour le scénario avancé) avec un comportement parfaitement déterministe.
 
 ### 4.2 Accomplissements par rapport aux objectifs
 
