@@ -43,6 +43,14 @@ test_results/
 notes_perso.txt
 brouillon.pl
 
+# Fichiers de test/debug temporaires (racine projet)
+/test_*.pl
+/debug_*.pl
+/find_*.pl
+/check_*.pl
+/verify_*.pl
+/diagnostic.pl
+
 # Archives générées
 *.zip
 *.tar.gz
