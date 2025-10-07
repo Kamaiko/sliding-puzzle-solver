@@ -195,5 +195,3 @@ wait_for_continue :-
 % =============================================================================
 % SECTION 5: UTILITAIRES ESSENTIELS
 % =============================================================================
-
-% NOTE: solve_custom/2 déplacé vers astar.pl (voir TODO là-bas)
