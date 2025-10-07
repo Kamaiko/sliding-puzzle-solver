@@ -117,17 +117,13 @@ format_tile(Tile, Tile).   % Autres tuiles inchangées
 display_solution(Path, Cost, Expanded, ResponseTime) :-
     nl,
     write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
-    write('║                                CHEMIN SOLUTION                                ║'), nl,
-    write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
-
-    % Afficher le chemin complet étape par étape avec labels
-    display_path_sequence_with_labels(Path, 1),
-
-    nl,
-    write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
     write('║                             PARAMETRES DE RESOLUTION                          ║'), nl,
     write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
     nl,
+
+    % Section CHEMIN (PATH)
+    write('════ CHEMIN (PATH) ════════════════════════════════════════════════════════════'), nl,
+    display_path_sequence_with_labels(Path, 1),
 
     % Section COUT (COST)
     write('════ COUT (COST) ══════════════════════════════════════════════════════════════'), nl,
@@ -154,14 +150,14 @@ display_path_sequence_with_labels([State], Index) :-
     % Dernier état (but atteint)
     StateLabel is Index + 64,  % 65='A', 66='B', etc.
     char_code(Label, StateLabel),
-    format('ETAT ~w :~n', [Label]),
+    format('  ETAT ~w :~n', [Label]),
     display_state_compact(State),
-    write('   [BUT ATTEINT!]'), nl, !.
+    nl, !.
 display_path_sequence_with_labels([State|RestPath], Index) :-
     % États intermédiaires
     StateLabel is Index + 64,  % 65='A', 66='B', etc.
     char_code(Label, StateLabel),
-    format('ETAT ~w :~n', [Label]),
+    format('  ETAT ~w :~n', [Label]),
     display_state_compact(State),
     write('        ↓'), nl,
     NextIndex is Index + 1,
@@ -222,7 +218,7 @@ display_success_message :-
 display_case1_banner(InitState, GoalState) :-
     nl,
     write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
-    write('║                         CAS TEST 1 : EXEMPLE PROFESSEUR                       ║'), nl,
+    write('║                             CAS TEST CLASSIQUE                                ║'), nl,
     format('║                     Configuration: ~w                        ║~n', [InitState]),
     format('║                     Objectif: ~w                             ║~n', [GoalState]),
     write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl.
