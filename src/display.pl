@@ -127,14 +127,22 @@ display_solution(Path, Cost, Expanded, ResponseTime) :-
     write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
     write('║                             PARAMETRES DE RESOLUTION                          ║'), nl,
     write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl,
+    nl,
 
-    % Afficher les paramètres essentiels sans préfixes
-    length(Path, PathLength),
-    format('Path length : ~w etats~n', [PathLength]),
-    format('Cost        : ~w mouvements~n', [Cost]),
-    format('Expanded    : ~w noeuds~n', [Expanded]),
+    % Section COUT (COST)
+    write('════ COUT (COST) ══════════════════════════════════════════════════════════════'), nl,
+    format('     Mouvements : ~w~n', [Cost]),
+    nl,
+
+    % Section EXPLORATION (EXPANDED)
+    write('════ EXPLORATION (EXPANDED) ═══════════════════════════════════════════════════'), nl,
+    format('     Noeuds explores : ~w~n', [Expanded]),
+    nl,
+
+    % Section PERFORMANCE (RUNTIME)
+    write('════ PERFORMANCE (RUNTIME) ════════════════════════════════════════════════════'), nl,
     TimeMs is ResponseTime * 1000,
-    format('Runtime     : ~3f ms~n', [TimeMs]),
+    format('     Temps d\'execution : ~3f ms~n', [TimeMs]),
     nl.
 
 %! display_path_sequence_with_labels(+Path:list, +Index:integer) is det.

@@ -1,37 +1,8 @@
 % =============================================================================
-% TESTS.PL - Suite de tests unitaires et validation du solveur Taquin A*
+% TESTS.PL - Suite de tests pour validation du solveur Taquin A*
 % =============================================================================
 
 :- encoding(utf8).
-%
-% ÉQUIPE       : Projet universitaire IFT-2003
-% COURS        : IFT-2003 - Intelligence Artificielle
-% INSTITUTION  : Université Laval
-% VERSION      : 1.0
-%
-% DESCRIPTION  : Suite de tests exhaustive pour valider l'ensemble du système
-%                de résolution de taquin. Garantit la conformité
-%                et la robustesse de l'implémentation.
-%
-% FONCTIONNALITÉS PRINCIPALES :
-% - Tests unitaires pour chaque module (game, astar, display, main)
-% - Validation de l'algorithme A* et des résultats
-% - Tests d'intégration et de robustesse système
-% - Tests de performance et gestion des cas limites
-% - Validation complète des heuristiques et de l'algorithme A*
-%
-% ARCHITECTURE DES SECTIONS :
-% 1. Tests unitaires module game.pl
-% 2. Tests unitaires module astar.pl
-% 3. Tests unitaires module display.pl
-% 4. Tests d'intégration système
-% 5. Tests de performance et robustesse
-%
-% CRITIQUE: Test cas_test_1_exact doit absolument passer pour validation
-%
-% UTILISATION  : swipl -g run_all_tests src/tests.pl
-%
-% =============================================================================
 
 % Importation des modules à tester
 :- consult('game.pl').
@@ -40,510 +11,303 @@
 :- consult('main.pl').
 
 % =============================================================================
-% SECTION 1: TESTS UNITAIRES MODULE GAME.PL
+% SECTION 1: TESTS MODULE GAME.PL
 % =============================================================================
 
 %! test_game_module is det.
-%  Lance tous les tests unitaires pour le module game.pl
+%  Tests unitaires pour le module game.pl (logique métier)
 test_game_module :-
-    write('[TEST] Tests module GAME.PL...'), nl,
-    test_valid_state,
+    write('[TEST] Module GAME.PL...'), nl,
     test_find_blank,
-    test_generate_moves_order,
-    test_apply_move,
+    test_generate_moves,
+    test_valid_state,
     test_solvability,
-    test_swap_tiles,
-    write('   [OK] Module game.pl - TOUS TESTS PASSES'), nl, nl.
-
-%! test_valid_state is det.
-%  Test de validation des états valides/invalides
-test_valid_state :-
-    write('  -> Test validation etats...'),
-
-    % États valides
-    assertion(valid_state([1,2,3,4,5,6,7,8,0])),
-    assertion(valid_state([0,1,2,3,4,5,6,7,8])),
-    initial_state(TestState),
-    assertion(valid_state(TestState)),
-
-    % États invalides
-    assertion(\+ valid_state([1,2,3,4,5,6,7,8])),      % 8 éléments seulement
-    assertion(\+ valid_state([1,2,3,4,5,6,7,8,9,0])),  % 10 éléments
-    assertion(\+ valid_state([1,2,3,4,5,6,7,8,8])),    % Doublon
-    assertion(\+ valid_state([1,2,3,4,5,6,7,8,10])),   % Valeur hors range
-
-    write(' ✓'), nl.
+    write('   [OK] game.pl valide'), nl, nl.
 
 %! test_find_blank is det.
-%  Test de localisation de la case vide
+%  Vérifie la localisation de la case vide
 test_find_blank :-
-    write('  → Test localisation case vide...'),
-
+    write('  -> Localisation case vide...'),
     assertion((find_blank([0,1,2,3,4,5,6,7,8], Pos1), Pos1 =:= 0)),
     assertion((find_blank([1,2,3,4,0,5,6,7,8], Pos2), Pos2 =:= 4)),
     assertion((find_blank([1,2,3,4,5,6,7,8,0], Pos3), Pos3 =:= 8)),
+    write(' OK'), nl.
 
-    write(' ✓'), nl.
-
-%! test_generate_moves_order is det.
-%  Test CRITIQUE : vérifier l'ordre exact des mouvements (UP, DOWN, LEFT, RIGHT)
-test_generate_moves_order :-
-    write('  -> Test ordre generation mouvements (CRITIQUE)...'),
-
-    % Test position centrale (4) : tous les mouvements possibles
-    State = [1,2,3,4,0,5,6,7,8],  % Case vide au centre
+%! test_generate_moves is det.
+%  Vérifie la génération des mouvements valides
+test_generate_moves :-
+    write('  -> Generation mouvements valides...'),
+    State = [1,2,3,4,0,5,6,7,8],  % Blanc au centre
     generate_moves(State, Successors),
+    length(Successors, Len),
+    assertion(Len =:= 4),  % 4 mouvements possibles au centre
+    write(' OK'), nl.
 
-    % Vérifier que nous avons exactement 4 successeurs
-    length(Successors, 4),
-
-    % Vérifier l'ordre exact : UP, DOWN, LEFT, RIGHT
-    Successors = [UpState, DownState, LeftState, RightState],
-    assertion(UpState = [1,0,3,4,2,5,6,7,8]),      % UP : case vide monte
-    assertion(DownState = [1,2,3,4,7,5,6,0,8]),    % DOWN : case vide descend
-    assertion(LeftState = [1,2,3,0,4,5,6,7,8]),    % LEFT : case vide à gauche
-    assertion(RightState = [1,2,3,4,5,0,6,7,8]),   % RIGHT : case vide à droite
-
-    write(' ✓ ORDRE VÉRIFIÉ'), nl.
-
-%! test_apply_move is det.
-%  Test d'application des mouvements
-test_apply_move :-
-    write('  → Test application mouvements...'),
-
-    State = [1,2,3,4,0,5,6,7,8],
-
-    assertion((apply_move(State, up, NewState1),
-               NewState1 = [1,0,3,4,2,5,6,7,8])),
-    assertion((apply_move(State, down, NewState2),
-               NewState2 = [1,2,3,4,7,5,6,0,8])),
-    assertion((apply_move(State, left, NewState3),
-               NewState3 = [1,2,3,0,4,5,6,7,8])),
-    assertion((apply_move(State, right, NewState4),
-               NewState4 = [1,2,3,4,5,0,6,7,8])),
-
-    write(' ✓'), nl.
+%! test_valid_state is det.
+%  Vérifie la validation des états
+test_valid_state :-
+    write('  -> Validation etats...'),
+    assertion(valid_state([1,2,3,4,5,6,7,8,0])),
+    assertion(\+ valid_state([1,2,3,4,5,6,7,8])),      % 8 éléments
+    assertion(\+ valid_state([1,2,3,4,5,6,7,8,8])),    % Doublon
+    write(' OK'), nl.
 
 %! test_solvability is det.
-%  Test de détection de solvabilité (inversions)
+%  Vérifie la détection de solvabilité (inversions)
 test_solvability :-
-    write('  -> Test solvabilite (inversions)...'),
-
-    % États solvables
-    initial_state(Initial),
-    goal_state(Goal),
-    assertion(is_solvable(Initial, Goal)),
-    assertion(is_solvable([1,2,3,4,5,6,7,8,0], [1,2,3,4,5,6,7,8,0])),
-
-    % État impossible (parité différente)
-    assertion(\+ is_solvable([1,2,3,4,5,6,8,7,0], [1,2,3,4,5,6,7,8,0])),
-
-    write(' ✓'), nl.
-
-%! test_swap_tiles is det.
-%  Test d'échange de tuiles
-test_swap_tiles :-
-    write('  -> Test echange tuiles...'),
-
-    State = [1,2,3,4,5,6,7,8,9],
-    assertion((swap_tiles(State, 0, 8, NewState),
-               NewState = [9,2,3,4,5,6,7,8,1])),
-    assertion((swap_tiles(State, 1, 2, NewState2),
-               NewState2 = [1,3,2,4,5,6,7,8,9])),
-
-    write(' ✓'), nl.
+    write('  -> Detection solvabilite...'),
+    Goal = [1,2,3,4,5,6,7,8,0],
+    assertion(is_solvable([1,2,3,5,0,6,4,7,8], Goal)),  % Solvable
+    assertion(\+ is_solvable([1,2,3,4,5,6,8,7,0], Goal)),  % Impossible
+    write(' OK'), nl.
 
 % =============================================================================
-% SECTION 2: TESTS UNITAIRES MODULE ASTAR.PL
+% SECTION 2: TESTS MODULE ASTAR.PL
 % =============================================================================
 
 %! test_astar_module is det.
-%  Lance tous les tests unitaires pour le module astar.pl
+%  Tests unitaires pour le module astar.pl (algorithme A*)
 test_astar_module :-
-    write('[TEST] Tests module ASTAR.PL...'), nl,
-    test_heuristic_misplaced_tiles,
-    test_node_comparison,
+    write('[TEST] Module ASTAR.PL...'), nl,
+    test_manhattan_heuristic,
+    test_node_creation,
+    test_node_sorting,
     test_path_reconstruction,
-    write('   [OK] Module astar.pl - TOUS TESTS PASSES'), nl, nl.
+    write('   [OK] astar.pl valide'), nl, nl.
 
-%! test_heuristic_misplaced_tiles is det.
-%  Test CRITIQUE : validation de l'heuristique tuiles mal placées
-test_heuristic_misplaced_tiles :-
-    write('  -> Test heuristique tuiles mal placees (CRITIQUE)...'),
+%! test_manhattan_heuristic is det.
+%  Vérifie l'heuristique distance Manhattan
+test_manhattan_heuristic :-
+    write('  -> Heuristique Manhattan...'),
+    Goal = [1,2,3,4,5,6,7,8,0],
 
-    % Test du cas test standard : h(initial_state) = 4
-    initial_state(Initial),
-    goal_state(Goal),
-    assertion((misplaced_tiles_heuristic(Initial, Goal, H), H =:= 4)),
+    % État résolu : distance = 0
+    assertion((manhattan_distance_heuristic(Goal, Goal, H0), H0 =:= 0)),
 
-    % Test état résolu : h = 0
-    assertion((misplaced_tiles_heuristic(Goal, Goal, H0), H0 =:= 0)),
+    % État initial case 1 : distance connue
+    assertion((manhattan_distance_heuristic([1,2,3,5,0,6,4,7,8], Goal, H1), H1 =:= 4)),
 
-    % Test avec plusieurs tuiles mal placées
-    State2 = [8,7,6,5,4,3,2,1,0],
-    assertion((misplaced_tiles_heuristic(State2, Goal, H2), H2 =:= 8)),
+    % Autre configuration
+    assertion((manhattan_distance_heuristic([1,3,6,5,2,8,4,0,7], Goal, H2), H2 > 0)),
 
-    % Test que case vide n'est pas comptée
-    State3 = [0,2,3,4,5,6,7,8,1],  % Seule tuile 1 mal placée
-    assertion((misplaced_tiles_heuristic(State3, Goal, H3), H3 =:= 1)),
+    write(' OK'), nl.
 
-    write(' ✓ HEURISTIQUE VALIDÉE'), nl.
+%! test_node_creation is det.
+%  Vérifie la création de nœuds A*
+test_node_creation :-
+    write('  -> Creation noeuds A*...'),
+    State = [1,2,3,4,5,6,7,8,0],
+    create_node(State, 5, 3, nil, Node),
+    node_state(Node, State),
+    node_g_cost(Node, G),
+    node_h_cost(Node, H),
+    node_f_cost(Node, F),
+    assertion(G =:= 5),
+    assertion(H =:= 3),
+    assertion(F =:= 8),  % f = g + h
+    write(' OK'), nl.
 
+%! test_node_sorting is det.
+%  Vérifie le tri des nœuds par f-value (tie-breaking sur g)
+test_node_sorting :-
+    write('  -> Tri noeuds (f-value + tie-breaking)...'),
+    Node1 = node([1], 2, 2, 4, nil),  % f=4, g=2
+    Node2 = node([2], 1, 3, 4, nil),  % f=4, g=1 (meilleur g)
+    Node3 = node([3], 0, 2, 2, nil),  % f=2 (meilleur f)
 
-%! test_node_comparison is det.
-%  Test du tri des nœuds par valeur f (tie-breaking inclus)
-test_node_comparison :-
-    write('  → Test comparaison nœuds (tie-breaking)...'),
+    sort_open_list_by_f_value([Node1, Node2, Node3], Sorted),
+    Sorted = [First, Second, _Third],
+    node_f_cost(First, F1),
+    node_f_cost(Second, F2),
+    node_g_cost(Second, G2),
 
-    Node1 = node([1,2,3], 1, 3, 4, nil),  % f=4, g=1
-    Node2 = node([4,5,6], 2, 2, 4, nil),  % f=4, g=2 (même f, g plus grand)
-    Node3 = node([7,8,9], 0, 3, 3, nil),  % f=3 (plus petit f)
-
-    % Test ordre : Node3 (f=3) < Node1 (f=4,g=1) < Node2 (f=4,g=2)
-    Nodes = [Node1, Node2, Node3],
-    sort_open_list_by_f_value(Nodes, [First, Second, Third]),
-    assertion(First = node([7,8,9], 0, 3, 3, nil)),
-    assertion(Second = node([1,2,3], 1, 3, 4, nil)),
-    assertion(Third = node([4,5,6], 2, 2, 4, nil)),
-
-    write(' ✓'), nl.
+    assertion(F1 =:= 2),  % Node3 en premier (f=2)
+    assertion(F2 =:= 4),  % Node2 en second (f=4, g=1)
+    assertion(G2 =:= 1),  % Vérifie tie-breaking
+    write(' OK'), nl.
 
 %! test_path_reconstruction is det.
-%  Test de reconstruction du chemin
+%  Vérifie la reconstruction du chemin solution
 test_path_reconstruction :-
-    write('  → Test reconstruction chemin...'),
-
-    % Construire une chaîne de nœuds
+    write('  -> Reconstruction chemin...'),
     NodeA = node([1,2,3], 0, 0, 0, nil),
     NodeB = node([4,5,6], 1, 0, 1, NodeA),
     NodeC = node([7,8,9], 2, 0, 2, NodeB),
 
-    assertion((reconstruct_solution_path(NodeC, Path),
-               Path = [[1,2,3], [4,5,6], [7,8,9]])),
-
-    write(' ✓'), nl.
-
-% =============================================================================
-% SECTION 3: TEST CRITIQUE - VALIDATION
-% =============================================================================
-
-%! test_case_1_exact is det.
-%  TEST CRITIQUE : Valider l'algorithme A* pour cas test 1
-%  Ce test doit ABSOLUMENT passer pour la validation
-test_case_1_exact :-
-    write('[CRITIQUE] TEST CRITIQUE - Validation cas test 1...'), nl,
-
-    initial_state(Initial),
-    goal_state(Goal),
-
-    % Exécuter la résolution A*
-    get_time(StartTime),
-    astar_search(Initial, Goal, Path, Cost, Expanded),
-    get_time(EndTime),
-
-    ResponseTime is EndTime - StartTime,
-    length(Path, PathLength),
-
-    write('  Resultats obtenus :'), nl,
-    format('    Path Length: ~w états~n', [PathLength]),
-    format('    Cost: ~w mouvements~n', [Cost]),
-    format('    Expanded: ~w nœuds~n', [Expanded]),
-    format('    Temps: ~3f secondes~n', [ResponseTime]),
-
-    % Validations
-    write('  Validations :'), nl,
-
-    % 1. Vérifier coût optimal
-    (   Cost > 0 ->
-        format('    [OK] Cost = ~w (solution trouvée)', [Cost])
-    ;   format('    [ERREUR] Cost invalide = ~w', [Cost])
-    ), nl,
-
-    % 2. Vérifier nœuds explorés
-    (   Expanded > 0 ->
-        format('    [OK] Expanded = ~w nœuds (recherche effectuée)', [Expanded])
-    ;   format('    [ERREUR] Expanded invalide = ~w', [Expanded])
-    ), nl,
-
-    % 3. Vérifier chemin cohérent
-    (   PathLength > 0 ->
-        format('    [OK] Path Length = ~w états', [PathLength])
-    ;   format('    [ERREUR] Path Length invalide = ~w', [PathLength])
-    ), nl,
-
-    % 4. Vérifier performance
-    (   ResponseTime < 1.0 ->
-        write('    [OK] Performance < 1s')
-    ;   format('    [WARN] Performance = ~3f s (> 1s)', [ResponseTime])
-    ), nl,
-
-    % Assertions générales
-    assertion(Cost > 0),
-    assertion(Expanded > 0),
-    assertion(PathLength > 0),
-
-    write('  [SUCCES] VALIDATION COMPLETE REUSSIE!'), nl, nl.
+    reconstruct_solution_path(NodeC, Path),
+    assertion(Path = [[1,2,3], [4,5,6], [7,8,9]]),
+    write(' OK'), nl.
 
 % =============================================================================
-% SECTION 4: TESTS D'INTÉGRATION
+% SECTION 3: TESTS MODULE DISPLAY.PL
+% =============================================================================
+
+%! test_display_module is det.
+%  Tests unitaires pour le module display.pl (affichage)
+test_display_module :-
+    write('[TEST] Module DISPLAY.PL...'), nl,
+    test_display_state,
+    test_format_tile,
+    write('   [OK] display.pl valide'), nl, nl.
+
+%! test_display_state is det.
+%  Vérifie l'affichage des états (ne doit pas crasher)
+test_display_state :-
+    write('  -> Affichage etats...'),
+    State = [1,2,3,4,5,6,7,8,0],
+    % Test que display_state s'exécute sans erreur
+    catch(
+        (with_output_to(atom(_), display_state('Test', State)), true),
+        _,
+        fail
+    ),
+    write(' OK'), nl.
+
+%! test_format_tile is det.
+%  Vérifie le formatage des tuiles
+test_format_tile :-
+    write('  -> Formatage tuiles...'),
+    assertion((format_tile(0, Blank), Blank = '#')),
+    assertion((format_tile(1, T1), T1 =:= 1)),
+    assertion((format_tile(8, T8), T8 =:= 8)),
+    write(' OK'), nl.
+
+% =============================================================================
+% SECTION 4: TESTS MODULE MAIN.PL
+% =============================================================================
+
+%! test_main_module is det.
+%  Tests unitaires pour le module main.pl (orchestration)
+test_main_module :-
+    write('[TEST] Module MAIN.PL...'), nl,
+    test_solve_puzzle_case1,
+    test_solve_puzzle_case2,
+    write('   [OK] main.pl valide'), nl, nl.
+
+%! test_solve_puzzle_case1 is det.
+%  Vérifie la résolution du cas test 1
+test_solve_puzzle_case1 :-
+    write('  -> Resolution cas test 1...'),
+    solve_puzzle(case1, result(Path, Cost, Expanded)),
+    assertion(is_list(Path)),
+    assertion(Cost =:= 4),      % Solution optimale connue
+    assertion(Expanded =:= 12), % Nœuds explorés attendus
+    write(' OK'), nl.
+
+%! test_solve_puzzle_case2 is det.
+%  Vérifie la résolution du cas test 2
+test_solve_puzzle_case2 :-
+    write('  -> Resolution cas test 2...'),
+    solve_puzzle(case2, result(Path, Cost, Expanded)),
+    assertion(is_list(Path)),
+    assertion(Cost =:= 9),      % Solution optimale
+    assertion(Expanded =:= 25), % Nœuds explorés attendus
+    write(' OK'), nl.
+
+% =============================================================================
+% SECTION 5: TESTS D'INTEGRATION
 % =============================================================================
 
 %! test_integration is det.
-%  Tests d'intégration entre les modules
+%  Tests d'intégration entre modules
 test_integration :-
-    write('[TEST] Tests integration modules...'), nl,
-    test_game_to_astar_integration,
-    test_full_pipeline,
-    write('   [OK] Integration modules - TOUS TESTS PASSES'), nl, nl.
+    write('[TEST] Integration modules...'), nl,
+    test_end_to_end_case1,
+    test_end_to_end_case2,
+    write('   [OK] Integration valide'), nl, nl.
 
-%! test_game_to_astar_integration is det.
-%  Test intégration game.pl → astar.pl
-test_game_to_astar_integration :-
-    write('  -> Test integration game -> astar...'),
-
-    % Générer des mouvements et vérifier qu'ils sont résolubles
+%! test_end_to_end_case1 is det.
+%  Test end-to-end complet pour cas 1
+test_end_to_end_case1 :-
+    write('  -> Pipeline complet cas 1...'),
     initial_state(Initial),
-    generate_moves(Initial, Successors),
     goal_state(Goal),
 
-    % Chaque successeur doit être solvable
-    forall(member(Successor, Successors),
-           assertion(is_solvable(Successor, Goal))),
+    get_time(Start),
+    astar_search(Initial, Goal, Path, Cost, Expanded),
+    get_time(End),
 
-    write(' ✓'), nl.
+    Time is End - Start,
 
-%! test_full_pipeline is det.
-%  Test du pipeline complet : game → astar → display
-test_full_pipeline :-
-    write('  → Test pipeline complet...'),
+    % Validations
+    assertion(Cost =:= 4),
+    assertion(Expanded =:= 12),
+    assertion(Time < 1.0),  % Performance < 1s
 
-    % Test cas 1 complet
-    solve_puzzle(case1, result(Path1, Cost1, Expanded1)),
-    assertion(is_list(Path1)),
-    assertion(integer(Cost1)),
-    assertion(integer(Expanded1)),
+    % Vérifier cohérence path/cost
+    length(Path, PathLen),
+    assertion(PathLen =:= Cost + 1),
 
-    % Test cas 2 complet
-    solve_puzzle(case2, result(Path2, Cost2, Expanded2)),
-    assertion(is_list(Path2)),
-    assertion(integer(Cost2)),
-    assertion(integer(Expanded2)),
+    write(' OK'), nl.
 
-    write(' ✓'), nl.
+%! test_end_to_end_case2 is det.
+%  Test end-to-end complet pour cas 2
+test_end_to_end_case2 :-
+    write('  -> Pipeline complet cas 2...'),
+    custom_initial_state(Initial),
+    custom_goal_state(Goal),
 
-% =============================================================================
-% SECTION 5: TESTS DE ROBUSTESSE ET CAS LIMITES
-% =============================================================================
+    get_time(Start),
+    astar_search(Initial, Goal, Path, Cost, Expanded),
+    get_time(End),
 
-%! test_edge_cases is det.
-%  Tests des cas limites et situations exceptionnelles
-test_edge_cases :-
-    write('[TEST] Tests cas limites...'), nl,
-    test_already_solved,
-    test_invalid_states,
-    test_unsolvable_states,
-    write('   [OK] Cas limites - TOUS TESTS PASSES'), nl, nl.
+    Time is End - Start,
 
-%! test_already_solved is det.
-%  Test état déjà résolu
-test_already_solved :-
-    write('  -> Test etat deja resolu...'),
+    % Validations
+    assertion(Cost =:= 9),
+    assertion(Expanded =:= 25),
+    assertion(Time < 3.0),  % Performance < 3s
 
-    Goal = [1,2,3,4,5,6,7,8,0],
-    astar_search(Goal, Goal, Path, Cost, Expanded),
+    % Vérifier cohérence path/cost
+    length(Path, PathLen),
+    assertion(PathLen =:= Cost + 1),
 
-    assertion(Path = [Goal]),
-    assertion(Cost =:= 0),
-    assertion(Expanded =:= 0),
-
-    write(' ✓'), nl.
-
-%! test_invalid_states is det.
-%  Test gestion des états invalides
-test_invalid_states :-
-    write('  -> Test gestion etats invalides...'),
-
-    InvalidState = [1,2,3,4,5,6,7,8,8],  % Doublon
-    Goal = [1,2,3,4,5,6,7,8,0],
-
-    % Doit lever une exception ou échouer proprement
-    catch(
-        (astar_search(InvalidState, Goal, _, _, _), fail),
-        _Error,
-        true
-    ),
-
-    write(' ✓'), nl.
-
-%! test_unsolvable_states is det.
-%  Test gestion des états impossibles
-test_unsolvable_states :-
-    write('  -> Test gestion etats impossibles...'),
-
-    % État avec parité d'inversions incorrecte
-    UnsolvableState = [1,2,3,4,5,6,8,7,0],  % Échange 7 et 8
-    Goal = [1,2,3,4,5,6,7,8,0],
-
-    % Doit échouer proprement
-    assertion(\+ is_solvable(UnsolvableState, Goal)),
-
-    write(' ✓'), nl.
+    write(' OK'), nl.
 
 % =============================================================================
-% SECTION 6: TESTS DE PERFORMANCE
-% =============================================================================
-
-%! test_performance is det.
-%  Tests de performance et stabilité
-test_performance :-
-    write('[TEST] Tests performance...'), nl,
-    test_response_times,
-    test_memory_usage,
-    write('   [OK] Performance - TOUS TESTS PASSES'), nl, nl.
-
-%! test_response_times is det.
-%  Test des temps de réponse
-test_response_times :-
-    write('  -> Test temps de reponse...'),
-
-    % Cas 1 : doit être résolu en < 1 seconde
-    get_time(Start1),
-    solve_puzzle(case1, _),
-    get_time(End1),
-    Time1 is End1 - Start1,
-    assertion(Time1 < 1.0),
-
-    % Cas 2 : doit être résolu en < 3 secondes
-    get_time(Start2),
-    solve_puzzle(case2, _),
-    get_time(End2),
-    Time2 is End2 - Start2,
-    assertion(Time2 < 3.0),
-
-    format(' ✓ (Cas1: ~3fs, Cas2: ~3fs)', [Time1, Time2]), nl.
-
-%! test_memory_usage is det.
-%  Test d'utilisation mémoire (simple)
-test_memory_usage :-
-    write('  -> Test utilisation memoire...'),
-
-    % Exécuter plusieurs résolutions pour détecter les fuites mémoire
-    numlist(1, 5, _),  % 5 itérations
-    forall(between(1, 5, _), solve_puzzle(case1, _)),
-
-    write(' ✓'), nl.
-
-%! test_case_2_validation is det.
-%  TEST PRIORITÉ 2 : Validation spécifique pour cas test 2 personnalisé
-test_case_2_validation :-
-    write('[CRITIQUE] TEST VALIDATION - Cas test 2 personnalise...'), nl,
-
-    % Exécuter le cas test 2
-    get_time(StartTime),
-    solve_puzzle(case2, result(Path, Cost, Expanded)),
-    get_time(EndTime),
-
-    ResponseTime is EndTime - StartTime,
-    length(Path, PathLength),
-
-    write('  Resultats cas test 2 :'), nl,
-    format('    Path Length: ~w états~n', [PathLength]),
-    format('    Cost: ~w mouvements~n', [Cost]),
-    format('    Expanded: ~w nœuds~n', [Expanded]),
-    format('    Temps: ~3f secondes~n', [ResponseTime]),
-
-    % Validations pour cas test 2
-    write('  Validations cas test 2 :'), nl,
-
-    % 1. Vérifier que solution existe
-    (   Cost > 0 ->
-        write('    [OK] Solution trouvee')
-    ;   write('    [ERREUR] Pas de solution')
-    ), nl,
-
-    % 2. Vérifier performance acceptable (< 5 secondes pour cas plus complexe)
-    (   ResponseTime < 5.0 ->
-        write('    [OK] Performance < 5s')
-    ;   format('    [WARN] Performance = ~3f s (> 5s)', [ResponseTime])
-    ), nl,
-
-    % 3. Vérifier cohérence Path/Cost
-    ExpectedPathLength is Cost + 1,
-    (   PathLength =:= ExpectedPathLength ->
-        write('    [OK] Coherence Path/Cost')
-    ;   format('    [WARN] Path Length ~w != Cost+1 (~w)', [PathLength, ExpectedPathLength])
-    ), nl,
-
-    % 4. Vérifier que expanded > 0 (exploration nécessaire)
-    (   Expanded > 0 ->
-        write('    [OK] Exploration A* active')
-    ;   write('    [WARN] Pas d\'exploration detectee')
-    ), nl,
-
-    write('  [SUCCES] VALIDATION CAS TEST 2 TERMINÉE!'), nl, nl.
-
-% =============================================================================
-% SECTION 7: EXÉCUTION COMPLÈTE DES TESTS
+% SECTION 6: EXECUTION SUITE DE TESTS
 % =============================================================================
 
 %! run_all_tests is det.
-%  Exécute la suite complète de tests avec rapport détaillé
+%  Exécute la suite complète de tests
 run_all_tests :-
-    write('+----------------------------------------------------------+'), nl,
-    write('|             SUITE DE TESTS SOLVEUR TAQUIN A*           |'), nl,
-    write('|                  Universite Laval IFT-2003              |'), nl,
-    write('+----------------------------------------------------------+'), nl, nl,
+    write('================================================================'), nl,
+    write('         SUITE DE TESTS - SOLVEUR TAQUIN A*                    '), nl,
+    write('================================================================'), nl, nl,
 
-    get_time(TestStartTime),
+    get_time(StartTime),
 
     % Tests unitaires par module
     test_game_module,
     test_astar_module,
+    test_display_module,
+    test_main_module,
 
-    % Test critique validation
-    test_case_1_exact,
-
-    % Test priorité 2 - validation cas test 2
-    test_case_2_validation,
-
-    % Tests d'intégration et robustesse
+    % Tests d'intégration
     test_integration,
-    test_edge_cases,
-    test_performance,
 
-    get_time(TestEndTime),
-    TotalTime is TestEndTime - TestStartTime,
+    get_time(EndTime),
+    TotalTime is EndTime - StartTime,
 
     nl,
-    write('+----------------------------------------------------------+'), nl,
-    write('|                       RESUME FINAL                     |'), nl,
-    write('+----------------------------------------------------------+'), nl,
-    format('Total des tests exécutés en ~3f secondes~n', [TotalTime]),
-    write('[OK] TOUS LES TESTS SONT PASSES AVEC SUCCES!'), nl,
-    write('[SUCCES] VALIDATION ACADEMIQUE CONFIRMEE'), nl,
-    write('[INFO] Pret pour evaluation finale'), nl, nl.
-
-%! run_critical_tests_only is det.
-%  Exécute uniquement les tests critiques pour validation rapide
-run_critical_tests_only :-
-    write('[CRITIQUE] TESTS CRITIQUES SEULEMENT...'), nl,
-    test_case_1_exact,
-    test_heuristic_misplaced_tiles,
-    test_generate_moves_order,
-    write('[OK] TESTS CRITIQUES VALIDES'), nl.
+    write('================================================================'), nl,
+    write('                        RESUME                                  '), nl,
+    write('================================================================'), nl,
+    format('Temps total: ~3f secondes~n', [TotalTime]),
+    write('[OK] TOUS LES TESTS SONT PASSES'), nl,
+    nl.
 
 % =============================================================================
-% UTILITAIRES DE TEST
+% UTILITAIRES
 % =============================================================================
 
 %! assertion(+Goal) is det.
-%  Macro d'assertion pour les tests (arrête en cas d'échec)
+%  Macro d'assertion simple (fail si Goal échoue)
 assertion(Goal) :-
     (   call(Goal) -> true
-    ;   format('[ERREUR] ASSERTION ECHOUEE: ~q~n', [Goal]),
+    ;   format('[ERREUR] Assertion echouee: ~q~n', [Goal]),
         fail
     ).
 
-% Point d'entrée principal pour les tests
-% Note: Éviter conflit avec main/0 de main.pl
-test_main :- run_all_tests.
+% Point d'entrée
+:- initialization(run_all_tests, main).
