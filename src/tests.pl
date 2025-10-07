@@ -310,4 +310,4 @@ assertion(Goal) :-
     ).
 
 % Point d'entrée
-:- initialization(run_all_tests, main).
+% Note: Utiliser 'swipl -g run_all_tests src/tests.pl' pour exécuter les tests
