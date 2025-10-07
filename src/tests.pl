@@ -1,6 +1,33 @@
-% =============================================================================
-% TESTS.PL - Suite de tests pour validation du solveur Taquin A*
-% =============================================================================
+/** <module> Suite de tests pour validation du solveur Taquin A*
+
+Suite de tests automatisée couvrant tous les modules du solveur de taquin
+avec algorithme A* et heuristique de distance Manhattan.
+
+@author Équipe 6 - IFT-2003
+@see main.pl, game.pl, astar.pl, display.pl
+
+# Utilisation
+
+==
+swipl -g run_all_tests src/tests.pl
+==
+
+# Structure des tests
+
+- *Tests unitaires* : game.pl, astar.pl, display.pl, main.pl (14 tests)
+- *Tests d'intégration* : pipeline complet end-to-end (2 tests)
+- *Validation* : optimalité des solutions (Cost=4 et Cost=9)
+
+# Couverture
+
+- Validation d'états et solvabilité
+- Génération de mouvements valides
+- Calcul heuristique Manhattan
+- Tri de la liste ouverte avec tie-breaking
+- Reconstruction de chemins
+- Affichage formaté des résultats
+- Performance (<1s pour scénario classique, <3s pour scénario avancé)
+*/
 
 :- encoding(utf8).
 

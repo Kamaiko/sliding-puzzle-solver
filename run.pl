@@ -3,8 +3,7 @@
 Launcher universel qui configure automatiquement l'encodage UTF-8 selon
 le système d'exploitation et lance le solveur de taquin A*.
 
-@author Projet universitaire IFT-2003
-@version 1.0
+@author Équipe 6 - IFT-2003
 @see main.pl pour le programme principal
 
 # Utilisation
