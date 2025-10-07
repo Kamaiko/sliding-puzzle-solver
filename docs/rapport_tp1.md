@@ -117,7 +117,7 @@ Le rapport présente la méthodologie (architecture modulaire, algorithme A*, he
 
 ### 2.1 Matériel, logiciels et outils utilisés
 
-SWI-Prolog 9.0.4, Visual Studio Code, Git/GitHub. Tests sur Windows 10/11 pour portabilité multiplateforme.
+Le développement a été réalisé avec SWI-Prolog 9.0.4, Visual Studio Code et Git/GitHub, avec des tests sur Windows 10/11 pour assurer la portabilité multiplateforme.
 
 ### 2.2 Modélisation du problème
 
