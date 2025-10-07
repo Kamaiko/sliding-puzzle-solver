@@ -1,8 +1,8 @@
-/** <module> Recherche A* avec heuristique tuiles mal placées
+/** <module> Recherche A* avec heuristique distance Manhattan
  *
  * Implémentation de l'algorithme A* avec liste ouverte (open list) et
  * ensemble fermé (closed set). Garantit l'optimalité grâce à une
- * heuristique admissible.
+ * heuristique admissible et consistante.
  *
  * @author Équipe 6
  * @see [3] Bratko, I. (2012). Prolog Programming for Artificial Intelligence
@@ -69,39 +69,8 @@ create_node(State, G, H, Parent, node(State, G, H, F, Parent)) :-
     F is G + H.
 
 % =============================================================================
-% SECTION 3: HEURISTIQUES POUR L'ESTIMATION
+% SECTION 3: HEURISTIQUE POUR L'ESTIMATION
 % =============================================================================
-
-%! misplaced_tiles_heuristic(+State:list, +Goal:list, -Count:integer) is det.
-%  Heuristique admissible comptant les tuiles mal placées.
-%
-%  La case vide (0) est ignorée car elle sert d'outil pour déplacer
-%  les tuiles, pas une tuile à placer. Chaque mouvement corrige au plus
-%  une tuile, donc h(n) ≤ h*(n) (admissibilité garantie).
-%
-%  @arg State État actuel du taquin
-%  @arg Goal État but à atteindre
-%  @arg Count Nombre de tuiles mal placées (h(n))
-%  @see [5] Hart et al. (1968) pour propriétés d'admissibilité
-
-misplaced_tiles_heuristic(State, Goal, Count) :-
-    misplaced_tiles_helper(State, Goal, 0, Count).
-
-%! misplaced_tiles_helper(+StateList:list, +GoalList:list, +Acc:integer, -Count:integer) is det.
-%  Helper récursif pour calculer les tuiles mal placées
-%  @param StateList Reste de l'état à traiter
-%  @param GoalList Reste du but correspondant
-%  @param Acc Accumulateur du compte actuel
-%  @param Count Nombre total de tuiles mal placées
-misplaced_tiles_helper([], [], Count, Count).
-misplaced_tiles_helper([StateHead|StateTail], [GoalHead|GoalTail], Acc, Count) :-
-    (   % Si tuile mal placée ET pas case vide, incrémenter compteur
-        (StateHead \= GoalHead, StateHead \= 0) ->
-        NewAcc is Acc + 1
-    ;   % Sinon, garder le même compteur
-        NewAcc = Acc
-    ),
-    misplaced_tiles_helper(StateTail, GoalTail, NewAcc, Count).
 
 %! manhattan_distance_heuristic(+State:list, +Goal:list, -Distance:integer) is det.
 %  Heuristique de distance de Manhattan pour le taquin 3×3.
@@ -324,35 +293,6 @@ update_open_list_and_continue(SuccessorNodes, RestOpen, ClosedSet, Goal, StartTi
 
     % Continuer la recherche avec les structures mises à jour
     astar_main_loop(SortedOpenList, ClosedSet, Goal, StartTime, ExpCount, GenCount, Result).
-
-%! deduplicate_by_state(+SortedNodes:list, -UniqueNodes:list) is det.
-%  Élimine les duplicatas d'états dans une liste triée de nœuds.
-%  Garde seulement la première occurrence de chaque état (meilleur g après tri).
-%
-%  Après le tri par f puis g, pour un même état :
-%  - Le nœud avec g=5, h=3 (f=8) apparaît avant
-%  - Le nœud avec g=10, h=3 (f=13) apparaît après
-%  On garde le premier = meilleur chemin vers cet état
-deduplicate_by_state([], []).
-deduplicate_by_state([Node|Rest], [Node|UniqueRest]) :-
-    node_state(Node, State),
-    % Retirer tous les nœuds suivants ayant le même état
-    filter_out_state(Rest, State, RemainingNodes),
-    % Continuer la déduplication sur le reste
-    deduplicate_by_state(RemainingNodes, UniqueRest).
-
-%! filter_out_state(+Nodes:list, +StateToRemove:list, -Filtered:list) is det.
-%  Retire tous les nœuds ayant l'état spécifié
-filter_out_state([], _, []).
-filter_out_state([Node|Rest], StateToRemove, Filtered) :-
-    node_state(Node, NodeState),
-    (   states_equal(NodeState, StateToRemove) ->
-        % Même état, le retirer
-        filter_out_state(Rest, StateToRemove, Filtered)
-    ;   % État différent, le garder
-        filter_out_state(Rest, StateToRemove, RestFiltered),
-        Filtered = [Node|RestFiltered]
-    ).
 
 %! filter_open_duplicates_simple(+Successors:list, +OpenList:list, -Filtered:list) is det.
 %  Filtre les successeurs en excluant ceux déjà dans l'open list avec un g égal ou meilleur
