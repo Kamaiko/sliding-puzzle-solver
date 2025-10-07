@@ -228,9 +228,9 @@ display_case1_banner(InitState, GoalState) :-
 display_case2_banner :-
     nl,
     write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
-    write('║                        CAS TEST 2 : EXEMPLE PERSONNALISE                      ║'), nl,
-    write('║                   Configuration plus complexe (6+ mouvements)                 ║'), nl,
-    write('║                    Demonstration etendue des capacites A*                     ║'), nl,
+    write('║                              CAS TEST AVANCE                                  ║'), nl,
+    write('║                     Configuration: [1,3,6,5,2,8,4,0,7]                        ║'), nl,
+    write('║                     Objectif: [1,2,3,4,5,6,7,8,0]                             ║'), nl,
     write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl.
 
 %! display_about_banner is det.
