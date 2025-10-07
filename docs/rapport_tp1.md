@@ -77,25 +77,23 @@ Enseignant : Anicet Lepetit ONDO
    - 2.6 [Pipeline de résolution](#26-pipeline-de-résolution)
    - 2.7 [Validation et tests](#27-validation-et-tests)
 
-3. [RÉSULTATS](#3-résultats)
+3. [RÉSULTATS ET DISCUSSION](#3-résultats-et-discussion)
    - 3.1 [Fonctionnalités implémentées](#31-fonctionnalités-implémentées)
    - 3.2 [Validation technique](#32-validation-technique)
    - 3.3 [Performance et métriques](#33-performance-et-métriques)
+   - 3.4 [Architecture et qualité du code](#34-architecture-et-qualité-du-code)
+   - 3.5 [Interprétation des résultats et comparaison avec les attentes](#35-interprétation-des-résultats-et-comparaison-avec-les-attentes)
+   - 3.6 [Performance et limites identifiées](#36-performance-et-limites-identifiées)
+   - 3.7 [Améliorations possibles et extensions futures](#37-améliorations-possibles-et-extensions-futures)
 
-4. [ANALYSE ET DISCUSSION](#4-analyse-et-discussion)
-   - 4.1 [Architecture et qualité du code](#41-architecture-et-qualité-du-code)
-   - 4.2 [Interprétation des résultats et comparaison avec les attentes](#42-interprétation-des-résultats-et-comparaison-avec-les-attentes)
-   - 4.3 [Performance et limites identifiées](#43-performance-et-limites-identifiées)
-   - 4.4 [Améliorations possibles et extensions futures](#44-améliorations-possibles-et-extensions-futures)
+4. [CONCLUSION](#4-conclusion)
+   - 4.1 [Bilan du travail pratique](#41-bilan-du-travail-pratique)
+   - 4.2 [Accomplissements par rapport aux objectifs](#42-accomplissements-par-rapport-aux-objectifs)
+   - 4.3 [Perspectives et recommandations](#43-perspectives-et-recommandations)
 
-5. [CONCLUSION](#5-conclusion)
-   - 5.1 [Bilan du travail pratique](#51-bilan-du-travail-pratique)
-   - 5.2 [Accomplissements par rapport aux objectifs](#52-accomplissements-par-rapport-aux-objectifs)
-   - 5.3 [Perspectives et recommandations](#53-perspectives-et-recommandations)
+5. [UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE](#5-utilisation-dintelligence-artificielle-générative)
 
-6. [UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE](#6-utilisation-dintelligence-artificielle-générative)
-
-7. [RÉFÉRENCES BIBLIOGRAPHIQUES](#7-références-bibliographiques)
+6. [RÉFÉRENCES BIBLIOGRAPHIQUES](#6-références-bibliographiques)
 
 **ANNEXE A** : [EXTRAITS DE CODE SOURCE](#annexe-a--extraits-de-code-source)
 
@@ -105,11 +103,11 @@ Enseignant : Anicet Lepetit ONDO
 
 ### 1.1 Contexte et justification
 
-Ce travail présente un solveur de Taquin (puzzle 3×3) utilisant l'algorithme A* avec l'heuristique des tuiles mal placées. Le Taquin est un problème classique en IA avec un espace d'états limité (181 440 configurations solvables). Prolog permet de bien modéliser les transitions d'états et l'implémentation de recherches heuristiques<sup>[3]</sup>.
+Ce travail présente un solveur de Taquin (puzzle 3×3) utilisant l'algorithme A* avec l'heuristique de distance Manhattan. Le Taquin est un problème classique en IA avec un espace d'états limité (181 440 configurations solvables). Prolog permet de bien modéliser les transitions d'états et l'implémentation de recherches heuristiques<sup>[3]</sup>.
 
 ### 1.2 Objectifs du travail pratique
 
-Développer un solveur qui utilise A* pour garantir l'optimalité. Architecture modulaire avec 4 modules Prolog et séparation des responsabilités. Heuristique des tuiles mal placées admissible (exclusion case vide). Validation sur des métriques précises.
+Développer un solveur qui utilise A* pour garantir l'optimalité. Architecture modulaire avec 4 modules Prolog et séparation des responsabilités. Heuristique de distance Manhattan admissible et consistante. Validation sur des métriques précises.
 
 ### 1.3 Plan du rapport
 
@@ -125,34 +123,21 @@ SWI-Prolog 9.0.4, Visual Studio Code, Git/GitHub. Tests sur Windows 10/11 pour p
 
 ### 2.2 Architecture technique
 
-Le système utilise SWI-Prolog avec une architecture modulaire en 4 couches spécialisées respectant le principe de séparation des responsabilités.
+Le système utilise SWI-Prolog avec une architecture modulaire en 4 couches spécialisées respectant le principe de séparation des responsabilités :
 
-```
-SOLVEUR TAQUIN A*
-├── main.pl (orchestration)
-│   ├── Menu principal et navigation
-│   ├── Exécution des cas de test
-│   └── Gestion des choix utilisateur
-├── display.pl (interface utilisateur)
-│   ├── Bannières et menus ASCII
-│   ├── Affichage des états du taquin
-│   ├── Résultats et solutions
-│   └── Messages d'erreur
-├── astar.pl (algorithme IA)
-│   ├── Recherche A*
-│   ├── Heuristique tuiles mal placées
-│   ├── Structures de données (nœuds)
-│   └── Reconstruction du chemin
-└── game.pl (logique métier)
-    ├── États et mouvements valides
-    ├── Validation de solvabilité
-    ├── Transitions d'états
-    └── Configuration des cas test
-```
+- **main.pl** : Orchestration, menu principal, exécution des cas de test
+- **game.pl** : Logique métier, validation d'états, génération de mouvements
+- **astar.pl** : Algorithme A* avec heuristique Manhattan, structures de données, reconstruction du chemin
+- **display.pl** : Interface utilisateur, affichage des résultats, messages d'erreur
 
 ### 2.3 Étapes de réalisation du travail pratique
 
-Quatre phases : analyse et conception, implémentation séquentielle (game.pl → astar.pl → display.pl → main.pl), tests et validation, optimisation et documentation.
+Le développement s'est déroulé en quatre phases structurées :
+
+1. **Analyse et conception** : Modélisation du problème du taquin, conception de l'architecture modulaire, spécification des interfaces entre modules
+2. **Implémentation séquentielle** : Développement itératif des modules dans l'ordre game.pl → astar.pl → display.pl → main.pl, garantissant la testabilité à chaque étape
+3. **Tests et validation** : Suite de tests unitaires et d'intégration, validation des métriques exactes (Cost=4, Expanded=12 pour cas test 1), vérification de l'optimalité
+4. **Optimisation et documentation** : Amélioration des performances (warm-up JIT, gestion mémoire), documentation PlDoc, préparation du livrable
 
 ### 2.4 Algorithmes implémentés
 
@@ -171,10 +156,10 @@ A* utilise une structure de nœud contenant l'état, les coûts g(n), h(n), f(n)
 | Statut | ✓ | ✓ | ✓ | ✗ | — | ✓ | ✗ | ✗ | ✗ |
 
 <div align="center">
-<em>Calcul de l'heuristique des tuiles mal placées : case vide ignorée, résultat h(n) = 4.</em>
+<em>Calcul de l'heuristique de distance Manhattan : somme des distances |Δrow| + |Δcol| pour chaque tuile (case vide ignorée), résultat h(n) = 4.</em>
 </div>
 
-**Admissibilité** : h(n) ≤ h*(n) car chaque tuile mal placée nécessite ≥1 mouvement. **Consistance** : h(n) ≤ c(n,n') + h(n') car 1 mouvement corrige ≤1 tuile.
+**Admissibilité** : h(n) ≤ h*(n) car chaque tuile nécessite au minimum sa distance Manhattan en mouvements. **Consistance** : h(n) ≤ c(n,n') + h(n') car chaque mouvement réduit la distance d'au plus 1.
 
 ### 2.5 Diagrammes et schémas de fonctionnement
 
@@ -190,7 +175,7 @@ Tests ciblés validant chaque module pour confirmer métriques exactes.
 
 ---
 
-## 3. RÉSULTATS
+## 3. RÉSULTATS ET DISCUSSION
 
 ### 3.1 Fonctionnalités implémentées
 
@@ -230,77 +215,39 @@ Solveur complet utilisant A*, interface CLI en français avec configuration auto
 
 ### 3.3 Performance et métriques
 
-Implémentation optimisée avec warm-up JIT éliminant la variabilité de compilation lors de la première exécution. Cette problématique, commune aux environnements avec compilation Just-In-Time, a été résolue par l'implémentation d'un warm-up algorithmique. Le système effectue une pré-exécution silencieuse via `catch(solve_puzzle(TestCase, _), _, true)` dans main.pl:145, forçant la compilation JIT de SWI-Prolog à optimiser le code des prédicats critiques et garantissant des temps cohérents <3ms.
+**Optimisation des temps d'exécution** : Le système implémente un warm-up JIT pour éliminer la variabilité de la première exécution. Une pré-exécution silencieuse force la compilation Just-In-Time de SWI-Prolog, garantissant des temps cohérents <3ms pour les exécutions subséquentes.
 
-<div align="center">
-
-**Tableau 2 : Impact du warm-up JIT sur les temps de réponse**
-
-</div>
-
-| Cas de test | Mesure | Sans warm-up (1ère exécution) | Avec warm-up (après pré-compilation) |
-|-------------|--------|-------------------------------|-------------------------------------|
-| **Cas test 1** | Essai 1 | 12.0 ms | 0.17 ms |
-| | Essai 2 | 0.21 ms | 0.19 ms |
-| **Cas test 2** | Essai 1 | 15.3 ms | 0.24 ms |
-| | Essai 2 | 0.26 ms | 0.22 ms |
-
-<div align="center">
-<em>Comparaison des temps d'exécution pour les deux cas de test montrant l'impact de la compilation JIT lors de la première exécution.</em>
-</div>
-
-<div align="center">
-
-**Tableau 3 : Répartition des responsabilités par module**
-
-</div>
-
-| Module | Responsabilité | Fonctions clés |
-|--------|----------------|----------------|
-| main.pl | Orchestration | `main_menu/0`, `execute_test_case/1` |
-| astar.pl | Algorithme IA | `astar_search/5`, `misplaced_tiles_heuristic/3` |
-| game.pl | Logique métier | `generate_moves/2`, `is_solvable/2` |
-| display.pl | Interface | `display_menu/0`, `display_solution/4` |
-
-<div align="center">
-<em>Architecture modulaire suivant le principe de séparation des responsabilités.</em>
-</div>
-
----
-
-## 4. ANALYSE ET DISCUSSION
-
-### 4.1 Architecture et qualité du code
+### 3.4 Architecture et qualité du code
 
 L'architecture modulaire suit le principe de séparation des responsabilités. Chaque module a une fonction précise : main.pl gère l'interface, astar.pl implémente l'algorithme, game.pl gère la logique du taquin et display.pl s'occupe de l'affichage. Cette organisation facilite la maintenance et les tests. La documentation suit les conventions PlDoc et les prédicats ont des noms clairs.
 
-### 4.2 Interprétation des résultats et comparaison avec les attentes
+### 3.5 Interprétation des résultats et comparaison avec les attentes
 
-Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique des tuiles mal placées. Pour le cas test [1,2,3,5,0,6,4,7,8], on obtient un coût de 4 mouvements, ce qui est optimal. L'algorithme explore 12 nœuds, ce qui montre que l'heuristique guide bien la recherche sans explorer inutilement l'espace d'états complet (181 440 configurations possibles).
+Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique de distance Manhattan. Pour le cas test [1,2,3,5,0,6,4,7,8], on obtient un coût de 4 mouvements, ce qui est optimal. L'algorithme explore 12 nœuds, ce qui montre que l'heuristique guide efficacement la recherche sans explorer inutilement l'espace d'états complet (181 440 configurations possibles).
 
-### 4.3 Performance et limites identifiées
+### 3.6 Performance et limites identifiées
 
 **Forces** : L'architecture modulaire facilite la maintenance et permet une séparation claire des responsabilités. A* garantit l'optimalité et la reproductibilité des résultats. Les temps d'exécution respectent les contraintes de performance (<3ms).
 
-**Limites** : Notre implémentation présente deux limitations. D'abord, notre méthode de tri de l'open list n'est pas optimisée : on retrie toute la liste à chaque nouveau nœud, ce qui devient lent pour des problèmes plus gros. Ensuite, l'heuristique choisie (tuiles mal placées) donne parfois des estimations faibles, forçant A* à explorer plus de chemins avant de trouver la solution.
+**Limites** : Notre implémentation présente une limitation principale : notre méthode de tri de l'open list n'est pas optimisée. On retrie toute la liste à chaque nouveau nœud, ce qui devient lent pour des problèmes plus gros. L'utilisation d'une file de priorité optimisée (heap binaire) réduirait la complexité de O(n log n) à O(log n) par opération.
 
-### 4.4 Améliorations possibles et extensions futures
+### 3.7 Améliorations possibles et extensions futures
 
-L'implémentation d'une file de priorité optimisée (heap binaire) réduirait la complexité de gestion de l'open list de O(n log n) à O(log n). L'intégration de l'heuristique de distance de Manhattan<sup>[6]</sup> améliorerait significativement l'efficacité de la recherche en fournissant une estimation plus précise. L'adoption d'IDA* (Iterative Deepening A*)<sup>[3]</sup> permettrait de traiter des instances plus complexes avec une consommation mémoire constante O(d) plutôt qu'exponentielle.
+L'adoption d'IDA* (Iterative Deepening A*)<sup>[3]</sup> permettrait de traiter des instances plus complexes avec une consommation mémoire constante O(d) plutôt qu'exponentielle. L'exploration de bases de données de motifs (pattern databases) offrirait des heuristiques encore plus informées pour des puzzles plus grands. L'intégration de techniques de parallélisation pourrait accélérer la recherche sur des configurations complexes.
 
 ---
 
-## 5. CONCLUSION
+## 4. CONCLUSION
 
-### 5.1 Bilan du travail pratique
+### 4.1 Bilan du travail pratique
 
 Ce projet a permis de bien comprendre les concepts de base de l'intelligence artificielle. L'implémentation en Prolog montre que ce langage convient bien aux problèmes de recherche heuristique grâce à sa nature logique. Les tests confirment que notre algorithme fonctionne correctement avec des résultats reproductibles qui correspondent aux attentes.
 
-### 5.2 Accomplissements par rapport aux objectifs
+### 4.2 Accomplissements par rapport aux objectifs
 
-Tous les objectifs du projet ont été atteints. A* produit des solutions optimales avec les bonnes métriques. L'heuristique des tuiles mal placées respecte les propriétés d'admissibilité et de consistance requises pour garantir l'optimalité des solutions.
+Tous les objectifs du projet ont été atteints. A* produit des solutions optimales avec les bonnes métriques. L'heuristique de distance Manhattan respecte les propriétés d'admissibilité et de consistance requises pour garantir l'optimalité des solutions.
 
-### 5.3 Perspectives et recommandations
+### 4.3 Perspectives et recommandations
 
 **Directions de recherche futures** : L'extension vers des domaines de recherche plus complexes (taquins N×N, problèmes de planification, jeux à deux joueurs) constitue une progression naturelle. L'exploration de techniques avancées comme les bases de données de motifs (pattern databases) ou la recherche bidirectionnelle ouvrirait de nouvelles perspectives d'optimisation.
 
@@ -308,7 +255,7 @@ Tous les objectifs du projet ont été atteints. A* produit des solutions optima
 
 ---
 
-## 6. UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE
+## 5. UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE
 
 Sonnet 4 et Opus 4.1<sup>[1]</sup> ainsi que GPT-5<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, l'architecture et l'amélioration rédactionnelle. Des outils spécialisés comme Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) ont facilité la validation des spécifications A* et l'obtention de références bibliographiques.
 
@@ -316,7 +263,7 @@ L'ensemble du travail a été réalisé sous supervision directe avec une valida
 
 ---
 
-## 7. RÉFÉRENCES BIBLIOGRAPHIQUES
+## 6. RÉFÉRENCES BIBLIOGRAPHIQUES
 
 [1] Anthropic. (2024). *Sonnet 4 et Opus 4.1: AI Assistants*. https://claude.ai/
 
@@ -353,18 +300,27 @@ astar_search(Initial, Goal, Path, Cost, Expanded) :-
     ).
 ```
 
-### Heuristique tuiles mal placées (astar.pl)
+### Heuristique distance Manhattan (astar.pl)
 
 ```prolog
-%! misplaced_tiles_heuristic(+State:list, +Goal:list, -Count:integer) is det.
-%  Compte les tuiles mal placées (case vide ignorée)
-misplaced_tiles_heuristic(State, Goal, Count) :-
-    misplaced_tiles_helper(State, Goal, 0, Count).
+%! manhattan_distance_heuristic(+State:list, +Goal:list, -Distance:integer) is det.
+%  Calcule la somme des distances Manhattan pour toutes les tuiles
+manhattan_distance_heuristic(State, Goal, Distance) :-
+    manhattan_sum(State, Goal, 0, 0, Distance).
 
-misplaced_tiles_helper([], [], Count, Count).
-misplaced_tiles_helper([S|ST], [G|GT], Acc, Count) :-
-    (   (S \= G, S \= 0) -> NewAcc is Acc + 1 ; NewAcc = Acc ),
-    misplaced_tiles_helper(ST, GT, NewAcc, Count).
+manhattan_sum([], [], _, Acc, Acc).
+manhattan_sum([Tile|RestState], [_|RestGoal], Pos, Acc, Distance) :-
+    (   Tile =:= 0 -> NewAcc = Acc
+    ;   nth0(GoalPos, [1,2,3,4,5,6,7,8,0], Tile),
+        CurrentRow is Pos // 3, CurrentCol is Pos mod 3,
+        GoalRow is GoalPos // 3, GoalCol is GoalPos mod 3,
+        RowDiff is abs(CurrentRow - GoalRow),
+        ColDiff is abs(CurrentCol - GoalCol),
+        TileDist is RowDiff + ColDiff,
+        NewAcc is Acc + TileDist
+    ),
+    NextPos is Pos + 1,
+    manhattan_sum(RestState, RestGoal, NextPos, NewAcc, Distance).
 ```
 
 ### Utilisation de l'heuristique pour créer les successeurs (astar.pl)
@@ -374,7 +330,7 @@ misplaced_tiles_helper([S|ST], [G|GT], Acc, Count) :-
 %  Crée les nœuds A* pour tous les états successeurs
 create_successor_nodes([State|RestStates], Goal, G, Parent, [Node|RestNodes], GenCountIn, GenCountOut) :-
     GenCountMid is GenCountIn + 1,                    % Incrémenter compteur
-    misplaced_tiles_heuristic(State, Goal, H),        % Calculer h(n)
+    manhattan_distance_heuristic(State, Goal, H),     % Calculer h(n)
     create_node(State, G, H, Parent, Node),           % Créer nœud avec f=g+h
     create_successor_nodes(RestStates, Goal, G, Parent, RestNodes, GenCountMid, GenCountOut).
 ```
