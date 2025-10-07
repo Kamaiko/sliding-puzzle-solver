@@ -253,9 +253,7 @@ Tous les objectifs du projet ont été atteints. A* produit des solutions optima
 
 ### 4.3 Perspectives et recommandations
 
-**Directions de recherche futures** : L'extension vers des domaines de recherche plus complexes (taquins N×N, problèmes de planification, jeux à deux joueurs) constitue une progression naturelle. L'exploration de techniques avancées comme les bases de données de motifs (pattern databases) ou la recherche bidirectionnelle ouvrirait de nouvelles perspectives d'optimisation.
-
-**Recommandations méthodologiques** : Intégrer une approche comparative systématique entre différentes heuristiques pour quantifier les gains de performance. Développer une architecture modulaire permettant l'expérimentation avec différents algorithmes de recherche (RBFS, SMA*) tout en conservant l'interface commune.
+L'extension vers des domaines de recherche plus complexes (taquins N×N, problèmes de planification, jeux à deux joueurs) constitue une progression naturelle pour approfondir les concepts acquis. L'exploration de techniques avancées comme les bases de données de motifs (pattern databases) ou la recherche bidirectionnelle ouvrirait de nouvelles perspectives d'optimisation. Pour des travaux futurs, il serait pertinent d'intégrer une approche comparative systématique entre différentes heuristiques afin de quantifier les gains de performance. Une architecture modulaire permettant l'expérimentation avec différents algorithmes de recherche (RBFS, SMA*) tout en conservant l'interface commune faciliterait ces comparaisons.
 
 ---
 
