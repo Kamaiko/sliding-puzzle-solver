@@ -245,7 +245,7 @@ L'adoption d'IDA* (Iterative Deepening A*)<sup>[3]</sup> permettrait de traiter 
 
 ### 4.1 Bilan du travail pratique
 
-Ce projet a permis de bien comprendre les concepts de base de l'intelligence artificielle. L'implémentation en Prolog montre que ce langage convient bien aux problèmes de recherche heuristique grâce à sa nature logique. Les tests confirment que notre algorithme fonctionne correctement avec des résultats reproductibles qui correspondent aux attentes.
+Ce projet a permis d'approfondir notre compréhension des algorithmes de recherche heuristique, particulièrement A* et ses propriétés d'optimalité. L'implémentation en Prolog s'est révélée bien adaptée pour modéliser les états, les transitions et le backtracking nécessaire à la reconstruction des chemins. La suite de tests automatisée confirme que l'algorithme produit systématiquement les solutions optimales attendues (4 mouvements pour le scénario classique, 9 pour le scénario avancé) avec un comportement parfaitement déterministe.
 
 ### 4.2 Accomplissements par rapport aux objectifs
 
