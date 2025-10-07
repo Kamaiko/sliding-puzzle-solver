@@ -44,9 +44,9 @@ display_menu :-
     write('║                         ╠═════════════════════════╣                           ║'), nl,
     write('║                         ║ [4] QUITTER             ║                           ║'), nl,
     write('║                         ╚═════════════════════════╝                           ║'), nl,
-    write('║                           SOLVEUR INTELLIGENT A*                              ║'), nl,
-    write('║                               IFT-2003 - IA                                   ║'), nl,
-    write('║                             Universite Laval                                  ║'), nl,
+    write('║                            SOLVEUR INTELLIGENT A*                             ║'), nl,
+    write('║                                 IFT-2003 - IA                                 ║'), nl,
+    write('║                               Universite Laval                                ║'), nl,
     write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl, nl,
     write('Votre choix: ').
 
