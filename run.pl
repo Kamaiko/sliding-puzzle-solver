@@ -1,26 +1,33 @@
-% =============================================================================
-% RUN.PL - Launcher avec configuration automatique UTF-8
-% =============================================================================
-%
-% ÉQUIPE       : Projet universitaire IFT-2003
-% COURS        : IFT-2003 - Intelligence Artificielle
-% INSTITUTION  : Université Laval
-% VERSION      : 1.0
-%
-% DESCRIPTION  : Launcher universel qui configure automatiquement l'encodage
-%                UTF-8 selon l'OS et lance le solveur de taquin. Permet à
-%                tous les membres de l'équipe d'utiliser le programme avec
-%                une seule commande : swipl run.pl
-%
-% FONCTIONNALITÉS :
-% - Configuration automatique UTF-8 pour Windows/Mac/Linux
-% - Lancement transparent du programme principal
-% - Support complet des caractères ASCII étendus
-% - Aucune configuration manuelle requise pour l'utilisateur
-%
-% UTILISATION  : swipl run.pl
-%
-% =============================================================================
+/** <module> Launcher avec configuration automatique UTF-8
+
+Launcher universel qui configure automatiquement l'encodage UTF-8 selon
+le système d'exploitation et lance le solveur de taquin A*.
+
+@author Projet universitaire IFT-2003
+@version 1.0
+@see main.pl pour le programme principal
+
+# Utilisation
+
+==
+swipl run.pl
+==
+
+# Fonctionnalités
+
+- Configuration automatique UTF-8 pour Windows/Mac/Linux
+- Détection automatique du système d'exploitation
+- Configuration des streams d'entrée/sortie
+- Lancement transparent du programme principal
+- Gestion d'erreurs avec messages informatifs
+- Support complet des caractères ASCII étendus
+
+# Compatibilité
+
+- Windows 10/11 (PowerShell, cmd, VS Code Terminal)
+- macOS (Terminal.app, iTerm2)
+- Linux (bash, zsh, gnome-terminal)
+*/
 
 % Point d'entrée automatique avec gestion d'erreurs
 :- initialization(start, main).
@@ -104,17 +111,3 @@ handle_launcher_error(Error) :-
     write('3. Essayez de lancer directement: swipl -g main src/main.pl'), nl,
     nl,
     halt(1).
-
-% =============================================================================
-% NOTES TECHNIQUES
-% =============================================================================
-%
-% Ce launcher configure automatiquement l'environnement UTF-8 pour garantir
-% l'affichage correct des caractères ASCII étendus sur tous les systèmes.
-%
-% Compatibilité testée :
-% - Windows 10/11 (PowerShell, cmd, VS Code Terminal)
-% - macOS (Terminal.app, iTerm2)
-% - Linux (bash, zsh, gnome-terminal)
-%
-% =============================================================================
