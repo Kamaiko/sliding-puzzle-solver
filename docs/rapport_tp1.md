@@ -101,15 +101,15 @@ Enseignant : Anicet Lepetit ONDO
 
 ### 1.1 Contexte et justification
 
-Ce travail présente un solveur de Taquin (puzzle 3×3) utilisant l'algorithme A* avec l'heuristique de distance Manhattan. Le Taquin est un problème classique en IA avec un espace d'états limité (181 440 configurations solvables). Prolog permet de bien modéliser les transitions d'états et l'implémentation de recherches heuristiques<sup>[3]</sup>.
+Ce travail présente un solveur de Taquin (puzzle 3×3) utilisant l'algorithme A* avec l'heuristique de distance Manhattan. Le Taquin est un problème classique en IA avec un espace d'états limité (181 440 configurations solvables) dont la profondeur de solution optimale peut atteindre 31 mouvements pour les cas les plus complexes. Prolog permet de bien modéliser les transitions d'états et l'implémentation de recherches heuristiques<sup>[3]</sup>.
 
 ### 1.2 Objectifs du travail pratique
 
-Développer un solveur qui utilise A* pour garantir l'optimalité. Architecture modulaire avec 4 modules Prolog et séparation des responsabilités. Heuristique de distance Manhattan admissible et consistante. Validation sur des métriques précises.
+Développer un solveur qui utilise A* pour garantir l'optimalité. Architecture modulaire avec 4 modules Prolog et séparation des responsabilités. Heuristique de distance Manhattan admissible et consistante. Validation sur des scénarios de test représentatifs.
 
 ### 1.3 Plan du rapport
 
-Le rapport présente la méthodologie (architecture modulaire, algorithme A*, heuristique), les résultats (validation technique et métriques) et l'analyse (qualité, limitations, améliorations).
+Le rapport présente d'abord la méthodologie avec le matériel utilisé, la modélisation du problème, les étapes de réalisation, les algorithmes et le programme. Ensuite, les résultats couvrent les fonctionnalités implémentées, la validation technique, les performances et l'analyse comparative. Enfin, la conclusion synthétise le bilan, les accomplissements et les perspectives futures.
 
 ---
 
@@ -160,11 +160,11 @@ L'heuristique de distance Manhattan se calcule en parcourant chaque tuile de l'�
 
 ```prolog
 manhattan_distance(Tile, CurrentPos, GoalPos, Distance) :-
-    CurrentRow is CurrentPos // 3,
-    CurrentCol is CurrentPos mod 3,
-    GoalRow is GoalPos // 3,
-    GoalCol is GoalPos mod 3,
-    Distance is abs(CurrentRow - GoalRow) + abs(CurrentCol - GoalCol).
+    CurrentRow is CurrentPos // 3,          % Ligne actuelle (division entière)
+    CurrentCol is CurrentPos mod 3,         % Colonne actuelle (modulo)
+    GoalRow is GoalPos // 3,                % Ligne but
+    GoalCol is GoalPos mod 3,               % Colonne but
+    Distance is abs(CurrentRow - GoalRow) + abs(CurrentCol - GoalCol).  % Manhattan
 ```
 
 Le prédicat principal `manhattan_distance_heuristic/3` délègue le calcul à un helper récursif qui traite la liste état position par position, maintenant un accumulateur de distance totale jusqu'au cas de base.
@@ -259,9 +259,9 @@ L'extension vers des domaines de recherche plus complexes (taquins N×N, problè
 
 ## 5. UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE
 
-Sonnet 4 et Opus 4.1<sup>[1]</sup> ainsi que GPT-5<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, l'architecture et l'amélioration rédactionnelle. Des outils spécialisés comme Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) ont facilité la validation des spécifications A* et l'obtention de références bibliographiques.
+Sonnet 4 et Opus 4.1<sup>[1]</sup> ainsi que GPT-5<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, la conception et l'amélioration rédactionnelle. Des outils spécialisés comme Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) ont facilité la validation des spécifications A* et l'obtention de références bibliographiques.
 
-L'ensemble du travail a été réalisé sous supervision directe avec une validation continue de chaque étape. Notre contribution personnelle couvre l'ensemble du développement, incluant la conception de l'architecture modulaire, l'implémentation complète de l'algorithme A* avec ses heuristiques, l'optimisation des performances et la validation des résultats selon les spécifications du projet. Cette approche nous a permis de mieux gérer le temps alloué aux tâches secondaires pour nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
+L'ensemble du travail a été réalisé sous supervision directe avec une validation continue de chaque étape. Notre contribution personnelle couvre l'ensemble du développement, incluant la modélisation du problème, l'implémentation complète de l'algorithme A* avec ses heuristiques, l'optimisation des performances et la validation des résultats. Cette approche nous a permis de mieux gérer le temps alloué aux tâches secondaires pour nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
 
 ---
 
