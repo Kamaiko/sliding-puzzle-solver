@@ -5,9 +5,7 @@
 :- encoding(utf8).
 
 % Importation des modules à tester
-:- consult('game.pl').
-:- consult('astar.pl').
-:- consult('display.pl').
+% Note: main.pl consulte automatiquement game.pl, astar.pl et display.pl
 :- consult('main.pl').
 
 % =============================================================================
@@ -295,7 +293,8 @@ run_all_tests :-
     write('================================================================'), nl,
     format('Temps total: ~3f secondes~n', [TotalTime]),
     write('[OK] TOUS LES TESTS SONT PASSES'), nl,
-    nl.
+    nl,
+    halt(0).
 
 % =============================================================================
 % UTILITAIRES
