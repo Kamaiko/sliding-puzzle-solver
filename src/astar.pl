@@ -13,15 +13,18 @@
 
 :- encoding(utf8).
 
+:- use_module(library(ordsets)).
+
 :- consult(game).
+:- consult(display).
 
 % =============================================================================
 % SECTION 1: CONSTANTES ET CONFIGURATION
 % =============================================================================
 
 %! max_timeout(-Seconds:float) is det.
-%  Temps maximum d'exécution avant timeout (10 secondes)
-max_timeout(10.0).
+%  Temps maximum d'exécution avant timeout (30 secondes pour tests complexes)
+max_timeout(30.0).
 
 
 % =============================================================================
@@ -217,9 +220,9 @@ is_goal_reached(State, Goal) :-
     states_equal(State, Goal).
 
 %! is_state_in_closed_set(+State:list, +ClosedSet:list) is semidet.
-%  Vérifie si un état est déjà dans le closed set
+%  Vérifie si un état est déjà dans le closed set (recherche binaire O(log n))
 is_state_in_closed_set(State, ClosedSet) :-
-    member(State, ClosedSet).
+    ord_memberchk(State, ClosedSet).
 
 %! expand_current_node(+CurrentNode:compound, +RestOpen:list, +ClosedSet:list, +Goal:list, +StartTime:float, +ExpCount:int, +GenCount:int, -Result:compound) is det.
 %  Expanse le nœud courant en générant ses successeurs
@@ -230,9 +233,9 @@ expand_current_node(CurrentNode, RestOpen, ClosedSet, Goal, StartTime, ExpCount,
     % Afficher trace de debug si activé
     debug_expansion_trace(CurrentNode, NewExpCount, ClosedSet),
 
-    % Ajouter l'état courant au closed set
+    % Ajouter l'état courant au closed set (ensemble ordonné pour performance)
     node_state(CurrentNode, CurrentState),
-    NewClosedSet = [CurrentState|ClosedSet],
+    ord_add_element(ClosedSet, CurrentState, NewClosedSet),
 
     % Générer et traiter tous les successeurs
     generate_and_process_successors(CurrentNode, Goal, SuccessorNodes, GenCount, NewGenCount),
@@ -257,14 +260,92 @@ generate_and_process_successors(CurrentNode, Goal, SuccessorNodes, GenCountIn, G
 %! update_open_list_and_continue(+SuccessorNodes:list, +RestOpen:list, +ClosedSet:list, +Goal:list, +StartTime:float, +ExpCount:int, +GenCount:int, -Result:compound) is det.
 %  Met à jour l'open list et continue la recherche
 update_open_list_and_continue(SuccessorNodes, RestOpen, ClosedSet, Goal, StartTime, ExpCount, GenCount, Result) :-
-    % Ajouter les successeurs à l'open list
-    append(RestOpen, SuccessorNodes, UpdatedOpenList),
+    % Filtrer les successeurs déjà dans le closed set
+    filter_closed_successors(SuccessorNodes, ClosedSet, FilteredClosed),
+
+    % Filtrer les successeurs déjà dans l'open list (garder seulement si meilleur g)
+    filter_open_duplicates_simple(FilteredClosed, RestOpen, FilteredSuccessors),
+
+    % Ajouter les successeurs filtrés à l'open list
+    append(RestOpen, FilteredSuccessors, UpdatedOpenList),
 
     % Trier par f(n) croissant (avec tie-breaking sur g(n))
     sort_open_list_by_f_value(UpdatedOpenList, SortedOpenList),
 
     % Continuer la recherche avec les structures mises à jour
     astar_main_loop(SortedOpenList, ClosedSet, Goal, StartTime, ExpCount, GenCount, Result).
+
+%! deduplicate_by_state(+SortedNodes:list, -UniqueNodes:list) is det.
+%  Élimine les duplicatas d'états dans une liste triée de nœuds.
+%  Garde seulement la première occurrence de chaque état (meilleur g après tri).
+%
+%  Après le tri par f puis g, pour un même état :
+%  - Le nœud avec g=5, h=3 (f=8) apparaît avant
+%  - Le nœud avec g=10, h=3 (f=13) apparaît après
+%  On garde le premier = meilleur chemin vers cet état
+deduplicate_by_state([], []).
+deduplicate_by_state([Node|Rest], [Node|UniqueRest]) :-
+    node_state(Node, State),
+    % Retirer tous les nœuds suivants ayant le même état
+    filter_out_state(Rest, State, RemainingNodes),
+    % Continuer la déduplication sur le reste
+    deduplicate_by_state(RemainingNodes, UniqueRest).
+
+%! filter_out_state(+Nodes:list, +StateToRemove:list, -Filtered:list) is det.
+%  Retire tous les nœuds ayant l'état spécifié
+filter_out_state([], _, []).
+filter_out_state([Node|Rest], StateToRemove, Filtered) :-
+    node_state(Node, NodeState),
+    (   states_equal(NodeState, StateToRemove) ->
+        % Même état, le retirer
+        filter_out_state(Rest, StateToRemove, Filtered)
+    ;   % État différent, le garder
+        filter_out_state(Rest, StateToRemove, RestFiltered),
+        Filtered = [Node|RestFiltered]
+    ).
+
+%! filter_open_duplicates_simple(+Successors:list, +OpenList:list, -Filtered:list) is det.
+%  Filtre les successeurs en excluant ceux déjà dans l'open list avec un g égal ou meilleur
+filter_open_duplicates_simple([], _, []).
+filter_open_duplicates_simple([Succ|Rest], OpenList, Filtered) :-
+    node_state(Succ, SuccState),
+    node_g_cost(Succ, SuccG),
+    (   find_best_g_in_open(SuccState, OpenList, BestG),
+        SuccG >= BestG ->
+        % État déjà dans open avec meilleur g, l'exclure
+        filter_open_duplicates_simple(Rest, OpenList, Filtered)
+    ;   % État nouveau ou avec meilleur g, le garder
+        filter_open_duplicates_simple(Rest, OpenList, RestFiltered),
+        Filtered = [Succ|RestFiltered]
+    ).
+
+%! find_best_g_in_open(+State:list, +OpenList:list, -BestG:int) is semidet.
+%  Trouve le meilleur g (plus petit) pour un état dans l'open list
+%  Échoue si l'état n'est pas dans l'open list
+find_best_g_in_open(State, [Node|Rest], BestG) :-
+    node_state(Node, NodeState),
+    (   states_equal(State, NodeState) ->
+        node_g_cost(Node, G),
+        (   find_best_g_in_open(State, Rest, RestG) ->
+            BestG is min(G, RestG)
+        ;   BestG = G
+        )
+    ;   find_best_g_in_open(State, Rest, BestG)
+    ).
+
+%! filter_closed_successors(+Successors:list, +ClosedSet:list, -Filtered:list) is det.
+%  Filtre les successeurs pour exclure ceux déjà dans le closed set (recherche binaire O(log n))
+filter_closed_successors([], _, []).
+filter_closed_successors([Node|Rest], ClosedSet, Filtered) :-
+    node_state(Node, State),
+    (   ord_memberchk(State, ClosedSet) ->
+        % État déjà visité, l'exclure
+        filter_closed_successors(Rest, ClosedSet, Filtered)
+    ;   % État nouveau, le garder
+        filter_closed_successors(Rest, ClosedSet, RestFiltered),
+        Filtered = [Node|RestFiltered]
+    ).
+
 
 % =============================================================================
 % SECTION 5: UTILITAIRES A*
@@ -374,20 +455,6 @@ solve_puzzle(case2, result(Path, Cost, Expanded)) :-
 %  @param Result Structure result(Path, Cost, Expanded)
 solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)) :-
     astar_search(Initial, Goal, Path, Cost, Expanded).
-
-% TODO: Analyser si solve_custom/2 est nécessaire dans le cadre du TP1
-%       Cette fonction semble redondante avec solve_custom_puzzle/3
-%       À évaluer : utilité  vs complexité ajoutée
-%! solve_custom(+Initial:list, +Goal:list) is det.
-%  Interface pour configurations personnalisées avec affichage automatique
-%  @param Initial État de départ personnalisé
-%  @param Goal État but personnalisé
-solve_custom(Initial, Goal) :-
-    get_time(StartTime),
-    solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)),
-    get_time(EndTime),
-    ResponseTime is EndTime - StartTime,
-    display_solution(Path, Cost, Expanded, ResponseTime).
 
 % =============================================================================
 % SECTION 7: DEBUG ET INSTRUMENTATION
