@@ -53,9 +53,14 @@ initial_state([1,2,3,5,0,6,4,7,8]).
 goal_state([1,2,3,4,5,6,7,8,0]).
 
 %! custom_initial_state(-State:list) is det.
-%  État initial du cas test 2 (personnalisé, solvable, 6+ mouvements)
-%  Configuration plus complexe pour démonstration étendue
-custom_initial_state([2,0,3,1,4,6,7,5,8]).
+%  État initial du cas test 2 (personnalisé, solvable, 9 mouvements optimaux)
+%  Configuration complexe nécessitant heuristique Manhattan pour résolution efficace
+%
+%  Configuration visuelle:
+%    1 3 6      Objectif:  1 2 3
+%    5 2 8  →              4 5 6
+%    4 * 7                 7 8 *
+custom_initial_state([1,3,6,5,2,8,4,0,7]).
 
 %! custom_goal_state(-State:list) is det.
 %  État final du cas test 2 (même que cas test 1 - état résolu standard)
