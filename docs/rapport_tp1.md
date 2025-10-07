@@ -237,7 +237,7 @@ Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique de 
 
 ### 3.7 Améliorations possibles et extensions futures
 
-L'adoption d'IDA* (Iterative Deepening A*)<sup>[3]</sup> permettrait de traiter des instances plus complexes avec une consommation mémoire constante O(d) plutôt qu'exponentielle. L'exploration de bases de données de motifs (pattern databases) offrirait des heuristiques encore plus informées pour des puzzles plus grands. L'intégration de techniques de parallélisation pourrait accélérer la recherche sur des configurations complexes.
+L'adoption d'IDA* (Iterative Deepening A*)<sup>[7]</sup> permettrait de traiter des instances plus complexes avec une consommation mémoire constante O(d) plutôt qu'exponentielle. L'exploration de bases de données de motifs (pattern databases) offrirait des heuristiques encore plus informées pour des puzzles plus grands. L'intégration de techniques de parallélisation pourrait accélérer la recherche sur des configurations complexes.
 
 ---
 
@@ -279,9 +279,11 @@ L'ensemble du travail a été réalisé sous supervision directe avec une valida
 
 [6] GPT-5: AI Language Model. (2024). https://openai.com/
 
-[7] Russell, S. & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*. 4th Edition. Pearson.
+[7] Korf, R. E. (1985). Depth-first iterative-deepening: An optimal admissible tree search. Artificial Intelligence, 27(1), 97-109.
 
-[8] SWI-Prolog Documentation. (2025). https://www.swi-prolog.org/
+[8] Russell, S. & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*. 4th Edition. Pearson.
+
+[9] SWI-Prolog Documentation. (2025). https://www.swi-prolog.org/
 
 ---
 
