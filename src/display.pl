@@ -123,6 +123,7 @@ display_solution(Path, Cost, Expanded, ResponseTime) :-
 
     % Section CHEMIN (PATH)
     write('════ CHEMIN (PATH) ════════════════════════════════════════════════════════════'), nl,
+    nl,
     display_path_sequence_with_labels(Path, 1),
 
     % Section COUT (COST)
