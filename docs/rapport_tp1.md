@@ -117,7 +117,7 @@ Le rapport présente la méthodologie (architecture modulaire, algorithme A*, he
 
 ### 2.1 Matériel, logiciels et outils utilisés
 
-Le développement a été réalisé avec SWI-Prolog 9.0.4, Visual Studio Code et Git/GitHub, avec des tests sur Windows 10/11 pour assurer la portabilité multiplateforme.
+Le développement a été réalisé avec SWI-Prolog 9.0.4<sup>[9]</sup>, Visual Studio Code et Git/GitHub, avec des tests sur Windows 10/11 pour assurer la portabilité multiplateforme.
 
 ### 2.2 Modélisation du problème
 
@@ -129,7 +129,7 @@ Le problème du taquin consiste à réorganiser des tuiles numérotées sur une 
 
 **Mouvements.** Quatre mouvements sont possibles selon la position de la case vide : déplacer une tuile vers le haut (UP), vers le bas (DOWN), vers la gauche (LEFT) ou vers la droite (RIGHT). Notre implémentation génère les successeurs dans cet ordre précis pour garantir le déterminisme des résultats. Lorsque la case vide se trouve en bordure ou dans un coin, certains mouvements deviennent impossibles et ne sont pas générés.
 
-**Technique de recherche.** Nous avons choisi l'algorithme A* pour garantir l'optimalité des solutions. A* combine le coût réel g(n) depuis l'état initial avec une estimation heuristique h(n) du coût restant vers le but, en utilisant la fonction d'évaluation f(n) = g(n) + h(n) pour prioriser l'exploration. L'heuristique de distance Manhattan calcule pour chaque tuile la somme des déplacements horizontaux et verticaux nécessaires. Cette heuristique est admissible car elle ne surestime jamais le coût réel, et consistante car la différence d'estimation entre deux états successifs ne dépasse jamais le coût du mouvement. L'algorithme maintient une liste ouverte des nœuds à explorer, triée par f(n) croissant, et un ensemble fermé pour éviter la re-exploration d'états déjà visités.
+**Technique de recherche.** Nous avons choisi l'algorithme A*<sup>[5]</sup> pour garantir l'optimalité des solutions. A* combine le coût réel g(n) depuis l'état initial avec une estimation heuristique h(n) du coût restant vers le but, en utilisant la fonction d'évaluation f(n) = g(n) + h(n) pour prioriser l'exploration. L'heuristique de distance Manhattan<sup>[8]</sup> calcule pour chaque tuile la somme des déplacements horizontaux et verticaux nécessaires. Cette heuristique est admissible car elle ne surestime jamais le coût réel, et consistante car la différence d'estimation entre deux états successifs ne dépasse jamais le coût du mouvement. L'algorithme maintient une liste ouverte des nœuds à explorer, triée par f(n) croissant, et un ensemble fermé pour éviter la re-exploration d'états déjà visités.
 
 **Résultats attendus.** Pour le cas test classique, nous nous attendons à trouver une solution optimale de 4 mouvements. Pour le cas test avancé, la solution optimale devrait être de 9 mouvements. L'algorithme A* avec l'heuristique Manhattan devrait garantir ces solutions optimales grâce à l'admissibilité de l'heuristique. Le nombre exact de nœuds explorés dépendra de l'implémentation, mais devrait rester raisonnable pour ces configurations relativement simples.
 

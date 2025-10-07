@@ -5,9 +5,6 @@
  * heuristique admissible et consistante.
  *
  * @author Équipe 6
- * @see [3] Bratko, I. (2012). Prolog Programming for Artificial Intelligence
- * @see [5] Hart, P.E., et al. (1968). IEEE Trans. on Systems Science and Cybernetics
- * @see [7] Russell, S. & Norvig, P. (2020). Artificial Intelligence: A Modern Approach
  * @complexity Temps et espace O(b^d) où b≈2.67, d≤31 pour taquin 3×3
  */
 
@@ -88,7 +85,6 @@ create_node(State, G, H, Parent, node(State, G, H, F, Parent)) :-
 %  @arg State État actuel du taquin [T1,T2,...,T8,0]
 %  @arg Goal État but [1,2,3,4,5,6,7,8,0]
 %  @arg Distance Somme des distances Manhattan de toutes les tuiles
-%  @see [6] Russell & Norvig (2020, p.103-104) pour heuristiques admissibles du taquin
 manhattan_distance_heuristic(State, Goal, Distance) :-
     manhattan_sum(State, Goal, 0, 0, Distance).
 
@@ -141,7 +137,6 @@ manhattan_sum([Tile|RestState], [_|RestGoal], Pos, Acc, Distance) :-
 %  @arg Expanded Nombre de nœuds générés durant la recherche
 %  @throws error(timeout, _) Si le temps d'exécution dépasse 10 secondes
 %  @throws error(unsolvable, _) Si la configuration est impossible à résoudre
-%  @see [5] Hart et al. (1968) pour l'algorithme A* original 
 astar_search(Initial, Goal, Path, Cost, Expanded) :-
     % Étape 1: Validation préalable des états
     validate_search_inputs(Initial, Goal),
