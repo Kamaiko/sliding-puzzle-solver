@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="950" viewBox="0 0 700 950">
+  <defs>
+    <style>
+      .process { fill: #E3F2FD; stroke: #666; stroke-width: 2; }
+      .decision { fill: #FFF9C4; stroke: #666; stroke-width: 2; }
+      .terminal { fill: #E8F5E9; stroke: #666; stroke-width: 2; }
+      .failure { fill: #FFEBEE; stroke: #666; stroke-width: 2; }
+      .text { font-family: Arial, sans-serif; font-size: 13px; fill: #333; text-anchor: middle; }
+      .arrow { stroke: #333; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .label { font-family: Arial, sans-serif; font-size: 12px; fill: #333; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#333" />
+    </marker>
+  </defs>
+
+  <!-- 1. Début (Initialisation) -->
+  <ellipse cx="350" cy="30" rx="130" ry="25" class="terminal"/>
+  <text x="350" y="35" class="text">Initialisation : nœud initial</text>
+  <text x="350" y="50" class="text" font-size="11">g=0, h=Manhattan</text>
+
+  <path d="M 350 55 L 350 80" class="arrow"/>
+
+  <!-- 2. Ajouter à Open -->
+  <rect x="250" y="80" width="200" height="35" rx="5" class="process"/>
+  <text x="350" y="102" class="text">Ajouter à liste ouverte</text>
+
+  <path d="M 350 115 L 350 135" class="arrow"/>
+
+  <!-- 3. Test Open vide -->
+  <path d="M 350 135 L 425 170 L 350 205 L 275 170 Z" class="decision"/>
+  <text x="350" y="173" class="text">Liste ouverte</text>
+  <text x="350" y="188" class="text">vide ?</text>
+
+  <!-- OUI -> Échec -->
+  <path d="M 425 170 L 580 170" class="arrow"/>
+  <text x="470" y="165" class="label">OUI</text>
+  <ellipse cx="600" cy="170" rx="50" ry="25" class="failure"/>
+  <text x="600" y="175" class="text">Échec</text>
+
+  <!-- NON -> Extraire -->
+  <path d="M 350 205 L 350 230" class="arrow"/>
+  <text x="330" y="220" class="label">NON</text>
+
+  <!-- 4. Extraire nœud f(n) minimal -->
+  <rect x="230" y="230" width="240" height="35" rx="5" class="process"/>
+  <text x="350" y="252" class="text">Extraire nœud avec f(n) minimal</text>
+
+  <path d="M 350 265 L 350 285" class="arrow"/>
+
+  <!-- 5. Ajouter à Closed -->
+  <rect x="230" y="285" width="240" height="35" rx="5" class="process"/>
+  <text x="350" y="307" class="text">Ajouter à ensemble fermé (Closed)</text>
+
+  <path d="M 350 320 L 350 345" class="arrow"/>
+
+  <!-- 6. Test But -->
+  <path d="M 350 345 L 425 380 L 350 415 L 275 380 Z" class="decision"/>
+  <text x="350" y="383" class="text">État = But ?</text>
+
+  <!-- OUI -> Succès -->
+  <path d="M 425 380 L 580 380" class="arrow"/>
+  <text x="470" y="375" class="label">OUI</text>
+  <ellipse cx="600" cy="380" rx="70" ry="25" class="terminal"/>
+  <text x="600" y="380" class="text">Reconstruire chemin</text>
+  <text x="600" y="395" class="text" font-size="11">→ Result</text>
+
+  <!-- NON -> Générer successeurs -->
+  <path d="M 350 415 L 350 440" class="arrow"/>
+  <text x="330" y="430" class="label">NON</text>
+
+  <!-- 7. Générer successeurs -->
+  <rect x="210" y="440" width="280" height="35" rx="5" class="process"/>
+  <text x="350" y="462" class="text">Générer successeurs (UP, DOWN, LEFT, RIGHT)</text>
+
+  <path d="M 350 475 L 350 495" class="arrow"/>
+
+  <!-- 8. Calculer h(n) : Distance Manhattan -->
+  <rect x="200" y="495" width="300" height="35" rx="5" class="process"/>
+  <text x="350" y="517" class="text" font-weight="bold">Calculer h(n) : Distance Manhattan</text>
+
+  <path d="M 350 530 L 350 550" class="arrow"/>
+
+  <!-- 9. Calculer f(n) -->
+  <rect x="230" y="550" width="240" height="35" rx="5" class="process"/>
+  <text x="350" y="572" class="text">Calculer f(n) = g(n) + h(n)</text>
+
+  <path d="M 350 585 L 350 610" class="arrow"/>
+
+  <!-- 10. Test Closed -->
+  <path d="M 350 610 L 425 645 L 350 680 L 275 645 Z" class="decision"/>
+  <text x="350" y="643" class="text">Successeur</text>
+  <text x="350" y="658" class="text">dans Closed ?</text>
+
+  <!-- OUI -> Ignorer (retour) -->
+  <path d="M 275 645 L 150 645 L 150 170 L 275 170" class="arrow"/>
+  <text x="165" y="640" class="label">OUI</text>
+  <text x="150" y="400" class="label" text-anchor="middle">Ignorer</text>
+
+  <!-- NON -> Ajouter à Open (retour) -->
+  <path d="M 350 680 L 350 750 L 100 750 L 100 97 L 250 97" class="arrow"/>
+  <text x="330" y="695" class="label">NON</text>
+  <text x="100" y="420" class="label" text-anchor="middle" transform="rotate(-90 100 420)">Ajouter à Open</text>
+
+  <!-- Légende (optionnelle) -->
+  <rect x="20" y="870" width="660" height="70" fill="none" stroke="#999" stroke-width="1" rx="5"/>
+  <text x="350" y="890" class="text" font-weight="bold">Algorithme A* avec heuristique de distance Manhattan</text>
+  <text x="350" y="910" class="text" font-size="11">f(n) = g(n) + h(n) où g(n) = coût réel, h(n) = estimation Manhattan</text>
+  <text x="350" y="928" class="text" font-size="11">Garantit l'optimalité grâce à l'admissibilité et la consistance de l'heuristique</text>
+</svg>
