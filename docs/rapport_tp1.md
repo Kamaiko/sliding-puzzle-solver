@@ -185,36 +185,19 @@ Le système implémente un solveur de taquin basé sur l'algorithme A* avec heur
 
 ### 3.2 Résultats et discussion
 
-<table>
-<tr>
-<td valign="top">
+**Cas test classique** `[1,2,3,5,0,6,4,7,8]` - Path: États A à E (5 états) | Cost: 4 | Expanded: 12
 
-**Cas test classique** `[1,2,3,5,0,6,4,7,8]` :
-- Path: États A à E (séquence de 5 états)
-- Cost: 4 mouvements (optimal)
-- Expanded: 12 nœuds
-
-</td>
-<td>
-<img src="images/CasTest1.png" alt="Cas Test 1" width="300">
-<br><em>Figure 1 : Résolution du cas test classique</em>
-</td>
-</tr>
-</table>
+**Cas test avancé** `[1,3,6,5,2,8,4,0,7]` - Path: États A à J (10 états) | Cost: 9 | Expanded: 33
 
 <table>
 <tr>
-<td valign="top">
-
-**Cas test avancé** `[1,3,6,5,2,8,4,0,7]` :
-- Path: États A à J (séquence de 10 états)
-- Cost: 9 mouvements (optimal)
-- Expanded: 33 nœuds
-
+<td align="center">
+<img src="images/CasTest1.png" alt="Cas Test 1" width="280">
+<br><em>Figure 1 : Cas test classique</em>
 </td>
-<td>
-<img src="images/CasTest2.png" alt="Cas Test 2" width="300" style="max-height: 400px; object-fit: contain;">
-<br><em>Figure 2 : Résolution du cas test avancé</em>
+<td align="center">
+<img src="images/CasTest2.png" alt="Cas Test 2" width="280">
+<br><em>Figure 2 : Cas test avancé</em>
 </td>
 </tr>
 </table>
