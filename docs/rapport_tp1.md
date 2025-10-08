@@ -82,9 +82,9 @@ Enseignant : Anicet Lepetit ONDO
 4. [ANALYSE ET DISCUSSION](#4-analyse-et-discussion)
    - 4.1 [Interprétation des résultats](#41-interprétation-des-résultats)
    - 4.2 [Comparaison avec les attentes](#42-comparaison-avec-les-attentes)
-   - 4.3 [Évaluation et avantages](#43-évaluation-et-avantages)
-   - 4.4 [Limites rencontrées](#44-limites-rencontrées)
-   - 4.5 [Améliorations possibles et travaux futurs](#45-améliorations-possibles-et-travaux-futurs)
+   - 4.3 [Limites rencontrées](#43-limites-rencontrées)
+   - 4.4 [Améliorations possibles](#44-améliorations-possibles)
+   - 4.5 [Résultats et discussion](#45-résultats-et-discussion)
 
 5. [CONCLUSION](#5-conclusion)
    - 5.1 [Bilan du travail pratique](#51-bilan-du-travail-pratique)
@@ -111,7 +111,7 @@ L'objectif principal consiste à développer un solveur qui utilise A* pour gara
 
 ### 1.3 Plan du rapport
 
-Le rapport présente d'abord la méthodologie avec le matériel utilisé, la modélisation du problème, les étapes de réalisation, les algorithmes et le programme. Ensuite, les résultats couvrent les fonctionnalités implémentées, la validation technique, les performances et l'analyse comparative. Enfin, la conclusion synthétise le bilan du projet, les accomplissements par rapport aux objectifs et les recommandations pour de futures améliorations.
+La méthodologie (section 2) présente le matériel utilisé, la modélisation du problème, les étapes de réalisation, les algorithmes et le programme. Les résultats (section 3) exposent les métriques factuelles des cas de test avec leurs captures d'écran. L'analyse et discussion (section 4) interprète ces résultats, compare avec les attentes, évalue les avantages, identifie les limites et propose des améliorations futures. La conclusion (section 5) synthétise le bilan, les accomplissements et les perspectives.
 
 ---
 
@@ -158,18 +158,15 @@ L'heuristique de distance Manhattan calcule pour chaque tuile (sauf la case vide
 
 **Guide d'utilisation.** Le programme se lance via `swipl run.pl`, initialisant l'environnement Prolog et affichant le menu principal. L'interface propose deux scénarios prédéfinis (classique et avancé) accessibles par sélection numérique, avec navigation interactive jusqu'à la sortie.
 
-**Code de la recherche heuristique.** L'implémentation de l'heuristique Manhattan parcourt récursivement l'état actuel en ignorant la case vide. Pour chaque tuile, la fonction détermine sa position but, calcule les coordonnées ligne-colonne de ses positions actuelle et cible par opérations arithmétiques de division entière et modulo, puis accumule la somme des différences absolues :
+**Code de la recherche heuristique.** Calcule la somme des distances Manhattan pour toutes les tuiles non-nulles entre leur position actuelle et leur position but :
 
 ```prolog
-manhattan_distance(Tile, CurrentPos, GoalPos, Distance) :-
-    CurrentRow is CurrentPos // 3,          % Ligne actuelle (division entière)
-    CurrentCol is CurrentPos mod 3,         % Colonne actuelle (modulo)
-    GoalRow is GoalPos // 3,                % Ligne but
-    GoalCol is GoalPos mod 3,               % Colonne but
-    Distance is abs(CurrentRow - GoalRow) + abs(CurrentCol - GoalCol).  % Manhattan
+heuristic(State, Goal, H) :-
+    findall(D, (nth0(Pos, State, Tile), Tile \= 0,
+                nth0(GoalPos, Goal, Tile),
+                manhattan_distance(Pos, GoalPos, D)), Distances),
+    sumlist(Distances, H).
 ```
-
-Le prédicat principal `manhattan_distance_heuristic/3` délègue le calcul à un helper récursif qui traite la liste état position par position, maintenant un accumulateur de distance totale jusqu'au cas de base.
 
 **Exécution.** Lors de l'exécution d'un scénario, le système configure automatiquement l'UTF-8 pour l'affichage multiplateforme, puis présente la séquence complète des états traversés accompagnée des métriques (coût, nœuds explorés). La suite de tests s'exécute via `swipl -g run_all_tests src/tests.pl` pour validation automatisée.
 
@@ -216,17 +213,17 @@ Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique de 
 
 L'optimalité des solutions est confirmée avec 4 mouvements pour le cas classique et 9 mouvements pour le cas avancé. Les temps de résolution restent sous 3ms pour les deux scénarios. Le comportement déterministe garantit la reproductibilité des résultats à chaque exécution.
 
-### 4.3 Évaluation et avantages
+### 4.3 Limites rencontrées
 
-Contrairement à l'heuristique des tuiles mal placées qui compte simplement le nombre de tuiles mal positionnées, Manhattan calcule la somme des distances réelles à parcourir, fournissant une estimation plus précise qui réduit l'espace de recherche. La modularité du code facilite les tests unitaires et la maintenance.
+Durant l'implémentation, le principal défi rencontré concernait la gestion du tri de la liste ouverte à chaque insertion de nœuds. L'approche initiale retriait toute la liste (O(n log n)), ce qui nécessitait une attention particulière pour maintenir les performances acceptables sur les cas de test. Le débogage de la reconstruction du chemin par remontée des parents a également demandé une validation minutieuse pour garantir l'exactitude des séquences d'états.
 
-### 4.4 Limites rencontrées
+### 4.4 Améliorations possibles
 
-L'implémentation actuelle est spécifique aux grilles 3×3 et n'est pas extensible à des tailles supérieures sans modifications majeures. De plus, A* stocke tous les nœuds en mémoire (liste ouverte et ensemble fermé), ce qui limite le traitement d'instances très complexes, contrairement à IDA*<sup>[7]</sup> (Iterative Deepening A*) qui ne conserve qu'un seul chemin en mémoire.
+Notre implémentation pourrait bénéficier d'une file de priorité avec tas binaire pour réduire la complexité du tri à O(log n) par opération. L'extensibilité vers des grilles N×N nécessiterait une refactorisation des prédicats de validation et de calcul d'heuristique. Une optimisation de la gestion mémoire avec recyclage des structures de nœuds améliorerait les performances pour des instances plus complexes.
 
-### 4.5 Améliorations possibles et travaux futurs
+### 4.5 Résultats et discussion
 
-L'adoption d'IDA* permettrait de traiter des instances plus complexes avec une consommation mémoire constante O(d) plutôt qu'exponentielle. L'exploration de bases de données de motifs (pattern databases) offrirait des heuristiques encore plus informées pour des puzzles plus grands. L'intégration de techniques de parallélisation pourrait accélérer la recherche sur des configurations complexes.
+Le projet atteint l'ensemble de ses objectifs avec une implémentation fonctionnelle et validée de l'algorithme A*. Les métriques obtenues (Cost: 4 et 9, Expanded: 12 et 33) confirment l'exactitude de l'implémentation. La suite de 14 tests unitaires et 2 tests d'intégration garantit la robustesse du système. Contrairement à l'heuristique des tuiles mal placées qui compte simplement le nombre de tuiles mal positionnées, Manhattan calcule la somme des distances réelles à parcourir, fournissant une estimation plus précise qui réduit l'espace de recherche. L'admissibilité et la consistance de cette heuristique garantissent l'optimalité tout en maintenant des performances élevées (< 3ms). Toutefois, l'algorithme A* stocke tous les nœuds en mémoire (liste ouverte et ensemble fermé), ce qui limite le traitement d'instances très complexes. L'adoption d'IDA*<sup>[7]</sup> (Iterative Deepening A*) permettrait de traiter des instances plus complexes avec une consommation mémoire constante O(d) plutôt qu'exponentielle. L'exploration de bases de données de motifs (pattern databases) offrirait des heuristiques encore plus informées pour des puzzles plus grands. L'intégration de techniques de parallélisation pourrait accélérer la recherche sur des configurations complexes.
 
 ---
 
@@ -242,15 +239,15 @@ Tous les objectifs du projet ont été atteints. A* produit des solutions optima
 
 ### 5.3 Perspectives et recommandations
 
-L'extension vers des domaines de recherche plus complexes (taquins N×N, problèmes de planification, jeux à deux joueurs) constitue une progression naturelle pour approfondir les concepts acquis. L'exploration de techniques avancées comme les bases de données de motifs (pattern databases) ou la recherche bidirectionnelle ouvrirait de nouvelles perspectives d'optimisation. Pour des travaux futurs, il serait pertinent d'intégrer une approche comparative systématique entre différentes heuristiques afin de quantifier les gains de performance. Une architecture modulaire permettant l'expérimentation avec différents algorithmes de recherche (RBFS, SMA*) tout en conservant l'interface commune faciliterait ces comparaisons.
+L'extension vers des domaines de recherche plus complexes (taquins N×N, problèmes de planification) constitue une progression naturelle pour approfondir les concepts acquis. Au-delà du cadre académique, les principes d'A* s'appliquent à des domaines pratiques comme la planification de trajectoires en robotique et l'optimisation logistique où la recherche de solutions optimales demeure un enjeu fondamental.
 
 ---
 
 ## 6. UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE
 
-Sonnet 4 et Opus 4.1<sup>[1]</sup> ainsi que GPT-5<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, la conception et l'amélioration rédactionnelle. Des outils spécialisés comme Context7<sup>[4]</sup> ont facilité la validation des spécifications A* et l'obtention de références bibliographiques.
+Sonnet 4.5, Opus 4.1 et GPT-5<sup>[1]</sup> ont servi d'assistants techniques pour l'analyse des besoins, la conception et l'amélioration rédactionnelle. Des outils spécialisés comme Context7<sup>[4]</sup> ont facilité la validation des spécifications A* et l'obtention de références bibliographiques.
 
-L'ensemble du travail a été réalisé sous supervision directe avec une validation continue de chaque étape. Notre contribution personnelle couvre l'ensemble du développement, incluant la modélisation du problème, l'implémentation complète de l'algorithme A* avec ses heuristiques, l'optimisation des performances et la validation des résultats. Cette approche nous a permis de mieux gérer le temps alloué aux tâches secondaires pour nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
+L'ensemble du travail a été réalisé sous supervision directe avec une validation continue de chaque étape. Notre contribution personnelle couvre l'ensemble du développement, incluant la modélisation du problème, l'implémentation complète de l'algorithme A* avec ses heuristiques, l'optimisation des performances et la validation des résultats. Cette approche nous a permis d'optimiser le temps consacré aux tâches secondaires pour nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
 
 ---
 
