@@ -152,6 +152,11 @@ Le flux d'exécution suit une séquence structurée : validation initiale de sol
 
 L'heuristique de distance Manhattan calcule pour chaque tuile (sauf la case vide) la somme des distances horizontales et verticales entre sa position actuelle et sa position but. Cette heuristique est admissible car chaque tuile nécessite au minimum sa distance Manhattan en mouvements pour atteindre sa position finale.
 
+<p align="center">
+<img src="images/astar_flowchart.svg" alt="Diagramme flux A*" width="380">
+<br><em>Figure 3 : Diagramme de flux de l'algorithme A* avec heuristique Manhattan</em>
+</p>
+
 ### 2.5 Programme
 
 **Implémentation.** L'implémentation se divise en quatre modules spécialisés gérant respectivement la logique du taquin (game.pl), l'algorithme A* (astar.pl), l'affichage formaté (display.pl) et l'orchestration générale (main.pl).
