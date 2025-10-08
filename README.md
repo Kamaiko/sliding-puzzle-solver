@@ -2,9 +2,7 @@
 
 # 🧩 Solveur de Taquin A*
 
-**Solveur intelligent de puzzle 3×3 avec algorithme de recherche heuristique A***
-
-*Projet IFT-2003 · Intelligence Artificielle 1 · Université Laval*
+**Solveur intelligent de puzzle 3×3 avec algorithme A* et heuristique de distance Manhattan**
 
 [![SWI-Prolog](https://img.shields.io/badge/SWI--Prolog-9.x+-blue?style=flat-square)](https://www.swi-prolog.org/)
 [![Platforms](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey?style=flat-square)]()
