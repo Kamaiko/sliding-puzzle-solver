@@ -235,7 +235,7 @@ L'extension vers des domaines de recherche plus complexes (taquins N×N, problè
 
 ## 6. UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE
 
-Sonnet 4.5, Opus 4.1 et GPT-5<sup>[1]</sup> ont servi d'assistants techniques pour l'analyse des besoins, la conception et l'amélioration rédactionnelle. Des outils spécialisés comme Context7<sup>[4]</sup> ont facilité la validation des spécifications A* et l'obtention de références bibliographiques.
+Sonnet 4.5 et Opus 4.1<sup>[1]</sup> ainsi que GPT-5<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, la conception et l'amélioration rédactionnelle. Des outils spécialisés comme Context7<sup>[4]</sup> ont facilité la validation des spécifications A* et l'obtention de références bibliographiques.
 
 L'ensemble du travail a été réalisé sous supervision directe avec une validation continue de chaque étape. Notre contribution personnelle couvre l'ensemble du développement, incluant la modélisation du problème, l'implémentation complète de l'algorithme A* avec ses heuristiques, l'optimisation des performances et la validation des résultats. Cette approche nous a permis d'optimiser le temps consacré aux tâches secondaires pour nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
 
