@@ -75,23 +75,25 @@ Enseignant : Anicet Lepetit ONDO
    - 2.4 [Algorithmes, schémas et diagrammes de fonctionnement](#24-algorithmes-schémas-et-diagrammes-de-fonctionnement)
    - 2.5 [Programme](#25-programme)
 
-3. [RÉSULTATS ET DISCUSSION](#3-résultats-et-discussion)
-   - 3.1 [Fonctionnalités implémentées](#31-fonctionnalités-implémentées)
-   - 3.2 [Validation technique](#32-validation-technique)
-   - 3.3 [Performance et métriques](#33-performance-et-métriques)
-   - 3.4 [Architecture et qualité du code](#34-architecture-et-qualité-du-code)
-   - 3.5 [Interprétation des résultats et comparaison avec les attentes](#35-interprétation-des-résultats-et-comparaison-avec-les-attentes)
-   - 3.6 [Performance et limites identifiées](#36-performance-et-limites-identifiées)
-   - 3.7 [Améliorations possibles et extensions futures](#37-améliorations-possibles-et-extensions-futures)
+3. [RÉSULTATS](#3-résultats)
+   - 3.1 [Présentation claire des résultats](#31-présentation-claire-des-résultats)
+   - 3.2 [Résultats et discussion](#32-résultats-et-discussion)
 
-4. [CONCLUSION](#4-conclusion)
-   - 4.1 [Bilan du travail pratique](#41-bilan-du-travail-pratique)
-   - 4.2 [Accomplissements par rapport aux objectifs](#42-accomplissements-par-rapport-aux-objectifs)
-   - 4.3 [Perspectives et recommandations](#43-perspectives-et-recommandations)
+4. [ANALYSE ET DISCUSSION](#4-analyse-et-discussion)
+   - 4.1 [Interprétation des résultats](#41-interprétation-des-résultats)
+   - 4.2 [Comparaison avec les attentes](#42-comparaison-avec-les-attentes)
+   - 4.3 [Évaluation et avantages](#43-évaluation-et-avantages)
+   - 4.4 [Limites rencontrées](#44-limites-rencontrées)
+   - 4.5 [Améliorations possibles et travaux futurs](#45-améliorations-possibles-et-travaux-futurs)
 
-5. [UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE](#5-utilisation-dintelligence-artificielle-générative)
+5. [CONCLUSION](#5-conclusion)
+   - 5.1 [Bilan du travail pratique](#51-bilan-du-travail-pratique)
+   - 5.2 [Accomplissements par rapport aux objectifs](#52-accomplissements-par-rapport-aux-objectifs)
+   - 5.3 [Perspectives et recommandations](#53-perspectives-et-recommandations)
 
-6. [RÉFÉRENCES BIBLIOGRAPHIQUES](#6-références-bibliographiques)
+6. [UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE](#6-utilisation-dintelligence-artificielle-générative)
+
+7. [RÉFÉRENCES BIBLIOGRAPHIQUES](#7-références-bibliographiques)
 
 **ANNEXE A** : [EXTRAITS DE CODE SOURCE](#annexe-a--extraits-de-code-source)
 
@@ -129,9 +131,9 @@ Le problème du taquin consiste à réorganiser des tuiles numérotées sur une 
 
 **Mouvements.** Quatre mouvements sont possibles selon la position de la case vide : déplacer une tuile vers le haut (UP), vers le bas (DOWN), vers la gauche (LEFT) ou vers la droite (RIGHT). Notre implémentation génère les successeurs dans cet ordre précis pour garantir le déterminisme des résultats. Lorsque la case vide se trouve en bordure ou dans un coin, certains mouvements deviennent impossibles et ne sont pas générés.
 
-**Technique de recherche.** Nous avons choisi l'algorithme A*<sup>[5]</sup> pour garantir l'optimalité des solutions. A* combine le coût réel g(n) depuis l'état initial avec une estimation heuristique h(n) du coût restant vers le but, en utilisant la fonction d'évaluation f(n) = g(n) + h(n) pour prioriser l'exploration. L'heuristique de distance Manhattan<sup>[8]</sup> calcule pour chaque tuile la somme des déplacements horizontaux et verticaux nécessaires. Cette heuristique est admissible car elle ne surestime jamais le coût réel, et consistante car la différence d'estimation entre deux états successifs ne dépasse jamais le coût du mouvement. L'algorithme maintient une liste ouverte des nœuds à explorer, triée par f(n) croissant, et un ensemble fermé pour éviter la re-exploration d'états déjà visités.
+**Technique de recherche.** L'algorithme A*<sup>[5]</sup> est utilisé avec l'heuristique de distance Manhattan<sup>[8]</sup>, choisie pour ses propriétés d'admissibilité et de consistance garantissant l'optimalité des solutions trouvées.
 
-**Résultats attendus.** Pour le cas test classique, nous nous attendons à trouver une solution optimale de 4 mouvements. Pour le cas test avancé, la solution optimale devrait être de 9 mouvements. L'algorithme A* avec l'heuristique Manhattan devrait garantir ces solutions optimales grâce à l'admissibilité de l'heuristique. Le nombre exact de nœuds explorés dépendra de l'implémentation, mais devrait rester raisonnable pour ces configurations relativement simples.
+**Résultats attendus.** Pour le cas test classique, nous nous attendons à trouver une solution optimale de 4 mouvements. Pour le cas test avancé, la solution optimale devrait être de 9 mouvements.
 
 ### 2.3 Étapes de réalisation du travail pratique
 
@@ -144,17 +146,17 @@ Le développement s'est déroulé en quatre phases structurées :
 
 ### 2.4 Algorithmes, schémas et diagrammes de fonctionnement
 
-L'algorithme A* repose sur une structure de nœud contenant cinq composantes essentielles : l'état du taquin représenté par une liste de neuf éléments, le coût réel g(n) correspondant à la profondeur dans l'arbre de recherche, l'estimation heuristique h(n) calculée par la distance Manhattan, la fonction d'évaluation f(n) égale à g(n) + h(n), et un pointeur vers le nœud parent permettant la reconstruction du chemin solution.
+L'algorithme A* repose sur une structure de nœud contenant cinq composantes essentielles : l'état du taquin (liste de neuf éléments), le coût réel g(n) (profondeur dans l'arbre), l'estimation heuristique h(n) (distance Manhattan), la fonction d'évaluation f(n) = g(n) + h(n), et un pointeur vers le parent (reconstruction du chemin).
 
-Le flux d'exécution de A* suit une séquence structurée. La validation initiale vérifie le format de l'état de départ et teste la solvabilité de la configuration par calcul de la parité des inversions, garantissant qu'aucun effort de calcul n'est dépensé sur une configuration impossible à résoudre. L'initialisation crée ensuite le nœud racine avec son estimation heuristique h(n) et l'insère dans la liste ouverte. La boucle principale extrait itérativement le nœud ayant la plus petite valeur f(n), teste s'il correspond à l'état but, et dans le cas contraire génère ses successeurs selon l'ordre déterministe UP, DOWN, LEFT, RIGHT. Chaque successeur nouvellement créé reçoit son estimation heuristique et est ajouté à la liste ouverte si son état n'a pas déjà été exploré. Le nœud traité est transféré dans l'ensemble fermé pour éviter toute re-exploration. Ce processus se poursuit jusqu'à l'atteinte du but, moment où la reconstruction du chemin s'effectue par remontée récursive des pointeurs parents depuis le nœud final jusqu'au nœud racine.
+Le flux d'exécution suit une séquence structurée : validation initiale de solvabilité (parité des inversions), initialisation du nœud racine, puis boucle principale extrayant itérativement le nœud à f(n) minimal. Pour chaque nœud exploré, si le but est atteint, le chemin se reconstruit par remontée des parents ; sinon, les successeurs sont générés selon l'ordre déterministe UP, DOWN, LEFT, RIGHT, reçoivent leur estimation heuristique, et sont ajoutés à la liste ouverte après vérification qu'ils ne figurent pas dans l'ensemble fermé (closed set).
 
-L'heuristique de distance Manhattan se calcule en parcourant chaque tuile de l'état actuel et en déterminant sa position cible dans l'état but. Pour une grille 3×3, la position d'une tuile se traduit en coordonnées ligne-colonne par division et modulo de son index. La distance Manhattan d'une tuile correspond à la somme des valeurs absolues des différences de lignes et de colonnes entre sa position actuelle et sa position but. L'accumulation de ces distances pour toutes les tuiles, en excluant la case vide, produit l'estimation h(n). Cette heuristique respecte la propriété d'admissibilité car chaque tuile nécessite au minimum sa distance Manhattan en mouvements pour atteindre sa position finale, et la propriété de consistance car un seul mouvement peut au mieux rapprocher une tuile d'une case vers sa destination.
+L'heuristique de distance Manhattan calcule pour chaque tuile (sauf la case vide) la somme des distances horizontales et verticales entre sa position actuelle et sa position but. Cette heuristique est admissible car chaque tuile nécessite au minimum sa distance Manhattan en mouvements pour atteindre sa position finale.
 
 ### 2.5 Programme
 
-**Implémentation.** Le système adopte une architecture modulaire en quatre couches spécialisées respectant le principe de séparation des responsabilités. Le module game.pl encapsule la logique métier du taquin, fournissant les prédicats de validation d'états, de génération de mouvements valides et de test de solvabilité. Le module astar.pl implémente l'algorithme de recherche avec ses structures de données (nœuds, liste ouverte, ensemble fermé) et l'heuristique Manhattan. Le module display.pl gère l'interface utilisateur terminale avec les bannières ASCII, l'affichage formaté des grilles 3×3 et la présentation des résultats. Le module main.pl orchestre l'ensemble en gérant le menu principal, l'exécution des cas de test et la gestion des erreurs. Cette séparation facilite la maintenance du code, permet les tests unitaires indépendants de chaque composante, et respecte les conventions de développement modulaire en Prolog.
+**Implémentation.** L'implémentation se divise en quatre modules spécialisés gérant respectivement la logique du taquin (game.pl), l'algorithme A* (astar.pl), l'affichage formaté (display.pl) et l'orchestration générale (main.pl).
 
-**Guide d'utilisation.** Après avoir installé SWI-Prolog, le programme se lance en tapant la commande `swipl run.pl` dans le terminal, ce qui initialise l'environnement Prolog et affiche le menu principal. L'interface propose deux scénarios prédéfinis accessibles par sélection numérique. Le scénario classique valide le fonctionnement de base avec une configuration simple, tandis que le scénario avancé démontre les capacités sur une instance plus complexe. Une section informative présente les détails du projet et les références académiques. La navigation s'effectue par saisie du numéro correspondant à l'option désirée, et le programme boucle jusqu'à la sélection de l'option de sortie.
+**Guide d'utilisation.** Le programme se lance via `swipl run.pl`, initialisant l'environnement Prolog et affichant le menu principal. L'interface propose deux scénarios prédéfinis (classique et avancé) accessibles par sélection numérique, avec navigation interactive jusqu'à la sortie.
 
 **Code de la recherche heuristique.** L'implémentation de l'heuristique Manhattan parcourt récursivement l'état actuel en ignorant la case vide. Pour chaque tuile, la fonction détermine sa position but, calcule les coordonnées ligne-colonne de ses positions actuelle et cible par opérations arithmétiques de division entière et modulo, puis accumule la somme des différences absolues :
 
@@ -169,103 +171,107 @@ manhattan_distance(Tile, CurrentPos, GoalPos, Distance) :-
 
 Le prédicat principal `manhattan_distance_heuristic/3` délègue le calcul à un helper récursif qui traite la liste état position par position, maintenant un accumulateur de distance totale jusqu'au cas de base.
 
-**Compilation et exécution.** Le pipeline d'exécution débute par le lancement du programme via `swipl run.pl`, qui provoque la consultation automatique des quatre modules dans l'ordre game.pl, astar.pl, display.pl puis main.pl, assurant la disponibilité de tous les prédicats nécessaires. La configuration UTF-8 s'active automatiquement pour garantir l'affichage correct des caractères étendus sur les systèmes Windows. L'interface présente ensuite le menu principal avec le titre ASCII stylisé et les options de navigation. Lorsque l'utilisateur sélectionne un scénario, le système effectue d'abord la validation de la configuration en vérifiant le format de l'état initial (neuf éléments, valeurs uniques de 0 à 8) et en testant la solvabilité via le calcul de parité des inversions. L'algorithme A* s'exécute ensuite en initialisant le nœud racine avec son heuristique, puis en itérant sa boucle principale qui extrait le meilleur nœud selon f(n), génère les successeurs dans l'ordre déterministe défini, et teste l'atteinte du but. Une fois la solution trouvée, la reconstruction du chemin s'effectue par remontée des parents, et l'affichage présente la séquence complète des états traversés accompagnée des métriques de performance (coût, nœuds explorés, temps d'exécution). Pour la validation du système, la commande `swipl -g run_all_tests src/tests.pl` exécute la suite de tests automatisés couvrant les fonctionnalités de chaque module.
+**Exécution.** Lors de l'exécution d'un scénario, le système configure automatiquement l'UTF-8 pour l'affichage multiplateforme, puis présente la séquence complète des états traversés accompagnée des métriques (coût, nœuds explorés). La suite de tests s'exécute via `swipl -g run_all_tests src/tests.pl` pour validation automatisée.
 
-**Documentation.** Le code source suit les conventions PlDoc de SWI-Prolog pour la documentation inline. Chaque prédicat public est accompagné d'un commentaire structuré spécifiant son mode d'utilisation (déterministe, semi-déterministe, non-déterministe), ses paramètres avec leurs annotations (+, -, ?) indiquant si les arguments sont en entrée, en sortie, ou les deux, et une description textuelle de sa fonction. Les prédicats complexes incluent des annotations supplémentaires précisant les invariants, les propriétés garanties et les références bibliographiques pertinentes. Cette approche de documentation permet la génération automatique d'une référence API via l'outil pldoc de SWI-Prolog et facilite la compréhension du code lors de la maintenance.
+**Documentation.** Le code source respecte les conventions PlDoc de SWI-Prolog. Chaque prédicat public est documenté avec ses modes d'utilisation, annotations de paramètres (+, -, ?) et descriptions textuelles, facilitant la compréhension lors de la maintenance.
 
 ---
 
-## 3. RÉSULTATS ET DISCUSSION
+## 3. RÉSULTATS
 
-### 3.1 Fonctionnalités implémentées
+### 3.1 Présentation claire des résultats
 
-Le système implémente un solveur de taquin basé sur l'algorithme A* avec heuristique de distance Manhattan. L'interface en ligne de commande propose un menu de navigation permettant d'accéder à deux scénarios de résolution (configuration classique à 4 mouvements et configuration avancée à 9 mouvements), ainsi qu'une section informative sur le projet. Le système affiche pour chaque résolution la séquence complète des états traversés, le coût de la solution, le nombre de nœuds explorés et le temps d'exécution. La configuration UTF-8 multiplateforme garantit l'affichage correct des caractères ASCII étendus sur Windows, Mac et Linux. Le comportement déterministe assure la reproductibilité exacte des résultats.
+Le système implémente un solveur de taquin basé sur l'algorithme A* avec heuristique de distance Manhattan. L'interface CLI propose deux scénarios de résolution avec affichage des chemins solutions, métriques (coût, nœuds explorés) et support UTF-8 multiplateforme. Le comportement déterministe assure la reproductibilité exacte des résultats.
 
-### 3.2 Validation technique
+### 3.2 Résultats et discussion
 
-La validation du système s'appuie sur une suite de tests automatisée couvrant l'ensemble des modules développés. Le fichier `tests.pl` implémente 14 tests unitaires regroupés en quatre sections correspondant aux modules principaux : game.pl (localisation case vide, génération mouvements, validation états, détection solvabilité), astar.pl (heuristique Manhattan, création nœuds, tri liste ouverte, reconstruction chemin), display.pl (affichage états, formatage tuiles), et main.pl (résolution cas test 1 et 2). Deux tests d'intégration end-to-end complètent cette couverture en validant le pipeline complet depuis l'initialisation jusqu'à l'affichage des résultats, incluant la mesure des temps d'exécution pour garantir les contraintes de performance (<1s pour cas 1, <3s pour cas 2).
+<table>
+<tr>
+<td valign="top">
 
-Les tests critiques vérifient l'optimalité des solutions : le scénario classique `[1,2,3,5,0,6,4,7,8]` doit produire un coût de 4 mouvements, tandis que le scénario avancé `[1,3,6,5,2,8,4,0,7]` doit retourner un coût de 9 mouvements. Ces validations empiriques confirment que l'algorithme trouve bien les solutions optimales et maintient un comportement déterministe. La suite de tests s'exécute via la commande `swipl -g run_all_tests src/tests.pl` et affiche un résumé détaillé avec le temps total d'exécution, permettant de détecter immédiatement toute régression lors de modifications du code.
+**Cas test classique** `[1,2,3,5,0,6,4,7,8]` :
+- Path: États A à E (séquence de 5 états)
+- Cost: 4 mouvements (optimal)
+- Expanded: 12 nœuds
 
-<div align="center">
-
-**Figure 1 : Menu principal du solveur de Taquin**
-
-<img src="images/menu_principal.png" alt="Menu Principal" width="300">
-
-<em>Interface d'accueil avec menu ASCII et options de navigation.</em>
-
-</div>
-
-<div align="center">
-
-**Figure 2 : Exécution du cas test 1 avec solution complète**
-
+</td>
+<td>
 <img src="images/CasTest1.png" alt="Cas Test 1" width="300">
+<br><em>Figure 1 : Résolution du cas test classique</em>
+</td>
+</tr>
+</table>
 
-<em>Résolution du cas test standard avec métriques exactes.</em>
+<table>
+<tr>
+<td valign="top">
 
-</div>
+**Cas test avancé** `[1,3,6,5,2,8,4,0,7]` :
+- Path: États A à J (séquence de 10 états)
+- Cost: 9 mouvements (optimal)
+- Expanded: 33 nœuds
 
-<div align="center">
+</td>
+<td>
+<img src="images/CasTest2.png" alt="Cas Test 2" width="300" style="max-height: 400px; object-fit: contain;">
+<br><em>Figure 2 : Résolution du cas test avancé</em>
+</td>
+</tr>
+</table>
 
-**Figure 3 : Suite de tests automatisée**
-
-<img src="images/tests_validation.png" alt="Tests de validation" width="400">
-
-<em>Exécution de la suite de tests complète démontrant la validation empirique de tous les modules.</em>
-
-</div>
-
-### 3.3 Performance et métriques
-
-**Optimisation des temps d'exécution** : Le système implémente un warm-up JIT pour éliminer la variabilité de la première exécution. Une pré-exécution silencieuse force la compilation Just-In-Time de SWI-Prolog, garantissant des temps cohérents <3ms pour les exécutions subséquentes.
-
-### 3.4 Architecture et qualité du code
-
-L'architecture repose sur une organisation en quatre modules spécialisés : game.pl encapsule les règles du taquin et la validation des états, astar.pl contient l'algorithme de recherche et l'heuristique, display.pl gère l'affichage formaté des résultats, et main.pl coordonne l'exécution et l'interface utilisateur. Cette structure modulaire permet de tester chaque composante indépendamment et facilite la localisation des bugs. La documentation PlDoc fournit pour chaque prédicat public des annotations structurées précisant les modes d'utilisation et les paramètres attendus.
-
-### 3.5 Interprétation des résultats et comparaison avec les attentes
-
-Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique de distance Manhattan. Pour le cas test [1,2,3,5,0,6,4,7,8], on obtient un coût de 4 mouvements, ce qui est optimal. L'algorithme explore 12 nœuds, ce qui montre que l'heuristique guide efficacement la recherche sans explorer inutilement l'espace d'états complet (181 440 configurations possibles).
-
-### 3.6 Performance et limites identifiées
-
-**Forces** : L'heuristique Manhattan guide efficacement la recherche en réduisant considérablement l'espace d'exploration (12 nœuds au lieu de potentiellement des milliers). Le comportement déterministe garantit des résultats reproductibles à chaque exécution. Les temps de résolution restent sous la barre des 3ms pour les deux scénarios testés, ce qui démontre l'efficacité pratique de l'implémentation. La modularité du code facilite les tests unitaires et la détection rapide des régressions.
-
-**Limites** : Notre implémentation présente une limitation principale : notre méthode de tri de l'open list n'est pas optimisée. On retrie toute la liste à chaque nouveau nœud, ce qui devient lent pour des problèmes plus gros. L'utilisation d'une file de priorité optimisée (heap binaire) réduirait la complexité de O(n log n) à O(log n) par opération.
-
-### 3.7 Améliorations possibles et extensions futures
-
-L'adoption d'IDA* (Iterative Deepening A*)<sup>[7]</sup> permettrait de traiter des instances plus complexes avec une consommation mémoire constante O(d) plutôt qu'exponentielle. L'exploration de bases de données de motifs (pattern databases) offrirait des heuristiques encore plus informées pour des puzzles plus grands. L'intégration de techniques de parallélisation pourrait accélérer la recherche sur des configurations complexes.
+Les résultats confirment l'optimalité des solutions avec un nombre restreint de nœuds explorés. La différence avec l'implémentation de référence fournie par le professeur (12 vs 9 nœuds) provient de l'ordre de génération des successeurs, sans impact sur l'optimalité.
 
 ---
 
-## 4. CONCLUSION
+## 4. ANALYSE ET DISCUSSION
 
-### 4.1 Bilan du travail pratique
+### 4.1 Interprétation des résultats
+
+Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique de distance Manhattan. L'algorithme explore 12 nœuds pour le cas classique et 33 nœuds pour le cas avancé, démontrant que l'heuristique guide efficacement la recherche sans explorer inutilement l'espace d'états complet (181 440 configurations possibles).
+
+### 4.2 Comparaison avec les attentes
+
+L'optimalité des solutions est confirmée avec 4 mouvements pour le cas classique et 9 mouvements pour le cas avancé. Les temps de résolution restent sous 3ms pour les deux scénarios. Le comportement déterministe garantit la reproductibilité des résultats à chaque exécution.
+
+### 4.3 Évaluation et avantages
+
+Contrairement à l'heuristique des tuiles mal placées qui compte simplement le nombre de tuiles mal positionnées, Manhattan calcule la somme des distances réelles à parcourir, fournissant une estimation plus précise qui réduit l'espace de recherche. La modularité du code facilite les tests unitaires et la maintenance.
+
+### 4.4 Limites rencontrées
+
+L'implémentation actuelle est spécifique aux grilles 3×3 et n'est pas extensible à des tailles supérieures sans modifications majeures. De plus, A* stocke tous les nœuds en mémoire (liste ouverte et ensemble fermé), ce qui limite le traitement d'instances très complexes, contrairement à IDA*<sup>[7]</sup> (Iterative Deepening A*) qui ne conserve qu'un seul chemin en mémoire.
+
+### 4.5 Améliorations possibles et travaux futurs
+
+L'adoption d'IDA* permettrait de traiter des instances plus complexes avec une consommation mémoire constante O(d) plutôt qu'exponentielle. L'exploration de bases de données de motifs (pattern databases) offrirait des heuristiques encore plus informées pour des puzzles plus grands. L'intégration de techniques de parallélisation pourrait accélérer la recherche sur des configurations complexes.
+
+---
+
+## 5. CONCLUSION
+
+### 5.1 Bilan du travail pratique
 
 Ce projet a permis d'approfondir notre compréhension de l'algorithme A* et de sa capacité à garantir les solutions avec le coût minimal. L'implémentation en Prolog s'est révélée bien adaptée pour modéliser les états, les transitions et le backtracking nécessaire à la reconstruction des chemins. La suite de tests automatisée confirme que l'algorithme produit systématiquement les solutions optimales attendues (4 mouvements pour le scénario classique, 9 pour le scénario avancé) avec un comportement parfaitement déterministe.
 
-### 4.2 Accomplissements par rapport aux objectifs
+### 5.2 Accomplissements par rapport aux objectifs
 
 Tous les objectifs du projet ont été atteints. A* produit des solutions optimales avec les bonnes métriques. L'heuristique de distance Manhattan respecte les propriétés d'admissibilité et de consistance requises pour garantir l'optimalité des solutions.
 
-### 4.3 Perspectives et recommandations
+### 5.3 Perspectives et recommandations
 
 L'extension vers des domaines de recherche plus complexes (taquins N×N, problèmes de planification, jeux à deux joueurs) constitue une progression naturelle pour approfondir les concepts acquis. L'exploration de techniques avancées comme les bases de données de motifs (pattern databases) ou la recherche bidirectionnelle ouvrirait de nouvelles perspectives d'optimisation. Pour des travaux futurs, il serait pertinent d'intégrer une approche comparative systématique entre différentes heuristiques afin de quantifier les gains de performance. Une architecture modulaire permettant l'expérimentation avec différents algorithmes de recherche (RBFS, SMA*) tout en conservant l'interface commune faciliterait ces comparaisons.
 
 ---
 
-## 5. UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE
+## 6. UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE
 
-Sonnet 4 et Opus 4.1<sup>[1]</sup> ainsi que GPT-5<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, la conception et l'amélioration rédactionnelle. Des outils spécialisés comme Context7<sup>[4]</sup> (MCP server reconnu pour sa fiabilité dans la fourniture de documentation technique actualisée) ont facilité la validation des spécifications A* et l'obtention de références bibliographiques.
+Sonnet 4 et Opus 4.1<sup>[1]</sup> ainsi que GPT-5<sup>[6]</sup> ont servi d'assistants techniques pour l'analyse des besoins, la conception et l'amélioration rédactionnelle. Des outils spécialisés comme Context7<sup>[4]</sup> ont facilité la validation des spécifications A* et l'obtention de références bibliographiques.
 
 L'ensemble du travail a été réalisé sous supervision directe avec une validation continue de chaque étape. Notre contribution personnelle couvre l'ensemble du développement, incluant la modélisation du problème, l'implémentation complète de l'algorithme A* avec ses heuristiques, l'optimisation des performances et la validation des résultats. Cette approche nous a permis de mieux gérer le temps alloué aux tâches secondaires pour nous concentrer sur l'assimilation des concepts fondamentaux d'intelligence artificielle.
 
 ---
 
-## 6. RÉFÉRENCES BIBLIOGRAPHIQUES
+## 7. RÉFÉRENCES BIBLIOGRAPHIQUES
 
 [1] Anthropic. (2024). *Sonnet 4 et Opus 4.1: AI Assistants*. https://claude.ai/
 
