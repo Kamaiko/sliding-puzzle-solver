@@ -99,7 +99,7 @@ La méthodologie présente le matériel utilisé, la modélisation du problème,
 
 ### 2.1 Matériel, logiciels et outils utilisés
 
-Le développement a été réalisé avec SWI-Prolog 9.0.4<sup>[9]</sup> comme environnement d'exécution et de compilation, Visual Studio Code comme éditeur de texte et IDE pour la rédaction du code, et Git/GitHub pour le contrôle de version et la collaboration. Les tests ont été effectués sur Windows 10/11 pour assurer la portabilité multiplateforme.
+Le développement a été réalisé avec SWI-Prolog 9.0.4<sup>[9]</sup> comme environnement d'exécution et de compilation, PlDoc pour la documentation des prédicats, et Git/GitHub pour le contrôle de version et la collaboration. Les tests ont été effectués sur Windows 10/11.
 
 ### 2.2 Modélisation du problème
 
