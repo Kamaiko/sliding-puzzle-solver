@@ -8,15 +8,15 @@
 
 [![SWI-Prolog](https://img.shields.io/badge/SWI--Prolog-9.x+-blue?style=flat-square)](https://www.swi-prolog.org/)
 [![Platforms](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey?style=flat-square)]()
-[![AI Algorithm](https://img.shields.io/badge/AI-A*%20Search%20%7C%20Misplaced%20Tiles-green?style=flat-square)]()
-
+[![AI Algorithm](https://img.shields.io/badge/AI-A*%20Search%20%7C%20Manhattan%20Distance-green?style=flat-square)]()
+[![Status](https://img.shields.io/badge/Status-Completed-success?style=flat-square)]()
 
 </div>
 
 ---
 
 <div align="center">
-<img src="docs/images/menu_principal.png" alt="Menu principal Solveur Taquin" width="450">
+<img src="docs/images/menu_principal.png" alt="Menu principal Solveur Taquin" width="500">
 </div>
 
 ## Installation & Lancement
@@ -57,16 +57,26 @@ swipl -g run_all_tests src/tests.pl
 
 | Composante | Description | Performance |
 |------------|-------------|-------------|
-| **Algorithme** | A* | Optimal garanti |
-| **Heuristique** | Tuiles mal placées | Admissible + consistante |
-| **État-espace** | 9!/2 = 181 440 configurations solvables | Résolution < 1 seconde |
-| **Validation** | Métriques exactes cas professeur | Conformité complète |
+| **Algorithme** | A* avec closed set | Solutions optimales garanties |
+| **Heuristique** | Distance Manhattan | Admissible + consistante |
+| **État-espace** | 181 440 configurations solvables | Résolution < 3ms |
+| **Validation** | 14 tests unitaires + 2 end-to-end | Conformité complète |
 
-### Exemple de résolution A*
+### Résultats de résolution A*
 
 <div align="center">
-<img src="docs/images/CasTest1.png" alt="Cas Test 1 - Résolution A*" width="400">
-<br><em>Démonstration du cas test 1 avec affichage du chemin solution complet et des métriques de performance.</em>
+<table>
+<tr>
+<td align="center">
+<img src="docs/images/CasTest1.png" alt="Cas Test 1" width="350">
+<br><em>Cas test classique : Cost 4 | Expanded 12</em>
+</td>
+<td align="center">
+<img src="docs/images/CasTest2.png" alt="Cas Test 2" width="350">
+<br><em>Cas test avancé : Cost 9 | Expanded 33</em>
+</td>
+</tr>
+</table>
 </div>
 
 
@@ -80,8 +90,9 @@ Sortie: Path A→B→C→D→E, Cost: 4, Expanded: 12
 ```
 
 ### Modes disponibles
-- **Cas classique** · Configuration standard (4 mouvements)
-- **Cas avancé** · Configuration complexe pour démonstration étendue
+- **Cas test 1** · Configuration `[1,2,3,5,0,6,4,7,8]` → Solution optimale en 4 mouvements
+- **Cas test 2** · Configuration `[1,3,6,5,2,8,4,0,7]` → Solution optimale en 9 mouvements
+- **Tests automatisés** · Suite complète de validation avec `swipl -g run_all_tests src/tests.pl`
 
 
 
