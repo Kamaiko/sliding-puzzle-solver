@@ -168,7 +168,7 @@ heuristic(State, Goal, H) :-
     sumlist(Distances, H).
 ```
 
-**Exécution.** Lors de l'exécution d'un scénario, le système configure automatiquement l'UTF-8 pour l'affichage multiplateforme, puis présente la séquence complète des états traversés accompagnée des métriques (coût, nœuds explorés). La suite de tests s'exécute via `swipl -g run_all_tests src/tests.pl` pour validation automatisée.
+**Exécution.** Lors de l'exécution d'un scénario, le système configure automatiquement l'UTF-8 pour l'affichage multiplateforme, puis présente la séquence complète des états traversés accompagnée des métriques (coût, nœuds explorés). La suite de tests s'exécute via `swipl -g run_all_tests src/tests.pl` pour validation.
 
 **Documentation.** Le code source respecte les conventions PlDoc de SWI-Prolog. Chaque prédicat public est documenté avec ses modes d'utilisation, annotations de paramètres (+, -, ?) et descriptions textuelles, facilitant la compréhension lors de la maintenance.
 
@@ -186,18 +186,17 @@ Le système implémente un solveur de taquin basé sur l'algorithme A* avec heur
 
 **Cas test avancé** `[1,3,6,5,2,8,4,0,7]` - Path: États A à J (10 états) | Cost: 9 | Expanded: 33
 
-<table>
-<tr>
-<td align="center">
+<p align="center">
 <img src="images/CasTest1.png" alt="Cas Test 1" width="280">
-<br><em>Figure 1 : Cas test classique</em>
-</td>
-<td align="center">
+&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="images/CasTest2.png" alt="Cas Test 2" width="280">
-<br><em>Figure 2 : Cas test avancé</em>
-</td>
-</tr>
-</table>
+</p>
+
+<p align="center">
+<em>Figure 1 : Cas test classique</em>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<em>Figure 2 : Cas test avancé</em>
+</p>
 
 Les résultats confirment l'optimalité des solutions avec un nombre restreint de nœuds explorés. La différence avec l'implémentation de référence fournie par le professeur (12 vs 9 nœuds) provient de l'ordre de génération des successeurs, sans impact sur l'optimalité.
 
@@ -223,7 +222,13 @@ Notre implémentation pourrait bénéficier d'une file de priorité avec tas bin
 
 ### 4.5 Résultats et discussion
 
-Le projet atteint l'ensemble de ses objectifs avec une implémentation fonctionnelle et validée de l'algorithme A*. Les métriques obtenues (Cost: 4 et 9, Expanded: 12 et 33) confirment l'exactitude de l'implémentation. La suite de 14 tests unitaires et 2 tests d'intégration garantit la robustesse du système. Contrairement à l'heuristique des tuiles mal placées qui compte simplement le nombre de tuiles mal positionnées, Manhattan calcule la somme des distances réelles à parcourir, fournissant une estimation plus précise qui réduit l'espace de recherche. L'admissibilité et la consistance de cette heuristique garantissent l'optimalité tout en maintenant des performances élevées (< 3ms). Toutefois, l'algorithme A* stocke tous les nœuds en mémoire (liste ouverte et ensemble fermé), ce qui limite le traitement d'instances très complexes. L'adoption d'IDA*<sup>[7]</sup> (Iterative Deepening A*) permettrait de traiter des instances plus complexes avec une consommation mémoire constante O(d) plutôt qu'exponentielle. L'exploration de bases de données de motifs (pattern databases) offrirait des heuristiques encore plus informées pour des puzzles plus grands. L'intégration de techniques de parallélisation pourrait accélérer la recherche sur des configurations complexes.
+**Évaluation.** L'implémentation démontre une maîtrise complète de l'algorithme A* avec validation rigoureuse par 14 tests unitaires et 2 tests d'intégration. Le système produit systématiquement des solutions optimales avec un comportement déterministe reproductible.
+
+**Avantages.** L'heuristique de distance Manhattan surpasse l'approche des tuiles mal placées en calculant les distances réelles plutôt qu'un simple décompte. Ses propriétés mathématiques (admissibilité et consistance) garantissent l'optimalité théorique tout en offrant des performances pratiques remarquables avec des temps de résolution sous 3ms.
+
+**Limites.** La consommation mémoire constitue la principale contrainte architecturale : A* maintient simultanément la liste ouverte et l'ensemble fermé en RAM, limitant le traitement de configurations très complexes. L'implémentation actuelle reste spécifique aux grilles 3×3 sans extensibilité immédiate.
+
+**Travaux futurs.** L'adoption d'IDA*<sup>[7]</sup> offrirait une consommation mémoire constante O(d) au lieu d'exponentielle. Les bases de données de motifs (pattern databases) permettraient des heuristiques plus informées pour puzzles N×N.
 
 ---
 
