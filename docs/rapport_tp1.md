@@ -126,11 +126,7 @@ Le développement s'est déroulé en quatre phases structurées :
 
 ### 2.4 Algorithmes, schémas et diagrammes de fonctionnement
 
-L'algorithme A* repose sur une structure de nœud contenant cinq composantes essentielles : l'état du taquin (liste de neuf éléments), le coût réel g(n) (profondeur dans l'arbre), l'estimation heuristique h(n) (distance Manhattan), la fonction d'évaluation f(n) = g(n) + h(n), et un pointeur vers le parent (reconstruction du chemin).
-
-Le flux d'exécution suit une séquence structurée : validation initiale de solvabilité (parité des inversions), initialisation du nœud racine, puis boucle principale extrayant itérativement le nœud à f(n) minimal. Pour chaque nœud exploré, si le but est atteint, le chemin se reconstruit par remontée des parents ; sinon, les successeurs sont générés selon l'ordre déterministe UP, DOWN, LEFT, RIGHT, reçoivent leur estimation heuristique, et sont ajoutés à la liste ouverte après vérification qu'ils ne figurent pas dans l'ensemble fermé (closed set).
-
-L'heuristique de distance Manhattan calcule pour chaque tuile (sauf la case vide) la somme des distances horizontales et verticales entre sa position actuelle et sa position but. Cette heuristique est admissible car chaque tuile nécessite au minimum sa distance Manhattan en mouvements pour atteindre sa position finale.
+L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les coûts g(n) et h(n), la fonction d'évaluation f(n) = g(n) + h(n), et un pointeur parent pour la reconstruction du chemin. Le flux d'exécution (Figure 3) extrait itérativement le nœud à f(n) minimal, génère ses successeurs selon l'ordre UP, DOWN, LEFT, RIGHT, et maintient un ensemble fermé (closed set) pour éviter la re-exploration d'états.
 
 <p align="center">
 <img src="images/astar_flowchart.svg" alt="Diagramme flux A*" width="380">
@@ -141,7 +137,7 @@ L'heuristique de distance Manhattan calcule pour chaque tuile (sauf la case vide
 
 **Implémentation.** L'implémentation se divise en quatre modules spécialisés gérant respectivement la logique du taquin (game.pl), l'algorithme A* (astar.pl), l'affichage formaté (display.pl) et l'orchestration générale (main.pl).
 
-**Guide d'utilisation.** Le programme se lance via `swipl run.pl`, initialisant l'environnement Prolog et affichant le menu principal. L'interface propose deux scénarios prédéfinis (classique et avancé) accessibles par sélection numérique, avec navigation interactive jusqu'à la sortie.
+**Guide d'utilisation.** Le programme nécessite SWI-Prolog 9.x ou supérieur (disponible sur swi-prolog.org). Le lancement s'effectue via `swipl run.pl`, initialisant l'environnement et affichant le menu principal. L'interface propose deux scénarios prédéfinis (classique et avancé) accessibles par sélection numérique, avec navigation interactive jusqu'à la sortie.
 
 **Code de la recherche heuristique.** Calcule la somme des distances Manhattan pour toutes les tuiles non-nulles entre leur position actuelle et leur position but :
 
@@ -163,7 +159,7 @@ heuristic(State, Goal, H) :-
 
 ### 3.1 Présentation claire des résultats
 
-Le système implémente un solveur de taquin basé sur l'algorithme A* avec heuristique de distance Manhattan. L'interface CLI propose deux scénarios de résolution avec affichage des chemins solutions, métriques (coût, nœuds explorés) et support UTF-8 multiplateforme. Le comportement déterministe assure la reproductibilité exacte des résultats.
+Le système produit pour chaque scénario le chemin solution complet (séquence d'états A→E ou A→J) et les métriques de performance (Cost, Expanded). Le temps d'exécution (Runtime) est mesuré pour évaluer l'efficacité algorithmique.
 
 ### 3.2 Résultats et discussion
 
@@ -221,7 +217,7 @@ Notre implémentation pourrait bénéficier d'une file de priorité avec tas bin
 
 ### 5.1 Bilan du travail pratique
 
-Ce projet a permis d'approfondir notre compréhension de l'algorithme A* et de sa capacité à garantir les solutions avec le coût minimal. L'implémentation en Prolog s'est révélée bien adaptée pour modéliser les états, les transitions et le backtracking nécessaire à la reconstruction des chemins. La suite de tests automatisée confirme que l'algorithme produit systématiquement les solutions optimales attendues (4 mouvements pour le scénario classique, 9 pour le scénario avancé) avec un comportement parfaitement déterministe.
+Ce projet a permis d'approfondir notre compréhension de l'algorithme A* et de sa capacité à garantir l'optimalité des solutions. L'implémentation en Prolog s'est révélée bien adaptée pour modéliser les états et les transitions. La suite de tests confirme que l'algorithme produit systématiquement les solutions optimales attendues (Cost: 4 et 9, Expanded: 12 et 33).
 
 ### 5.2 Accomplissements par rapport aux objectifs
 
