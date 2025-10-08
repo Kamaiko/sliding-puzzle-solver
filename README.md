@@ -16,7 +16,8 @@
 ---
 
 <div align="center">
-<img src="docs/images/menu_principal.png" alt="Menu principal Solveur Taquin" width="500">
+<img src="docs/images/Écran_accueil.png" alt="Écran d'accueil - Solveur Taquin" width="500">
+<br><em>Interface d'accueil du solveur avec menu interactif</em>
 </div>
 
 ## Installation & Lancement
