@@ -64,36 +64,16 @@ Enseignant : Anicet Lepetit ONDO
 ## Table des matières
 
 1. [INTRODUCTION](#1-introduction)
-   - 1.1 [Contexte et justification](#11-contexte-et-justification)
-   - 1.2 [Objectifs du travail pratique](#12-objectifs-du-travail-pratique)
-   - 1.3 [Plan du rapport](#13-plan-du-rapport)
 
 2. [MÉTHODOLOGIE](#2-méthodologie)
-   - 2.1 [Matériel, logiciels et outils utilisés](#21-matériel-logiciels-et-outils-utilisés)
-   - 2.2 [Modélisation du problème](#22-modélisation-du-problème)
-   - 2.3 [Étapes de réalisation du travail pratique](#23-étapes-de-réalisation-du-travail-pratique)
-   - 2.4 [Algorithmes, schémas et diagrammes de fonctionnement](#24-algorithmes-schémas-et-diagrammes-de-fonctionnement)
-   - 2.5 [Programme](#25-programme)
 
 3. [RÉSULTATS](#3-résultats)
-   - 3.1 [Présentation claire des résultats](#31-présentation-claire-des-résultats)
-   - 3.2 [Résultats et discussion](#32-résultats-et-discussion)
 
 4. [ANALYSE ET DISCUSSION](#4-analyse-et-discussion)
-   - 4.1 [Interprétation des résultats](#41-interprétation-des-résultats)
-   - 4.2 [Comparaison avec les attentes](#42-comparaison-avec-les-attentes)
-   - 4.3 [Limites rencontrées](#43-limites-rencontrées)
-   - 4.4 [Améliorations possibles](#44-améliorations-possibles)
-   - 4.5 [Résultats et discussion](#45-résultats-et-discussion)
 
 5. [CONCLUSION](#5-conclusion)
-   - 5.1 [Bilan du travail pratique](#51-bilan-du-travail-pratique)
-   - 5.2 [Accomplissements par rapport aux objectifs](#52-accomplissements-par-rapport-aux-objectifs)
-   - 5.3 [Perspectives et recommandations](#53-perspectives-et-recommandations)
 
 6. [UTILISATION D'INTELLIGENCE ARTIFICIELLE GÉNÉRATIVE](#6-utilisation-dintelligence-artificielle-générative)
-
-7. [RÉFÉRENCES BIBLIOGRAPHIQUES](#7-références-bibliographiques)
 
 **ANNEXE A** : [EXTRAITS DE CODE SOURCE](#annexe-a--extraits-de-code-source)
 
@@ -103,15 +83,15 @@ Enseignant : Anicet Lepetit ONDO
 
 ### 1.1 Contexte et justification
 
-Ce travail présente un solveur de Taquin (puzzle 3×3) utilisant l'algorithme A* avec l'heuristique de distance Manhattan. Le Taquin est un problème classique en IA avec un espace d'états limité (181 440 configurations solvables) dont la profondeur de solution optimale peut atteindre 31 mouvements pour les cas les plus complexes. Prolog permet de bien modéliser les transitions d'états et l'implémentation de recherches heuristiques<sup>[3]</sup>.
+Ce travail pratique s'inscrit dans le cadre du cours IFT-2003 Intelligence Artificielle 1 et porte sur la conception d'un système intelligent intégrant une recherche heuristique. Le Taquin (puzzle 3×3) constitue un problème classique permettant d'illustrer les techniques de recherche informée et les propriétés d'optimalité.
 
 ### 1.2 Objectifs du travail pratique
 
-L'objectif principal consiste à développer un solveur qui utilise A* pour garantir l'optimalité des solutions trouvées. Le projet adopte une architecture modulaire avec 4 modules Prolog respectant la séparation des responsabilités. L'heuristique de distance Manhattan est choisie pour ses propriétés d'admissibilité et de consistance. La validation s'effectue sur des scénarios de test représentatifs.
+L'objectif consiste à implémenter en langage Prolog<sup>[3]</sup> l'algorithme A* avec une heuristique adaptée pour déterminer le chemin optimal entre un état initial et un état but. L'heuristique de distance Manhattan a été choisie pour ce projet. Les résultats doivent inclure le chemin solution complet (Path), le nombre de mouvements (Cost) et le nombre de nœuds explorés (Expanded). Deux cas de test sont validés : le scénario classique du professeur et un scénario avancé choisi par l'équipe.
 
 ### 1.3 Plan du rapport
 
-La méthodologie (section 2) présente le matériel utilisé, la modélisation du problème, les étapes de réalisation, les algorithmes et le programme. Les résultats (section 3) exposent les métriques factuelles des cas de test avec leurs captures d'écran. L'analyse et discussion (section 4) interprète ces résultats, compare avec les attentes, évalue les avantages, identifie les limites et propose des améliorations futures. La conclusion (section 5) synthétise le bilan, les accomplissements et les perspectives.
+La méthodologie présente le matériel utilisé, la modélisation du problème, les étapes de réalisation, les algorithmes et le programme. Les résultats exposent les métriques factuelles des cas de test avec leurs captures d'écran. L'analyse et discussion interprète ces résultats, compare avec les attentes, évalue les avantages, identifie les limites et propose des améliorations futures.
 
 ---
 
