@@ -122,7 +122,7 @@ Le développement s'est déroulé en quatre phases structurées :
 1. **Analyse et conception** : Modélisation du problème du taquin, conception de l'architecture modulaire, spécification des interfaces entre modules
 2. **Implémentation séquentielle** : Développement itératif des modules dans l'ordre game.pl → astar.pl → display.pl → main.pl
 3. **Tests et validation** : Suite de tests unitaires et d'intégration, validation des métriques exactes, vérification de l'optimalité
-4. **Optimisation et documentation** : Amélioration des performances (warm-up JIT<sup>[2]</sup>, gestion mémoire), documentation PlDoc, préparation du livrable
+4. **Optimisation et documentation** : Amélioration des performances (warm-up Just-In-Time (JIT)<sup>[2]</sup>, gestion mémoire), documentation PlDoc, préparation du livrable
 
 ### 2.4 Algorithmes, schémas et diagrammes de fonctionnement
 
@@ -137,7 +137,7 @@ L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les 
 
 **Implémentation.** L'implémentation se divise en quatre modules spécialisés gérant respectivement la logique du taquin (game.pl), l'algorithme A* (astar.pl), l'affichage formaté (display.pl) et l'orchestration générale (main.pl).
 
-**Guide d'utilisation.** Le programme nécessite SWI-Prolog 9.x ou supérieur (disponible sur swi-prolog.org). Le lancement s'effectue via `swipl run.pl`, initialisant l'environnement et affichant le menu principal. L'interface propose deux scénarios prédéfinis (classique et avancé) accessibles par sélection numérique, avec navigation interactive jusqu'à la sortie.
+**Guide d'utilisation.** Le programme nécessite SWI-Prolog 9.x ou supérieur (disponible sur swi-prolog.org). Le lancement s'effectue via `swipl run.pl`, initialisant l'environnement et affichant le menu principal. L'interface propose deux scénarios prédéfinis (classique et avancé) accessibles par sélection numérique, avec navigation interactive jusqu'à la sortie. La suite de tests s'exécute via `swipl -g run_all_tests src/tests.pl` pour validation.
 
 **Code de la recherche heuristique.** Calcule la somme des distances Manhattan pour toutes les tuiles non-nulles entre leur position actuelle et leur position but :
 
@@ -149,7 +149,7 @@ heuristic(State, Goal, H) :-
     sumlist(Distances, H).
 ```
 
-**Exécution.** Lors de l'exécution d'un scénario, le système configure automatiquement l'UTF-8 pour l'affichage multiplateforme, puis présente la séquence complète des états traversés accompagnée des métriques (coût, nœuds explorés). La suite de tests s'exécute via `swipl -g run_all_tests src/tests.pl` pour validation.
+**Exécution.** Lors de l'exécution d'un scénario, le système configure automatiquement l'UTF-8 pour l'affichage multiplateforme, puis présente la séquence complète des états traversés accompagnée des métriques (coût, nœuds explorés).
 
 **Documentation.** Le code source respecte les conventions PlDoc de SWI-Prolog. Chaque prédicat public est documenté avec ses modes d'utilisation, annotations de paramètres (+, -, ?) et descriptions textuelles, facilitant la compréhension lors de la maintenance.
 
