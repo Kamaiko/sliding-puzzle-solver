@@ -249,7 +249,7 @@ display_about_banner :-
     write('║  PROJET       : TP1 - Conception d\'un jeu integrant une recherche heuristique ║'), nl,
     write('║  ECHEANCE     : 20 octobre 2025                                               ║'), nl,
     write('║                                                                               ║'), nl,
-    write('║  ALGORITHME   : A* (A-star) avec heuristique tuiles mal placees               ║'), nl,
+    write('║  ALGORITHME   : A* (A-star) avec heuristique de Manhattan                     ║'), nl,
     write('║                                                                               ║'), nl,
     write('║  EQUIPE :                                                                     ║'), nl,
     write('║    • Alexandre Gamache                                                        ║'), nl,
