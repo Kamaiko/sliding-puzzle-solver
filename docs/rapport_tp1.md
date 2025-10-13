@@ -139,17 +139,9 @@ L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les 
 
 **Guide d'utilisation.** Le programme nécessite SWI-Prolog 9.x ou supérieur (disponible sur swi-prolog.org). Le lancement s'effectue via `swipl run.pl`, initialisant l'environnement et affichant le menu principal. L'interface propose deux scénarios prédéfinis (classique et avancé) accessibles par sélection numérique, avec navigation interactive jusqu'à la sortie. La suite de tests s'exécute via `swipl -g run_all_tests src/tests.pl` pour validation.
 
-**Code de la recherche heuristique.** Calcule la somme des distances Manhattan pour toutes les tuiles non-nulles entre leur position actuelle et leur position but :
+**Code de la recherche heuristique.** La fonction `astar_search/5` orchestre la recherche en trois phases : validation via `validate_search_inputs/2`, exploration via `astar_main_loop/7`, et reconstruction via `reconstruct_solution_path/2`. La boucle principale extrait itérativement le nœud à plus petit f(n) de l'open list triée, génère ses successeurs avec `generate_moves/2`, puis calcule leur estimation h(n) via `manhattan_distance_heuristic/3` qui somme les distances Manhattan de chaque tuile. Les successeurs sont filtrés, insérés dans l'open list, et retriés par `sort_open_list_by_f_value/2` selon f(n) = g(n) + h(n) avec tie-breaking sur g(n). Le code détaillé des fonctions principales est disponible en Annexe A.
 
-```prolog
-heuristic(State, Goal, H) :-
-    findall(D, (nth0(Pos, State, Tile), Tile \= 0,
-                nth0(GoalPos, Goal, Tile),
-                manhattan_distance(Pos, GoalPos, D)), Distances),
-    sumlist(Distances, H).
-```
-
-**Exécution.** Lors de l'exécution d'un scénario, le système configure automatiquement l'UTF-8 pour l'affichage multiplateforme, puis présente la séquence complète des états traversés accompagnée des métriques (coût, nœuds explorés).
+**Exécution.** Après sélection d'un cas test dans le menu interactif, le système effectue un warm-up pour éliminer la latence de compilation, puis démarre la mesure de performance. Durant la recherche, la configuration UTF-8 s'active automatiquement pour l'affichage multiplateforme. Une fois la solution trouvée, le système présente la séquence complète des états traversés A→E (cas classique) ou A→J (cas avancé) accompagnée des métriques finales : chemin solution (Path), nombre de mouvements (Cost), nœuds explorés (Expanded), et temps d'exécution en millisecondes (Runtime).
 
 **Documentation.** Le code source respecte les conventions PlDoc de SWI-Prolog. Chaque prédicat public est documenté avec ses modes d'utilisation, annotations de paramètres (+, -, ?) et descriptions textuelles, facilitant la compréhension lors de la maintenance.
 
@@ -299,34 +291,41 @@ manhattan_sum([Tile|RestState], [_|RestGoal], Pos, Acc, Distance) :-
     manhattan_sum(RestState, RestGoal, NextPos, NewAcc, Distance).
 ```
 
-### Utilisation de l'heuristique pour créer les successeurs (astar.pl)
+### Boucle principale A* (astar.pl)
 
 ```prolog
-%! create_successor_nodes(+States:list, +Goal:list, +G:integer, +Parent:compound, -Nodes:list, +GenCountIn:integer, -GenCountOut:integer) is det.
-%  Crée les nœuds A* pour tous les états successeurs
-create_successor_nodes([State|RestStates], Goal, G, Parent, [Node|RestNodes], GenCountIn, GenCountOut) :-
-    GenCountMid is GenCountIn + 1,                    % Incrémenter compteur
-    manhattan_distance_heuristic(State, Goal, H),     % Calculer h(n)
-    create_node(State, G, H, Parent, Node),           % Créer nœud avec f=g+h
-    create_successor_nodes(RestStates, Goal, G, Parent, RestNodes, GenCountMid, GenCountOut).
+%! astar_main_loop(+OpenList:list, +ClosedSet:list, +Goal:list, +StartTime:float, +ExpCount:int, +GenCount:int, -Result:compound) is det.
+%  Boucle principale de l'algorithme A*
+%  Explore les nœuds par ordre de f(n) croissant jusqu'à atteindre le but
+
+% Cas de base: Open list vide = échec
+astar_main_loop([], _, _, _, ExpCount, GenCount, search_failed(ExpCount, GenCount)) :-
+    !, fail.
+
+% Cas récursif: Traitement du nœud avec plus petit f(n)
+astar_main_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, GenCount, Result) :-
+    check_search_timeout(StartTime),
+    node_state(CurrentNode, CurrentState),
+    (   is_goal_reached(CurrentState, Goal) ->
+        Result = search_success(CurrentNode, ExpCount, GenCount)
+    ;   is_state_in_closed_set(CurrentState, ClosedSet) ->
+        astar_main_loop(RestOpen, ClosedSet, Goal, StartTime, ExpCount, GenCount, Result)
+    ;   expand_current_node(CurrentNode, RestOpen, ClosedSet, Goal, StartTime, ExpCount, GenCount, Result)
+    ).
 ```
 
 ### Génération des mouvements (game.pl)
 
 ```prolog
-%! generate_moves(+State:list, -Moves:list) is det.
-%  Génère tous les mouvements valides dans l'ordre déterministe
-generate_moves(State, Moves) :-
-    find_blank_position(State, BlankPos),     % Localiser case vide
-    generate_moves_from_position(BlankPos, State, Moves).
-
-generate_moves_from_position(Pos, State, Moves) :-
+%! generate_moves(+State:list, -Successors:list) is det.
+%  Génère tous les mouvements valides dans l'ordre déterministe HAUT, BAS, GAUCHE, DROITE
+generate_moves(State, Successors) :-
+    find_blank(State, BlankPos),
     findall(NewState,
-        (member(Direction, [up, down, left, right]),  % Ordre déterministe
-         valid_move(Pos, Direction),                  % Vérifier validité
-         apply_move(State, Pos, Direction, NewState)  % Appliquer mouvement
-        ),
-        Moves).
+        (member(Direction, [up, down, left, right]),
+         valid_move(BlankPos, Direction),
+         apply_move(State, Direction, NewState)),
+        Successors).
 ```
 
 ### Tri de l'open list avec tie-breaking (astar.pl)
@@ -346,6 +345,22 @@ compare_node_f_values(Order, Node1, Node2) :-
         compare(Order, G1, G2)                % Priorité au plus petit g
     ;   compare(Order, F1, F2)                % Sinon : priorité au plus petit f
     ).
+```
+
+### Reconstruction du chemin solution (astar.pl)
+
+```prolog
+%! reconstruct_solution_path(+FinalNode:compound, -Path:list) is det.
+%  Reconstruit le chemin solution par remontée des parents
+reconstruct_solution_path(FinalNode, Path) :-
+    reconstruct_path_helper(FinalNode, PathReversed),
+    reverse(PathReversed, Path).
+
+%! reconstruct_path_helper(+Node:compound, -Path:list) is det.
+%  Helper récursif pour la reconstruction du chemin
+reconstruct_path_helper(node(State, _, _, _, nil), [State]) :- !.
+reconstruct_path_helper(node(State, _, _, _, Parent), [State|RestPath]) :-
+    reconstruct_path_helper(Parent, RestPath).
 ```
 
 ---
