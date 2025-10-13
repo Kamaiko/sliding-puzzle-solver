@@ -111,7 +111,7 @@ Le problème du taquin consiste à réorganiser des tuiles numérotées sur une 
 
 **Mouvements.** Quatre mouvements sont possibles selon la position de la case vide : déplacer une tuile vers le haut (UP), vers le bas (DOWN), vers la gauche (LEFT) ou vers la droite (RIGHT). Notre implémentation génère les successeurs dans cet ordre précis pour garantir le déterminisme des résultats. Lorsque la case vide se trouve en bordure ou dans un coin, certains mouvements deviennent impossibles et ne sont pas générés.
 
-**Technique de recherche.** L'algorithme A*<sup>[5]</sup> est utilisé avec l'heuristique de distance Manhattan<sup>[8]</sup>, choisie pour ses propriétés d'admissibilité et de consistance garantissant l'optimalité des solutions trouvées.
+**Technique de recherche.** L'algorithme A*<sup>[5]</sup> est utilisé avec l'heuristique de distance Manhattan, choisie pour ses propriétés d'admissibilité et de consistance garantissant l'optimalité des solutions trouvées.
 
 **Résultats attendus.** Pour le cas test classique, nous nous attendons à trouver une solution optimale de 4 mouvements. Pour le cas test avancé, la solution optimale devrait être de 9 mouvements.
 
@@ -126,11 +126,11 @@ Le développement s'est déroulé en quatre phases structurées :
 
 ### Algorithmes, schémas et diagrammes de fonctionnement
 
-L'algorithme A* garantit l'optimalité des solutions grâce à la fonction d'évaluation $`f(n) = g(n) + h(n)`$ qui combine le coût réel $`g(n)`$ (chemin parcouru) et l'estimation heuristique $`h(n)`$ (distance restante). La structure de nœud intègre ces coûts, l'état courant et un pointeur parent pour reconstruction via `reconstruct_solution_path/2`. L'implémentation `astar_search/5` maintient une liste ouverte (candidats triés par $`f(n)`$) et un ensemble fermé (états visités) évitant les cycles, tandis que `generate_moves/2` produit les successeurs valides à chaque expansion. Le diagramme (Figure 3) illustre ce flux d'expansion itérative.
+L'algorithme A* garantit l'optimalité des solutions grâce à la fonction d'évaluation $`f(n) = g(n) + h(n)`$ qui combine le coût réel $`g(n)`$ (chemin parcouru) et l'estimation heuristique $`h(n)`$ (distance restante). La structure de nœud intègre ces coûts, l'état courant et un pointeur parent pour reconstruction via `reconstruct_solution_path/2`. L'implémentation `astar_search/5` maintient une liste ouverte (candidats triés par $`f(n)`$) et un ensemble fermé (états visités) évitant les cycles, tandis que `generate_moves/2` produit les successeurs valides à chaque expansion. Le diagramme (Figure 1) illustre ce flux d'expansion itérative.
 
 <p align="center">
 <img src="images/astar_flowchart.svg" alt="Diagramme flux A*" width="380">
-<br><em>Figure 3 : Diagramme de flux de l'algorithme A* avec heuristique Manhattan</em>
+<br><em>Figure 1 : Diagramme de flux de l'algorithme A* avec heuristique Manhattan</em>
 </p>
 
 ### Programme
@@ -166,9 +166,9 @@ Le système produit pour chaque scénario le chemin solution complet (séquence 
 </p>
 
 <p align="center">
-<em>Figure 1 : Cas test classique</em>
+<em>Figure 2 : Cas test classique</em>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<em>Figure 2 : Cas test avancé</em>
+<em>Figure 3 : Cas test avancé</em>
 </p>
 
 Les résultats confirment l'optimalité des solutions avec un nombre restreint de nœuds explorés. La différence avec l'implémentation de référence fournie par le professeur (12 vs 9 nœuds) provient de l'ordre de génération des successeurs, sans impact sur l'optimalité.
@@ -187,7 +187,7 @@ L'optimalité des solutions est confirmée avec 4 mouvements pour le cas classiq
 
 ### Limites rencontrées
 
-Durant l'implémentation, le principal défi rencontré concernait la gestion du tri de la liste ouverte à chaque insertion de nœuds. L'approche initiale retriait toute la liste ($`O(n \log n)`$), ce qui nécessitait une attention particulière pour maintenir les performances acceptables sur les cas de test. Le débogage de la reconstruction du chemin par remontée des parents a également demandé une validation minutieuse pour garantir l'exactitude des séquences d'états.
+L'implémentation a d'abord exploré l'heuristique des tuiles mal placées, mais cette approche s'est révélée moins informative pour guider efficacement la recherche. La distance Manhattan a été adoptée pour sa capacité à fournir une estimation plus précise du coût réel et sa simplicité d'implémentation, permettant un développement plus rapide et fiable. Le tri complet de la liste ouverte ($`O(n \log n)`$) a été préféré à une structure de file de priorité plus complexe, privilégiant la clarté du code et la facilité de validation tout en maintenant des performances acceptables pour les cas de test visés.
 
 ### Améliorations possibles
 
@@ -247,7 +247,7 @@ L'ensemble du travail a été réalisé sous supervision directe avec une valida
 
 [8] Russell, S. & Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*. 4th Edition. Pearson.
 
-[9] SWI-Prolog Documentation. (2025). https://www.swi-prolog.org/
+[9] SWI-Prolog Documentation. (2024). https://www.swi-prolog.org/
 
 ---
 
@@ -262,7 +262,7 @@ L'ensemble du travail a été réalisé sous supervision directe avec une valida
 %  @arg Goal État à atteindre
 %  @arg Path Chemin solution (liste des états depuis initial vers goal)
 %  @arg Cost Coût de la solution (nombre de mouvements)
-%  @arg Expanded Nombre de nœuds générés durant la recherche
+%  @arg Expanded Nombre de nœuds explorés durant la recherche
 astar_search(Initial, Goal, Path, Cost, Expanded) :-
     validate_search_inputs(Initial, Goal),
     (   states_equal(Initial, Goal) ->
