@@ -81,15 +81,15 @@ Enseignant : Anicet Lepetit ONDO
 
 ## 1. INTRODUCTION
 
-### 1.1 Contexte et justification
+### Contexte et justification
 
 Ce travail pratique s'inscrit dans le cadre du cours IFT-2003 Intelligence Artificielle 1 et porte sur la conception d'un système intelligent intégrant une recherche heuristique. Le Taquin (puzzle 3×3) constitue un problème classique permettant d'illustrer les techniques de recherche informée et les propriétés d'optimalité.
 
-### 1.2 Objectifs du travail pratique
+### Objectifs du travail pratique
 
 L'objectif consiste à implémenter en langage Prolog<sup>[3]</sup> l'algorithme A* avec une heuristique adaptée pour déterminer le chemin optimal entre un état initial et un état but. L'heuristique de distance Manhattan a été choisie pour ce projet. Les résultats doivent inclure le chemin solution complet (Path), le nombre de mouvements (Cost) et le nombre de nœuds explorés (Expanded). Deux cas de test sont validés : le scénario classique du professeur et un scénario avancé choisi par l'équipe.
 
-### 1.3 Plan du rapport
+### Plan du rapport
 
 La méthodologie présente le matériel utilisé, la modélisation du problème, les étapes de réalisation, les algorithmes et le programme. Les résultats exposent les métriques factuelles des cas de test avec leurs captures d'écran. L'analyse et discussion interprète ces résultats, compare avec les attentes, évalue les avantages, identifie les limites et propose des améliorations futures.
 
@@ -97,11 +97,11 @@ La méthodologie présente le matériel utilisé, la modélisation du problème,
 
 ## 2. MÉTHODOLOGIE
 
-### 2.1 Matériel, logiciels et outils utilisés
+### Matériel, logiciels et outils utilisés
 
 Le développement a été réalisé avec SWI-Prolog 9.0.4<sup>[9]</sup> comme environnement d'exécution et de compilation, PlDoc pour la documentation des prédicats, et Git/GitHub pour le contrôle de version et la collaboration. Les tests ont été effectués sur Windows 10/11.
 
-### 2.2 Modélisation du problème
+### Modélisation du problème
 
 Le problème du taquin consiste à réorganiser des tuiles numérotées sur une grille 3×3 contenant une case vide, en effectuant des déplacements successifs jusqu'à atteindre une configuration cible. Ce problème classique d'intelligence artificielle permet d'illustrer les concepts de recherche heuristique et d'optimalité de solutions.
 
@@ -115,7 +115,7 @@ Le problème du taquin consiste à réorganiser des tuiles numérotées sur une 
 
 **Résultats attendus.** Pour le cas test classique, nous nous attendons à trouver une solution optimale de 4 mouvements. Pour le cas test avancé, la solution optimale devrait être de 9 mouvements.
 
-### 2.3 Étapes de réalisation du travail pratique
+### Étapes de réalisation du travail pratique
 
 Le développement s'est déroulé en quatre phases structurées :
 
@@ -124,7 +124,7 @@ Le développement s'est déroulé en quatre phases structurées :
 3. **Tests et validation** : Suite de tests unitaires et d'intégration, validation des métriques exactes, vérification de l'optimalité
 4. **Optimisation et documentation** : Amélioration des performances (warm-up Just-In-Time (JIT)<sup>[2]</sup>, gestion mémoire), documentation PlDoc, préparation du livrable
 
-### 2.4 Algorithmes, schémas et diagrammes de fonctionnement
+### Algorithmes, schémas et diagrammes de fonctionnement
 
 L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les coûts g(n) et h(n), la fonction d'évaluation f(n) = g(n) + h(n), et un pointeur parent pour la reconstruction du chemin. Le flux d'exécution (Figure 3) extrait itérativement le nœud à f(n) minimal, génère ses successeurs selon l'ordre UP, DOWN, LEFT, RIGHT, et maintient un ensemble fermé (closed set) pour éviter la re-exploration d'états.
 
@@ -133,7 +133,7 @@ L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les 
 <br><em>Figure 3 : Diagramme de flux de l'algorithme A* avec heuristique Manhattan</em>
 </p>
 
-### 2.5 Programme
+### Programme
 
 **Implémentation.** L'implémentation se divise en quatre modules spécialisés gérant respectivement la logique du taquin (game.pl), l'algorithme A* (astar.pl), l'affichage formaté (display.pl) et l'orchestration générale (main.pl).
 
@@ -157,11 +157,11 @@ heuristic(State, Goal, H) :-
 
 ## 3. RÉSULTATS
 
-### 3.1 Présentation claire des résultats
+### Présentation claire des résultats
 
 Le système produit pour chaque scénario le chemin solution complet (séquence d'états A→E ou A→J) et les métriques de performance (Cost, Expanded). Le temps d'exécution (Runtime) est mesuré pour évaluer l'efficacité algorithmique.
 
-### 3.2 Résultats et discussion
+### Résultats et discussion
 
 **Cas test classique** `[1,2,3,5,0,6,4,7,8]` - Path: États A à E (5 états) | Cost: 4 | Expanded: 12
 
@@ -185,23 +185,23 @@ Les résultats confirment l'optimalité des solutions avec un nombre restreint d
 
 ## 4. ANALYSE ET DISCUSSION
 
-### 4.1 Interprétation des résultats
+### Interprétation des résultats
 
 Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique de distance Manhattan. L'algorithme explore 12 nœuds pour le cas classique et 33 nœuds pour le cas avancé, démontrant que l'heuristique guide efficacement la recherche sans explorer inutilement l'espace d'états complet (181 440 configurations possibles).
 
-### 4.2 Comparaison avec les attentes
+### Comparaison avec les attentes
 
 L'optimalité des solutions est confirmée avec 4 mouvements pour le cas classique et 9 mouvements pour le cas avancé. Les temps de résolution restent sous 3ms pour les deux scénarios. Le comportement déterministe garantit la reproductibilité des résultats à chaque exécution.
 
-### 4.3 Limites rencontrées
+### Limites rencontrées
 
 Durant l'implémentation, le principal défi rencontré concernait la gestion du tri de la liste ouverte à chaque insertion de nœuds. L'approche initiale retriait toute la liste (O(n log n)), ce qui nécessitait une attention particulière pour maintenir les performances acceptables sur les cas de test. Le débogage de la reconstruction du chemin par remontée des parents a également demandé une validation minutieuse pour garantir l'exactitude des séquences d'états.
 
-### 4.4 Améliorations possibles
+### Améliorations possibles
 
 Notre implémentation pourrait bénéficier d'une file de priorité avec tas binaire pour réduire la complexité du tri à O(log n) par opération. L'extensibilité vers des grilles N×N nécessiterait une refactorisation des prédicats de validation et de calcul d'heuristique. Une optimisation de la gestion mémoire avec recyclage des structures de nœuds améliorerait les performances pour des instances plus complexes.
 
-### 4.5 Résultats et discussion
+### Résultats et discussion
 
 **Évaluation.** L'implémentation démontre une maîtrise complète de l'algorithme A* avec validation rigoureuse par 14 tests unitaires et 2 tests d'intégration. Le système produit systématiquement des solutions optimales avec un comportement déterministe reproductible.
 
@@ -215,15 +215,15 @@ Notre implémentation pourrait bénéficier d'une file de priorité avec tas bin
 
 ## 5. CONCLUSION
 
-### 5.1 Bilan du travail pratique
+### Bilan du travail pratique
 
 Ce projet a permis d'approfondir notre compréhension de l'algorithme A* et de sa capacité à garantir l'optimalité des solutions. L'implémentation en Prolog s'est révélée bien adaptée pour modéliser les états et les transitions. La suite de tests confirme que l'algorithme produit systématiquement les solutions optimales attendues (Cost: 4 et 9, Expanded: 12 et 33).
 
-### 5.2 Accomplissements par rapport aux objectifs
+### Accomplissements par rapport aux objectifs
 
 Tous les objectifs du projet ont été atteints. A* produit des solutions optimales avec les bonnes métriques. L'heuristique de distance Manhattan respecte les propriétés d'admissibilité et de consistance requises pour garantir l'optimalité des solutions.
 
-### 5.3 Perspectives et recommandations
+### Perspectives et recommandations
 
 L'extension vers des domaines de recherche plus complexes (taquins N×N, problèmes de planification) constitue une progression naturelle pour approfondir les concepts acquis. Au-delà du cadre académique, les principes d'A* s'appliquent à des domaines pratiques comme la planification de trajectoires en robotique et l'optimisation logistique où la recherche de solutions optimales demeure un enjeu fondamental.
 

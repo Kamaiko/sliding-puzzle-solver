@@ -29,11 +29,11 @@ max_timeout(30.0).
 % =============================================================================
 
 %! Structure d'un nœud A*: node(State, G, H, F, Parent)
-%  @param State État du taquin [1,2,3,5,0,6,4,7,8]
-%  @param G Coût réel depuis l'état initial (g(n) = profondeur)
-%  @param H Valeur heuristique estimée vers le but (h(n))
-%  @param F Coût total estimé (f(n) = g(n) + h(n))
-%  @param Parent Référence au nœud parent (pour reconstruction chemin)
+%  @arg State État du taquin [1,2,3,5,0,6,4,7,8]
+%  @arg G Coût réel depuis l'état initial (g(n) = profondeur)
+%  @arg H Valeur heuristique estimée vers le but (h(n))
+%  @arg F Coût total estimé (f(n) = g(n) + h(n))
+%  @arg Parent Référence au nœud parent (pour reconstruction chemin)
 
 %! node_state(+Node:compound, -State:list) is det.
 %  Extrait l'état d'un nœud A*
@@ -57,11 +57,11 @@ node_parent(node(_,_,_,_,Parent), Parent).
 
 %! create_node(+State:list, +G:integer, +H:integer, +Parent:compound, -Node:compound) is det.
 %  Crée un nouveau nœud A* avec tous les champs calculés
-%  @param State État du taquin
-%  @param G Coût réel g(n)
-%  @param H Heuristique h(n)
-%  @param Parent Nœud parent
-%  @param Node Nœud créé avec f(n) = g(n) + h(n)
+%  @arg State État du taquin
+%  @arg G Coût réel g(n)
+%  @arg H Heuristique h(n)
+%  @arg Parent Nœud parent
+%  @arg Node Nœud créé avec f(n) = g(n) + h(n)
 create_node(State, G, H, Parent, node(State, G, H, F, Parent)) :-
     F is G + H.
 
@@ -91,11 +91,11 @@ manhattan_distance_heuristic(State, Goal, Distance) :-
 %! manhattan_sum(+State:list, +Goal:list, +Pos:int, +Acc:int, -Distance:int) is det.
 %  Helper récursif pour calculer la somme des distances Manhattan.
 %
-%  @param State Reste de l'état à traiter
-%  @param Goal Reste du but (utilisé pour trouver position but de chaque tuile)
-%  @param Pos Position actuelle dans la grille (0-8)
-%  @param Acc Accumulateur de la distance totale
-%  @param Distance Somme finale des distances Manhattan
+%  @arg State Reste de l'état à traiter
+%  @arg Goal Reste du but (utilisé pour trouver position but de chaque tuile)
+%  @arg Pos Position actuelle dans la grille (0-8)
+%  @arg Acc Accumulateur de la distance totale
+%  @arg Distance Somme finale des distances Manhattan
 manhattan_sum([], [], _, Acc, Acc).
 manhattan_sum([Tile|RestState], [_|RestGoal], Pos, Acc, Distance) :-
     (   Tile =:= 0 ->
@@ -162,10 +162,10 @@ validate_search_inputs(Initial, Goal) :-
 
 %! initialize_search(+Initial:list, +Goal:list, -InitialNode:compound, -Context:compound) is det.
 %  Initialise les structures pour la recherche A*
-%  @param Initial État de départ
-%  @param Goal État but
-%  @param InitialNode Nœud initial avec f(n) calculé
-%  @param Context Contexte de recherche search_context(Goal, StartTime, OpenList, ClosedSet, ExpansionCount, GenerationCount)
+%  @arg Initial État de départ
+%  @arg Goal État but
+%  @arg InitialNode Nœud initial avec f(n) calculé
+%  @arg Context Contexte de recherche search_context(Goal, StartTime, OpenList, ClosedSet, ExpansionCount, GenerationCount)
 initialize_search(Initial, Goal, InitialNode, search_context(Goal, StartTime, [InitialNode], [], 0, 0)) :-
     % Calculer l'heuristique pour le nœud initial
     manhattan_distance_heuristic(Initial, Goal, InitialH),
@@ -361,17 +361,17 @@ create_successor_nodes([State|RestStates], Goal, G, Parent, [Node|RestNodes], Ge
 %! sort_open_list_by_f_value(+Nodes:list, -SortedNodes:list) is det.
 %  Trie les nœuds par valeur f(n) croissante (file de priorité)
 %  En cas d'égalité f(n), priorité au plus petit g(n) (tie-breaking)
-%  @param Nodes Liste des nœuds à trier
-%  @param SortedNodes Nœuds triés par f croissant, puis g croissant
+%  @arg Nodes Liste des nœuds à trier
+%  @arg SortedNodes Nœuds triés par f croissant, puis g croissant
 sort_open_list_by_f_value(Nodes, SortedNodes) :-
     predsort(compare_node_f_values, Nodes, SortedNodes).
 
 %! compare_node_f_values(-Order:atom, +Node1:compound, +Node2:compound) is det.
 %  Fonction de comparaison pour le tri des nœuds A*
 %  Priorité 1: Plus petit f(n) | Priorité 2: Plus petit g(n) (tie-breaking)
-%  @param Order Résultat de comparaison (<, =, >)
-%  @param Node1 Premier nœud à comparer
-%  @param Node2 Second nœud à comparer
+%  @arg Order Résultat de comparaison (<, =, >)
+%  @arg Node1 Premier nœud à comparer
+%  @arg Node2 Second nœud à comparer
 compare_node_f_values(Order, Node1, Node2) :-
     node_f_cost(Node1, F1),
     node_f_cost(Node2, F2),
@@ -386,8 +386,8 @@ compare_node_f_values(Order, Node1, Node2) :-
 
 %! reconstruct_solution_path(+FinalNode:compound, -Path:list) is det.
 %  Reconstruit le chemin solution par remontée des parents
-%  @param FinalNode Nœud but atteint
-%  @param Path Chemin depuis initial vers but (dans l'ordre correct)
+%  @arg FinalNode Nœud but atteint
+%  @arg Path Chemin depuis initial vers but (dans l'ordre correct)
 reconstruct_solution_path(FinalNode, Path) :-
     reconstruct_path_helper(FinalNode, PathReversed),
     reverse(PathReversed, Path).
@@ -435,9 +435,9 @@ solve_puzzle(case2, result(Path, Cost, Expanded)) :-
 
 %! solve_custom_puzzle(+Initial:list, +Goal:list, -Result:compound) is det.
 %  Interface pour résoudre des configurations personnalisées
-%  @param Initial État de départ personnalisé
-%  @param Goal État but personnalisé
-%  @param Result Structure result(Path, Cost, Expanded)
+%  @arg Initial État de départ personnalisé
+%  @arg Goal État but personnalisé
+%  @arg Result Structure result(Path, Cost, Expanded)
 solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)) :-
     astar_search(Initial, Goal, Path, Cost, Expanded).
 
@@ -448,9 +448,9 @@ solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)) :-
 %! debug_expansion_trace(+Node:compound, +Count:int, +ClosedSet:list) is det.
 %  Affiche la trace de l'exploration A* pour prouver le calcul réel
 %  Mode discret par défaut (peut être activé via flag debug_astar)
-%  @param Node Nœud en cours d'exploration
-%  @param Count Numéro du nœud exploré
-%  @param ClosedSet États déjà explorés
+%  @arg Node Nœud en cours d'exploration
+%  @arg Count Numéro du nœud exploré
+%  @arg ClosedSet États déjà explorés
 debug_expansion_trace(Node, Count, ClosedSet) :-
     (   current_prolog_flag(debug_astar, true) ->
         % Mode debug activé - afficher la trace détaillée

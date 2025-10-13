@@ -29,7 +29,7 @@ Coordonne les modules game.pl, astar.pl et display.pl.
 %! main(+Args:list) is det.
 %  Point d'entrée principal avec gestion des arguments
 %  Lance la bannière d'accueil et démarre le menu principal
-%  @param Args Arguments de ligne de commande (ignorés pour ce programme)
+%  @arg Args Arguments de ligne de commande (ignorés pour ce programme)
 main(_) :-
     setup_environment,
     main_menu.
@@ -70,7 +70,7 @@ main_menu :-
 %! read_choice(-Choice:integer) is det.
 %  Lit et valide le choix utilisateur immédiatement (sans Enter)
 %  Utilise get_single_char pour saisie instantanée (1, 2, 3, ou 4)
-%  @param Choice Choix valide de l'utilisateur (1-4)
+%  @arg Choice Choix valide de l'utilisateur (1-4)
 read_choice(Choice) :-
     flush_output,
     get_single_char(Code),
@@ -97,7 +97,7 @@ read_choice(Choice) :-
 %! handle_choice(+Choice:integer) is det.
 %  Traite le choix utilisateur du menu principal
 %  Exécute l'action correspondante avec gestion d'erreurs
-%  @param Choice Choix de l'utilisateur (1=cas test 1, 2=cas test 2, 3=a propos, 4=quitter)
+%  @arg Choice Choix de l'utilisateur (1=cas test 1, 2=cas test 2, 3=a propos, 4=quitter)
 
 % Cas test 1 : Exemple professeur
 handle_choice(1) :-
@@ -141,7 +141,7 @@ handle_choice(InvalidChoice) :-
 
 %! execute_test_case(+TestCase:atom) is det.
 %  Exécute un cas de test avec mesure de performance et gestion d'erreurs
-%  @param TestCase Identifiant du cas (case1 | case2)
+%  @arg TestCase Identifiant du cas (case1 | case2)
 execute_test_case(TestCase) :-
     % Warm-up pour eliminer la compilation JIT
     catch(solve_puzzle(TestCase, _), _, true),
@@ -160,7 +160,7 @@ execute_test_case(TestCase) :-
 %! handle_execution_error(+Error:compound) is det.
 %  Gère les erreurs durant l'exécution des cas de test
 %  Affiche des messages d'erreur informatifs selon le type d'erreur
-%  @param Error Structure d'erreur Prolog
+%  @arg Error Structure d'erreur Prolog
 handle_execution_error(error(timeout, _)) :-
     !,
     display_error(timeout, 'Temps de calcul dépassé').

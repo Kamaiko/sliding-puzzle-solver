@@ -57,8 +57,8 @@ display_menu :-
 %! display_state(+Title:string, +State:list) is det.
 %  Affiche un état du taquin au format 3×3 avec titre
 %  Case vide (0) affichée comme "*" selon conventions
-%  @param Title Titre à afficher au-dessus du plateau
-%  @param State État du taquin [1,2,3,5,0,6,4,7,8]
+%  @arg Title Titre à afficher au-dessus du plateau
+%  @arg State État du taquin [1,2,3,5,0,6,4,7,8]
 display_state(Title, State) :-
     nl,
     format('~w :', [Title]), nl,
@@ -81,7 +81,7 @@ display_state(Title, State) :-
 %! display_state_compact(+State:list) is det.
 %  Affiche un état en format compact pour le chemin solution
 %  Version condensée pour l'affichage séquentiel du path
-%  @param State État du taquin à afficher
+%  @arg State État du taquin à afficher
 display_state_compact(State) :-
     State = [S1,S2,S3,S4,S5,S6,S7,S8,S9],
 
@@ -98,8 +98,8 @@ display_state_compact(State) :-
 %! format_tile(+Tile:integer, -Formatted) is det.
 %  Formate une tuile pour l'affichage (0 devient #)
 %  Convention: case vide représentée par "#" selon mockups
-%  @param Tile Valeur de la tuile (0-8)
-%  @param Formatted Représentation formatée pour affichage
+%  @arg Tile Valeur de la tuile (0-8)
+%  @arg Formatted Représentation formatée pour affichage
 format_tile(0, '#') :- !.  % Case vide = # selon mockups
 format_tile(Tile, Tile).   % Autres tuiles inchangées
 
@@ -110,10 +110,10 @@ format_tile(Tile, Tile).   % Autres tuiles inchangées
 %! display_solution(+Path:list, +Cost:integer, +Expanded:integer, +ResponseTime:float) is det.
 %  Affiche la solution complète avec statistiques détaillées
 %  Format professionnel avec chemin complet et métriques
-%  @param Path Chemin solution (liste des états)
-%  @param Cost Nombre de mouvements (coût de la solution)
-%  @param Expanded Nombre de nœuds explorés par A*
-%  @param ResponseTime Temps de calcul IA en secondes
+%  @arg Path Chemin solution (liste des états)
+%  @arg Cost Nombre de mouvements (coût de la solution)
+%  @arg Expanded Nombre de nœuds explorés par A*
+%  @arg ResponseTime Temps de calcul IA en secondes
 display_solution(Path, Cost, Expanded, ResponseTime) :-
     nl,
     write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
@@ -144,8 +144,8 @@ display_solution(Path, Cost, Expanded, ResponseTime) :-
 
 %! display_path_sequence_with_labels(+Path:list, +Index:integer) is det.
 %  Affiche séquentiellement tous les états du chemin avec labels A, B, C, D, E
-%  @param Path Liste des états depuis initial vers but
-%  @param Index Index actuel pour générer le label (1=A, 2=B, etc.)
+%  @arg Path Liste des états depuis initial vers but
+%  @arg Index Index actuel pour générer le label (1=A, 2=B, etc.)
 display_path_sequence_with_labels([], _).
 display_path_sequence_with_labels([State], Index) :-
     % Dernier état (but atteint)
@@ -171,8 +171,8 @@ display_path_sequence_with_labels([State|RestPath], Index) :-
 
 %! display_error(+ErrorType:atom, +Details:string) is det.
 %  Affiche un message d'erreur formaté avec contexte
-%  @param ErrorType Type d'erreur (timeout, invalid_state, unsolvable)
-%  @param Details Détails supplémentaires sur l'erreur
+%  @arg ErrorType Type d'erreur (timeout, invalid_state, unsolvable)
+%  @arg Details Détails supplémentaires sur l'erreur
 display_error(timeout, Details) :-
     nl,
     write('╔══════════════════════════════════════╗'), nl,
@@ -214,8 +214,8 @@ display_success_message :-
 
 %! display_case1_banner(+InitState:list, +GoalState:list) is det.
 %  Affiche la bannière du cas test 1 avec les états
-%  @param InitState État initial du cas test 1
-%  @param GoalState État objectif du cas test 1
+%  @arg InitState État initial du cas test 1
+%  @arg GoalState État objectif du cas test 1
 display_case1_banner(InitState, GoalState) :-
     nl,
     write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
@@ -261,7 +261,7 @@ display_about_banner :-
 
 %! display_debug_state(+State:list) is det.
 %  Affiche l'état sous forme compacte pour le debug A*
-%  @param State État du taquin à afficher [A,B,C,D,E,F,G,H,I]
+%  @arg State État du taquin à afficher [A,B,C,D,E,F,G,H,I]
 display_debug_state([A,B,C,D,E,F,G,H,I]) :-
     format('         ~w ~w ~w~n', [A,B,C]),
     format('         ~w ~w ~w~n', [D,E,F]),
