@@ -141,7 +141,7 @@ L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les 
 
 **Code de la recherche heuristique.** L'heuristique `manhattan_distance_heuristic/3` calcule pour chaque état la somme des distances Manhattan de toutes les tuiles : $h(n) = \sum_{i=1}^{8} (|\Delta_{row}| + |\Delta_{col}|)$ où chaque tuile contribue sa distance $|\Delta_{row}| + |\Delta_{col}|$. Cette fonction parcourt récursivement l'état via `manhattan_sum/5`, ignore la case vide (0), et convertit chaque position linéaire (0-8) en coordonnées (ligne, colonne) avec les opérations // et mod. L'heuristique est admissible ($h(n) \leq h^*(n)$) car chaque mouvement déplace une tuile d'exactement une case, et consistante ($|h(n_1) - h(n_2)| \leq 1$) garantissant l'optimalité de A*. Cette estimation guide l'exploration en priorisant les états prometteurs via la fonction $f(n) = g(n) + h(n)$. Code en Annexe A.
 
-**Exécution.** Après sélection d'un cas test dans le menu interactif, le système effectue un warm-up pour éliminer la latence de compilation, puis démarre la mesure de performance. Durant la recherche, la configuration UTF-8 s'active automatiquement pour l'affichage multiplateforme. Une fois la solution trouvée, le système présente la séquence complète des états traversés A→E (cas classique) ou A→J (cas avancé) accompagnée des métriques finales : chemin solution (Path), nombre de mouvements (Cost), nœuds explorés (Expanded), et temps d'exécution en millisecondes (Runtime).
+**Exécution.** Après sélection d'un cas test dans le menu interactif, le système effectue un warm-up pour éliminer la latence de compilation, puis démarre la mesure de performance. Une fois la solution trouvée, le système présente la séquence complète des états traversés A→E (cas classique) ou A→J (cas avancé) accompagnée des métriques finales : chemin solution (Path), nombre de mouvements (Cost), nœuds explorés (Expanded), et temps d'exécution en millisecondes (Runtime).
 
 **Documentation.** Le code source respecte les conventions PlDoc de SWI-Prolog. Chaque prédicat public est documenté avec ses modes d'utilisation, annotations de paramètres (+, -, ?) et descriptions textuelles, facilitant la compréhension lors de la maintenance.
 
@@ -217,7 +217,7 @@ Tous les objectifs du projet ont été atteints. A* produit des solutions optima
 
 ### Perspectives et recommandations
 
-L'extension vers des domaines de recherche plus complexes (taquins N×N, problèmes de planification) constitue une progression naturelle pour approfondir les concepts acquis. Au-delà du cadre académique, les principes d'A* s'appliquent à des domaines pratiques comme la planification de trajectoires en robotique et l'optimisation logistique où la recherche de solutions optimales demeure un enjeu fondamental.
+L'extension vers des domaines de recherche plus complexes (taquins $N \times N$, problèmes de planification) constitue une progression naturelle pour approfondir les concepts acquis. Au-delà du cadre académique, les principes d'A* s'appliquent à des domaines pratiques comme la planification de trajectoires en robotique et l'optimisation logistique où la recherche de solutions optimales demeure un enjeu fondamental.
 
 ---
 
@@ -253,21 +253,6 @@ L'ensemble du travail a été réalisé sous supervision directe avec une valida
 
 ## ANNEXE A : EXTRAITS DE CODE SOURCE
 
-### Point d'entrée principal A* (astar.pl)
-
-```prolog
-%! astar_search(+Initial:list, +Goal:list, -Path:list, -Cost:integer, -Expanded:integer) is det.
-%  Point d'entrée principal de l'algorithme A*
-astar_search(Initial, Goal, Path, Cost, Expanded) :-
-    validate_search_inputs(Initial, Goal),            % Validation préalable
-    (   states_equal(Initial, Goal) ->               % Cas trivial résolu
-        Path = [Initial], Cost = 0, Expanded = 0
-    ;   initialize_search(Initial, Goal, InitialNode, SearchContext),
-        execute_astar_search(InitialNode, SearchContext, Result),
-        extract_search_results(Result, Path, Cost, Expanded)
-    ).
-```
-
 ### Heuristique distance Manhattan (astar.pl)
 
 ```prolog
@@ -289,43 +274,6 @@ manhattan_sum([Tile|RestState], [_|RestGoal], Pos, Acc, Distance) :-
     ),
     NextPos is Pos + 1,
     manhattan_sum(RestState, RestGoal, NextPos, NewAcc, Distance).
-```
-
-### Boucle principale A* (astar.pl)
-
-```prolog
-%! astar_main_loop(+OpenList:list, +ClosedSet:list, +Goal:list, +StartTime:float, +ExpCount:int, +GenCount:int, -Result:compound) is det.
-%  Boucle principale de l'algorithme A*
-%  Explore les nœuds par ordre de f(n) croissant jusqu'à atteindre le but
-
-% Cas de base: Open list vide = échec
-astar_main_loop([], _, _, _, ExpCount, GenCount, search_failed(ExpCount, GenCount)) :-
-    !, fail.
-
-% Cas récursif: Traitement du nœud avec plus petit f(n)
-astar_main_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, GenCount, Result) :-
-    check_search_timeout(StartTime),
-    node_state(CurrentNode, CurrentState),
-    (   is_goal_reached(CurrentState, Goal) ->
-        Result = search_success(CurrentNode, ExpCount, GenCount)
-    ;   is_state_in_closed_set(CurrentState, ClosedSet) ->
-        astar_main_loop(RestOpen, ClosedSet, Goal, StartTime, ExpCount, GenCount, Result)
-    ;   expand_current_node(CurrentNode, RestOpen, ClosedSet, Goal, StartTime, ExpCount, GenCount, Result)
-    ).
-```
-
-### Génération des mouvements (game.pl)
-
-```prolog
-%! generate_moves(+State:list, -Successors:list) is det.
-%  Génère tous les mouvements valides dans l'ordre déterministe HAUT, BAS, GAUCHE, DROITE
-generate_moves(State, Successors) :-
-    find_blank(State, BlankPos),
-    findall(NewState,
-        (member(Direction, [up, down, left, right]),
-         valid_move(BlankPos, Direction),
-         apply_move(State, Direction, NewState)),
-        Successors).
 ```
 
 ---
