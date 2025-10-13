@@ -137,7 +137,7 @@ L'algorithme A* garantit l'optimalité des solutions grâce à la fonction d'év
 
 **Implémentation.** L'implémentation se divise en quatre modules spécialisés gérant respectivement la logique du taquin (game.pl), l'algorithme A* (astar.pl), l'affichage formaté (display.pl) et l'orchestration générale (main.pl).
 
-**Guide d'utilisation.** Le programme nécessite SWI-Prolog 9.x ou supérieur (disponible sur swi-prolog.org). Le lancement s'effectue via `swipl run.pl`, initialisant l'environnement et affichant le menu principal. L'interface propose deux scénarios prédéfinis (classique et avancé) accessibles par sélection numérique, avec navigation interactive jusqu'à la sortie. La suite de tests s'exécute via `swipl -g run_all_tests src/tests.pl` pour validation.
+**Guide d'utilisation.** Le programme nécessite SWI-Prolog 9.x ou supérieur. Le lancement s'effectue via `swipl run.pl`, initialisant l'environnement et affichant le menu principal. L'interface propose deux scénarios prédéfinis (classique et avancé) accessibles par sélection numérique, avec navigation interactive jusqu'à la sortie. La suite de tests s'exécute via `swipl -g run_all_tests src/tests.pl` pour validation.
 
 **Code de la recherche heuristique.** L'heuristique `manhattan_distance_heuristic/3` calcule pour chaque tuile le nombre de mouvements horizontaux et verticaux nécessaires pour atteindre sa position cible (distance Manhattan : $`|\Delta_{row}| + |\Delta_{col}|`$), puis somme ces distances : $`h(n) = \sum_{i=1}^{8} (|\Delta_{row}| + |\Delta_{col}|)`$. Cette fonction parcourt récursivement l'état via `manhattan_sum/5`, ignore la case vide (0), et convertit chaque position linéaire (0-8) en coordonnées (ligne, colonne). L'heuristique est admissible ($`h(n) \leq h^{*}(n)`$) car chaque mouvement déplace une tuile d'exactement une case, et consistante ($`|h(n_{1}) - h(n_{2})| \leq 1`$) garantissant l'optimalité de A*. Cette estimation $`h(n)`$ est utilisée par A* pour guider l'exploration. Code en Annexe A.
 
@@ -252,6 +252,61 @@ L'ensemble du travail a été réalisé sous supervision directe avec une valida
 ---
 
 ## ANNEXE A : EXTRAITS DE CODE SOURCE
+
+### Point d'entrée A* (astar.pl)
+
+```prolog
+%! astar_search(+Initial:list, +Goal:list, -Path:list, -Cost:integer, -Expanded:integer) is det.
+%  Point d'entrée principal de l'algorithme A*
+%  @arg Initial État de départ
+%  @arg Goal État à atteindre
+%  @arg Path Chemin solution (liste des états depuis initial vers goal)
+%  @arg Cost Coût de la solution (nombre de mouvements)
+%  @arg Expanded Nombre de nœuds générés durant la recherche
+astar_search(Initial, Goal, Path, Cost, Expanded) :-
+    validate_search_inputs(Initial, Goal),
+    (   states_equal(Initial, Goal) ->
+        Path = [Initial], Cost = 0, Expanded = 0
+    ;   initialize_search(Initial, Goal, InitialNode, SearchContext),
+        execute_astar_search(InitialNode, SearchContext, Result),
+        extract_search_results(Result, Path, Cost, Expanded)
+    ).
+```
+
+### Génération des mouvements (game.pl)
+
+```prolog
+%! generate_moves(+State:list, -Successors:list) is det.
+%  Génère tous les mouvements valides depuis un état
+%  ORDRE DÉTERMINISTE: HAUT, BAS, GAUCHE, DROITE
+%  @arg State État de départ
+%  @arg Successors Liste des états successeurs dans l'ordre déterministe
+generate_moves(State, Successors) :-
+    find_blank(State, BlankPos),
+    findall(NewState,
+        (member(Direction, [up, down, left, right]),
+         valid_move(BlankPos, Direction),
+         apply_move(State, Direction, NewState)),
+        Successors).
+```
+
+### Reconstruction du chemin solution (astar.pl)
+
+```prolog
+%! reconstruct_solution_path(+FinalNode:compound, -Path:list) is det.
+%  Reconstruit le chemin solution par remontée des parents
+%  @arg FinalNode Nœud but atteint
+%  @arg Path Chemin depuis initial vers but (dans l'ordre correct)
+reconstruct_solution_path(FinalNode, Path) :-
+    reconstruct_path_helper(FinalNode, PathReversed),
+    reverse(PathReversed, Path).
+
+%! reconstruct_path_helper(+Node:compound, -Path:list) is det.
+%  Helper récursif pour la reconstruction du chemin
+reconstruct_path_helper(node(State, _, _, _, nil), [State]) :- !.
+reconstruct_path_helper(node(State, _, _, _, Parent), [State|RestPath]) :-
+    reconstruct_path_helper(Parent, RestPath).
+```
 
 ### Heuristique distance Manhattan (astar.pl)
 
