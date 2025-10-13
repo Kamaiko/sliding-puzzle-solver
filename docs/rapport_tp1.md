@@ -168,7 +168,7 @@ Le système produit pour chaque scénario le chemin solution complet (séquence 
 **Cas test avancé** `[1,3,6,5,2,8,4,0,7]` - Path: États A à J (10 états) | Cost: 9 | Expanded: 33
 
 <p align="center">
-<img src="images/CasTest1.png" alt="Cas Test 1" width="280">
+<img src="images/CasTest1x.png" alt="Cas Test 1" width="280">
 &nbsp;&nbsp;&nbsp;&nbsp;
 <img src="images/CasTest2.png" alt="Cas Test 2" width="280">
 </p>

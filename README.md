@@ -67,7 +67,7 @@ swipl -g run_all_tests src/tests.pl
 <table>
 <tr>
 <td align="center">
-<img src="docs/images/CasTest1.png" alt="Cas Test 1" width="350">
+<img src="docs/images/CasTest1x.png" alt="Cas Test 1" width="350">
 <br><em>Cas test classique : Cost 4 | Expanded 12</em>
 </td>
 <td align="center">
