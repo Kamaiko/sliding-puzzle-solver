@@ -4,7 +4,6 @@ Point d'entrée avec warm-up JIT et mesure de performance.
 Coordonne les modules game.pl, astar.pl et display.pl.
 
 @author Équipe 6
-@benchmark Cas 1: 4 mouvements, 12 nœuds, <3ms attendu
 @sections
   1. Points d'entrée et initialisation
   2. Menu principal et navigation
