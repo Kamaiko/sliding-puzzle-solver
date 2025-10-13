@@ -187,7 +187,7 @@ L'optimalité des solutions est confirmée avec 4 mouvements pour le cas classiq
 
 ### Limites rencontrées
 
-L'implémentation a d'abord exploré l'heuristique des tuiles mal placées, mais cette approche s'est révélée moins informative pour guider efficacement la recherche. La distance Manhattan a été adoptée pour sa capacité à fournir une estimation plus précise du coût réel et sa simplicité d'implémentation, permettant un développement plus rapide et fiable. Le tri complet de la liste ouverte ($`O(n \log n)`$) a été préféré à une structure de file de priorité plus complexe, privilégiant la clarté du code et la facilité de validation tout en maintenant des performances acceptables pour les cas de test visés.
+Durant le développement, plusieurs choix de conception ont été effectués pour équilibrer performance et maintenabilité. L'heuristique des tuiles mal placées a initialement été envisagée, mais la distance Manhattan s'est rapidement imposée comme une alternative plus efficace, offrant une estimation plus précise des coûts tout en restant simple à implémenter. Pour le tri de la liste ouverte, une approche complète ($`O(n \log n)`$) a été privilégiée plutôt qu'une file de priorité complexe, favorisant la clarté du code et facilitant la validation des résultats sur les cas de test visés.
 
 ### Améliorations possibles
 
