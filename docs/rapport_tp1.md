@@ -139,7 +139,7 @@ L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les 
 
 **Guide d'utilisation.** Le programme nécessite SWI-Prolog 9.x ou supérieur (disponible sur swi-prolog.org). Le lancement s'effectue via `swipl run.pl`, initialisant l'environnement et affichant le menu principal. L'interface propose deux scénarios prédéfinis (classique et avancé) accessibles par sélection numérique, avec navigation interactive jusqu'à la sortie. La suite de tests s'exécute via `swipl -g run_all_tests src/tests.pl` pour validation.
 
-**Code de la recherche heuristique.** La fonction `astar_search/5` orchestre la recherche en trois phases : validation via `validate_search_inputs/2`, exploration via `astar_main_loop/7`, et reconstruction via `reconstruct_solution_path/2`. La boucle principale extrait itérativement le nœud à plus petit f(n) de l'open list triée, génère ses successeurs avec `generate_moves/2`, puis calcule leur estimation h(n) via `manhattan_distance_heuristic/3` qui somme les distances Manhattan de chaque tuile. Les successeurs sont filtrés, insérés dans l'open list, et retriés par `sort_open_list_by_f_value/2` selon f(n) = g(n) + h(n) avec tie-breaking sur g(n). Le code détaillé des fonctions principales est disponible en Annexe A.
+**Code de la recherche heuristique.** L'heuristique `manhattan_distance_heuristic/3` calcule pour chaque état la somme des distances Manhattan de toutes les tuiles (|ligne_actuelle - ligne_but| + |colonne_actuelle - colonne_but|). Cette fonction parcourt récursivement l'état via `manhattan_sum/5`, ignore la case vide (0), et convertit chaque position linéaire (0-8) en coordonnées (ligne, colonne) avec les opérations // et mod. L'heuristique est admissible (h(n) ≤ h*(n)) car chaque mouvement déplace une tuile d'exactement une case, et consistante (|Δh| ≤ 1) garantissant l'optimalité de A*. Cette estimation guide l'exploration en priorisant les états prometteurs via la fonction f(n) = g(n) + h(n). Code en Annexe A.
 
 **Exécution.** Après sélection d'un cas test dans le menu interactif, le système effectue un warm-up pour éliminer la latence de compilation, puis démarre la mesure de performance. Durant la recherche, la configuration UTF-8 s'active automatiquement pour l'affichage multiplateforme. Une fois la solution trouvée, le système présente la séquence complète des états traversés A→E (cas classique) ou A→J (cas avancé) accompagnée des métriques finales : chemin solution (Path), nombre de mouvements (Cost), nœuds explorés (Expanded), et temps d'exécution en millisecondes (Runtime).
 
@@ -326,41 +326,6 @@ generate_moves(State, Successors) :-
          valid_move(BlankPos, Direction),
          apply_move(State, Direction, NewState)),
         Successors).
-```
-
-### Tri de l'open list avec tie-breaking (astar.pl)
-
-```prolog
-%! sort_open_list_by_f_value(+Nodes:list, -SortedNodes:list) is det.
-%  Trie les nœuds par f(n) croissant, avec tie-breaking sur g(n)
-sort_open_list_by_f_value(Nodes, SortedNodes) :-
-    predsort(compare_node_f_values, Nodes, SortedNodes).
-
-%! compare_node_f_values(-Order:atom, +Node1:compound, +Node2:compound) is det.
-%  Fonction de comparaison : priorité f(n), puis g(n) en cas d'égalité
-compare_node_f_values(Order, Node1, Node2) :-
-    node_f_cost(Node1, F1), node_f_cost(Node2, F2),
-    (   F1 =:= F2 ->                          % Si f égaux : tie-breaking
-        node_g_cost(Node1, G1), node_g_cost(Node2, G2),
-        compare(Order, G1, G2)                % Priorité au plus petit g
-    ;   compare(Order, F1, F2)                % Sinon : priorité au plus petit f
-    ).
-```
-
-### Reconstruction du chemin solution (astar.pl)
-
-```prolog
-%! reconstruct_solution_path(+FinalNode:compound, -Path:list) is det.
-%  Reconstruit le chemin solution par remontée des parents
-reconstruct_solution_path(FinalNode, Path) :-
-    reconstruct_path_helper(FinalNode, PathReversed),
-    reverse(PathReversed, Path).
-
-%! reconstruct_path_helper(+Node:compound, -Path:list) is det.
-%  Helper récursif pour la reconstruction du chemin
-reconstruct_path_helper(node(State, _, _, _, nil), [State]) :- !.
-reconstruct_path_helper(node(State, _, _, _, Parent), [State|RestPath]) :-
-    reconstruct_path_helper(Parent, RestPath).
 ```
 
 ---
