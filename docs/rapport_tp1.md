@@ -171,7 +171,7 @@ Le système produit pour chaque scénario le chemin solution complet (séquence 
 <em>Figure 3 : Cas test avancé</em>
 </p>
 
-Les deux configurations testées ont été résolues avec succès. Le cas classique nécessite 4 mouvements sur un chemin de 5 états (A→E), tandis que le cas avancé requiert 9 mouvements sur 10 états (A→J). Le nombre de nœuds explorés croît proportionnellement à la complexité : 12 nœuds pour le premier cas, 33 pour le second. La différence avec l'implémentation de référence du professeur (12 contre 9 nœuds) provient de l'ordre de génération des successeurs (HAUT, BAS, GAUCHE, DROITE), sans impact sur l'optimalité des solutions.
+Les Figures 2 et 3 illustrent les trajectoires de résolution pour les deux cas de test. Le cas classique produit un chemin de 5 états (A→E) avec 4 mouvements et 12 nœuds explorés. Le cas avancé génère un chemin de 10 états (A→J) avec 9 mouvements et 33 nœuds explorés.
 
 ---
 
@@ -183,7 +183,7 @@ Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique de 
 
 ### Comparaison avec les attentes
 
-Les résultats obtenus correspondent exactement aux attentes formulées en section 2. Les solutions optimales de 4 mouvements (cas classique) et 9 mouvements (cas avancé) valident la capacité de A* à trouver systématiquement les chemins minimaux. Les temps de résolution inférieurs à 3ms dépassent les contraintes de performance, tandis que le comportement déterministe assure la reproductibilité complète des expériences à chaque exécution.
+Les résultats obtenus correspondent exactement aux objectifs fixés, avec des solutions optimales de 4 et 9 mouvements respectivement. Les temps de résolution inférieurs à 3ms dépassent les contraintes de performance attendues. La différence avec l'implémentation de référence du professeur (12 contre 9 nœuds) provient de l'ordre de génération des successeurs (HAUT, BAS, GAUCHE, DROITE), sans impact sur l'optimalité des solutions.
 
 ### Limites rencontrées
 
