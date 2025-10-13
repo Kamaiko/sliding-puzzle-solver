@@ -120,7 +120,7 @@ Le problème du taquin consiste à réorganiser des tuiles numérotées sur une 
 Le développement s'est déroulé en quatre phases structurées :
 
 1. **Analyse et conception** : Modélisation du problème du taquin, conception de l'architecture modulaire, spécification des interfaces entre modules
-2. **Développement modulaire parallèle** : Développement simultané des quatre modules avec intégration progressive et synchronisation régulière des interfaces
+2. **Implémentation itérative par fonctionnalités** : Développement incrémental avec cycles courts (représentation des états → génération de mouvements → heuristique de base → recherche A* → affichage → optimisations), chaque cycle produisant une version fonctionnelle testable
 3. **Tests et validation** : Suite de tests unitaires et d'intégration, validation des métriques exactes, vérification de l'optimalité
 4. **Optimisation et documentation** : Amélioration des performances (warm-up Just-In-Time (JIT)<sup>[2]</sup>, gestion mémoire), documentation PlDoc, préparation du livrable
 
