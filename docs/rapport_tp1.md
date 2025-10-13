@@ -126,7 +126,7 @@ Le développement s'est déroulé en quatre phases structurées :
 
 ### Algorithmes, schémas et diagrammes de fonctionnement
 
-L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les coûts $g(n)$ et $h(n)$, la fonction d'évaluation $f(n) = g(n) + h(n)$, et un pointeur parent pour la reconstruction du chemin. Le flux d'exécution (Figure 3) extrait itérativement le nœud à $f(n)$ minimal, génère ses successeurs selon l'ordre UP, DOWN, LEFT, RIGHT, et maintient un ensemble fermé (closed set) pour éviter la re-exploration d'états.
+L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les coûts $`g(n)`$ et $`h(n)`$, la fonction d'évaluation $`f(n) = g(n) + h(n)`$, et un pointeur parent pour la reconstruction du chemin. Le flux d'exécution (Figure 3) extrait itérativement le nœud à $`f(n)`$ minimal, génère ses successeurs selon l'ordre UP, DOWN, LEFT, RIGHT, et maintient un ensemble fermé (closed set) pour éviter la re-exploration d'états.
 
 <p align="center">
 <img src="images/astar_flowchart.svg" alt="Diagramme flux A*" width="380">
@@ -139,7 +139,7 @@ L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les 
 
 **Guide d'utilisation.** Le programme nécessite SWI-Prolog 9.x ou supérieur (disponible sur swi-prolog.org). Le lancement s'effectue via `swipl run.pl`, initialisant l'environnement et affichant le menu principal. L'interface propose deux scénarios prédéfinis (classique et avancé) accessibles par sélection numérique, avec navigation interactive jusqu'à la sortie. La suite de tests s'exécute via `swipl -g run_all_tests src/tests.pl` pour validation.
 
-**Code de la recherche heuristique.** L'heuristique `manhattan_distance_heuristic/3` calcule pour chaque état la somme des distances Manhattan de toutes les tuiles : $h(n) = \sum_{i=1}^{8} (|\Delta_{row}| + |\Delta_{col}|)$ où chaque tuile contribue sa distance $|\Delta_{row}| + |\Delta_{col}|$. Cette fonction parcourt récursivement l'état via `manhattan_sum/5`, ignore la case vide (0), et convertit chaque position linéaire (0-8) en coordonnées (ligne, colonne). L'heuristique est admissible ($h(n) \leq h^*(n)$) car chaque mouvement déplace une tuile d'exactement une case, et consistante ($|h(n_1) - h(n_2)| \leq 1$) garantissant l'optimalité de A*. Cette estimation guide l'exploration en priorisant les états prometteurs via la fonction $f(n) = g(n) + h(n)$. Code en Annexe A.
+**Code de la recherche heuristique.** L'heuristique `manhattan_distance_heuristic/3` calcule pour chaque état la somme des distances Manhattan de toutes les tuiles : $`h(n) = \sum_{i=1}^{8} (|\Delta_{row}| + |\Delta_{col}|)`$ où chaque tuile contribue sa distance $`|\Delta_{row}| + |\Delta_{col}|`$. Cette fonction parcourt récursivement l'état via `manhattan_sum/5`, ignore la case vide (0), et convertit chaque position linéaire (0-8) en coordonnées (ligne, colonne). L'heuristique est admissible ($`h(n) \leq h^{*}(n)`$) car chaque mouvement déplace une tuile d'exactement une case, et consistante ($`|h(n_{1}) - h(n_{2})| \leq 1`$) garantissant l'optimalité de A*. Cette estimation guide l'exploration en priorisant les états prometteurs via la fonction $`f(n) = g(n) + h(n)`$. Code en Annexe A.
 
 **Exécution.** Après sélection d'un cas test dans le menu interactif, le système effectue un warm-up pour éliminer la latence de compilation, puis démarre la mesure de performance. Une fois la solution trouvée, le système présente la séquence complète des états traversés A→E (cas classique) ou A→J (cas avancé) accompagnée des métriques finales : chemin solution (Path), nombre de mouvements (Cost), nœuds explorés (Expanded), et temps d'exécution en millisecondes (Runtime).
 
@@ -187,11 +187,11 @@ L'optimalité des solutions est confirmée avec 4 mouvements pour le cas classiq
 
 ### Limites rencontrées
 
-Durant l'implémentation, le principal défi rencontré concernait la gestion du tri de la liste ouverte à chaque insertion de nœuds. L'approche initiale retriait toute la liste ($O(n \log n)$), ce qui nécessitait une attention particulière pour maintenir les performances acceptables sur les cas de test. Le débogage de la reconstruction du chemin par remontée des parents a également demandé une validation minutieuse pour garantir l'exactitude des séquences d'états.
+Durant l'implémentation, le principal défi rencontré concernait la gestion du tri de la liste ouverte à chaque insertion de nœuds. L'approche initiale retriait toute la liste ($`O(n \log n)`$), ce qui nécessitait une attention particulière pour maintenir les performances acceptables sur les cas de test. Le débogage de la reconstruction du chemin par remontée des parents a également demandé une validation minutieuse pour garantir l'exactitude des séquences d'états.
 
 ### Améliorations possibles
 
-Notre implémentation pourrait bénéficier d'une file de priorité avec tas binaire pour réduire la complexité du tri à $O(\log n)$ par opération. L'extensibilité vers des grilles $N \times N$ nécessiterait une refactorisation des prédicats de validation et de calcul d'heuristique. Une optimisation de la gestion mémoire avec recyclage des structures de nœuds améliorerait les performances pour des instances plus complexes.
+Notre implémentation pourrait bénéficier d'une file de priorité avec tas binaire pour réduire la complexité du tri à $`O(\log n)`$ par opération. L'extensibilité vers des grilles $`N \times N`$ nécessiterait une refactorisation des prédicats de validation et de calcul d'heuristique. Une optimisation de la gestion mémoire avec recyclage des structures de nœuds améliorerait les performances pour des instances plus complexes.
 
 ### Résultats et discussion
 
@@ -201,7 +201,7 @@ Notre implémentation pourrait bénéficier d'une file de priorité avec tas bin
 
 **Limites.** La consommation mémoire constitue la principale contrainte architecturale : A* maintient simultanément la liste ouverte et l'ensemble fermé en RAM, limitant le traitement de configurations très complexes. L'implémentation actuelle reste spécifique aux grilles 3×3 sans extensibilité immédiate.
 
-**Travaux futurs.** L'adoption d'IDA*<sup>[7]</sup> offrirait une consommation mémoire constante $O(d)$ au lieu d'exponentielle. Les bases de données de motifs (pattern databases) permettraient des heuristiques plus informées pour puzzles $N \times N$.
+**Travaux futurs.** L'adoption d'IDA*<sup>[7]</sup> offrirait une consommation mémoire constante $`O(d)`$ au lieu d'exponentielle. Les bases de données de motifs (pattern databases) permettraient des heuristiques plus informées pour puzzles $`N \times N`$.
 
 ---
 
@@ -217,7 +217,7 @@ Tous les objectifs du projet ont été atteints. A* produit des solutions optima
 
 ### Perspectives et recommandations
 
-L'extension vers des domaines de recherche plus complexes (taquins $N \times N$, problèmes de planification) constitue une progression naturelle pour approfondir les concepts acquis. Au-delà du cadre académique, les principes d'A* s'appliquent à des domaines pratiques comme la planification de trajectoires en robotique et l'optimisation logistique où la recherche de solutions optimales demeure un enjeu fondamental.
+L'extension vers des domaines de recherche plus complexes (taquins $`N \times N`$, problèmes de planification) constitue une progression naturelle pour approfondir les concepts acquis. Au-delà du cadre académique, les principes d'A* s'appliquent à des domaines pratiques comme la planification de trajectoires en robotique et l'optimisation logistique où la recherche de solutions optimales demeure un enjeu fondamental.
 
 ---
 
