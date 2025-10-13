@@ -157,7 +157,7 @@ Le système produit pour chaque scénario le chemin solution complet (séquence 
 
 **Cas test classique** `[1,2,3,5,0,6,4,7,8]` - Path: États A à E (5 états) | Cost: 4 | Expanded: 12
 
-**Cas test avancé** `[1,3,6,5,2,8,4,0,7]` - Path: États A à J (10 états) | Cost: 9 | Expanded: 33
+**Cas test avancé** `[1,3,6,5,2,8,4,0,7]` - Path: États A à J (10 états) | Cost: 9 | Expanded: 25
 
 <p align="center">
 <img src="images/CasTest1x.png" alt="Cas Test 1" width="280">
@@ -171,7 +171,7 @@ Le système produit pour chaque scénario le chemin solution complet (séquence 
 <em>Figure 3 : Cas test avancé</em>
 </p>
 
-Les Figures 2 et 3 illustrent les trajectoires de résolution pour les deux cas de test. Le cas classique produit un chemin de 5 états (A→E) avec 4 mouvements et 12 nœuds explorés. Le cas avancé génère un chemin de 10 états (A→J) avec 9 mouvements et 33 nœuds explorés.
+Les Figures 2 et 3 illustrent les trajectoires de résolution pour les deux cas de test. Le cas classique produit un chemin de 5 états (A→E) avec 4 mouvements et 12 nœuds explorés. Le cas avancé génère un chemin de 10 états (A→J) avec 9 mouvements et 25 nœuds explorés.
 
 ---
 
@@ -179,7 +179,7 @@ Les Figures 2 et 3 illustrent les trajectoires de résolution pour les deux cas 
 
 ### Interprétation des résultats
 
-Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique de distance Manhattan. L'algorithme explore 12 nœuds pour le cas classique et 33 nœuds pour le cas avancé, démontrant que l'heuristique guide efficacement la recherche sans explorer inutilement l'espace d'états complet (181 440 configurations possibles).
+Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique de distance Manhattan. L'algorithme explore 12 nœuds pour le cas classique et 25 nœuds pour le cas avancé, démontrant que l'heuristique guide efficacement la recherche sans explorer inutilement l'espace d'états complet (181 440 configurations possibles).
 
 ### Comparaison avec les attentes
 
