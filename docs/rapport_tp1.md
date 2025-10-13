@@ -126,7 +126,7 @@ Le développement s'est déroulé en quatre phases structurées :
 
 ### Algorithmes, schémas et diagrammes de fonctionnement
 
-L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les coûts g(n) et h(n), la fonction d'évaluation f(n) = g(n) + h(n), et un pointeur parent pour la reconstruction du chemin. Le flux d'exécution (Figure 3) extrait itérativement le nœud à f(n) minimal, génère ses successeurs selon l'ordre UP, DOWN, LEFT, RIGHT, et maintient un ensemble fermé (closed set) pour éviter la re-exploration d'états.
+L'algorithme A* utilise une structure de nœud contenant l'état du taquin, les coûts $g(n)$ et $h(n)$, la fonction d'évaluation $f(n) = g(n) + h(n)$, et un pointeur parent pour la reconstruction du chemin. Le flux d'exécution (Figure 3) extrait itérativement le nœud à $f(n)$ minimal, génère ses successeurs selon l'ordre UP, DOWN, LEFT, RIGHT, et maintient un ensemble fermé (closed set) pour éviter la re-exploration d'états.
 
 <p align="center">
 <img src="images/astar_flowchart.svg" alt="Diagramme flux A*" width="380">
@@ -187,11 +187,11 @@ L'optimalité des solutions est confirmée avec 4 mouvements pour le cas classiq
 
 ### Limites rencontrées
 
-Durant l'implémentation, le principal défi rencontré concernait la gestion du tri de la liste ouverte à chaque insertion de nœuds. L'approche initiale retriait toute la liste (O(n log n)), ce qui nécessitait une attention particulière pour maintenir les performances acceptables sur les cas de test. Le débogage de la reconstruction du chemin par remontée des parents a également demandé une validation minutieuse pour garantir l'exactitude des séquences d'états.
+Durant l'implémentation, le principal défi rencontré concernait la gestion du tri de la liste ouverte à chaque insertion de nœuds. L'approche initiale retriait toute la liste ($O(n \log n)$), ce qui nécessitait une attention particulière pour maintenir les performances acceptables sur les cas de test. Le débogage de la reconstruction du chemin par remontée des parents a également demandé une validation minutieuse pour garantir l'exactitude des séquences d'états.
 
 ### Améliorations possibles
 
-Notre implémentation pourrait bénéficier d'une file de priorité avec tas binaire pour réduire la complexité du tri à O(log n) par opération. L'extensibilité vers des grilles N×N nécessiterait une refactorisation des prédicats de validation et de calcul d'heuristique. Une optimisation de la gestion mémoire avec recyclage des structures de nœuds améliorerait les performances pour des instances plus complexes.
+Notre implémentation pourrait bénéficier d'une file de priorité avec tas binaire pour réduire la complexité du tri à $O(\log n)$ par opération. L'extensibilité vers des grilles $N \times N$ nécessiterait une refactorisation des prédicats de validation et de calcul d'heuristique. Une optimisation de la gestion mémoire avec recyclage des structures de nœuds améliorerait les performances pour des instances plus complexes.
 
 ### Résultats et discussion
 
@@ -201,7 +201,7 @@ Notre implémentation pourrait bénéficier d'une file de priorité avec tas bin
 
 **Limites.** La consommation mémoire constitue la principale contrainte architecturale : A* maintient simultanément la liste ouverte et l'ensemble fermé en RAM, limitant le traitement de configurations très complexes. L'implémentation actuelle reste spécifique aux grilles 3×3 sans extensibilité immédiate.
 
-**Travaux futurs.** L'adoption d'IDA*<sup>[7]</sup> offrirait une consommation mémoire constante O(d) au lieu d'exponentielle. Les bases de données de motifs (pattern databases) permettraient des heuristiques plus informées pour puzzles N×N.
+**Travaux futurs.** L'adoption d'IDA*<sup>[7]</sup> offrirait une consommation mémoire constante $O(d)$ au lieu d'exponentielle. Les bases de données de motifs (pattern databases) permettraient des heuristiques plus informées pour puzzles $N \times N$.
 
 ---
 
