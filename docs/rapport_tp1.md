@@ -209,7 +209,7 @@ Notre implémentation pourrait bénéficier d'une file de priorité avec tas bin
 
 ### Bilan du travail pratique
 
-Ce projet a permis d'approfondir notre compréhension de l'algorithme A* et de sa capacité à garantir l'optimalité des solutions. L'implémentation en Prolog s'est révélée bien adaptée pour modéliser les états et les transitions. La suite de tests confirme que l'algorithme produit systématiquement les solutions optimales attendues (Cost: 4 et 9, Expanded: 12 et 33).
+Ce projet a permis d'approfondir notre compréhension de l'algorithme A* et de sa capacité à garantir l'optimalité des solutions. L'implémentation en Prolog s'est révélée bien adaptée pour modéliser les états et les transitions. La suite de tests confirme que l'algorithme produit systématiquement les solutions optimales attendues.
 
 ### Accomplissements par rapport aux objectifs
 
