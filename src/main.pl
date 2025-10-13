@@ -3,6 +3,7 @@
 Point d'entrée avec warm-up JIT et mesure de performance.
 Coordonne les modules game.pl, astar.pl et display.pl.
 
+@author Équipe 6
 @benchmark Cas 1: 4 mouvements, 12 nœuds, <3ms attendu
 @sections
   1. Points d'entrée et initialisation
@@ -26,7 +27,7 @@ Coordonne les modules game.pl, astar.pl et display.pl.
 %  Initialization désactivée pour éviter conflit avec tests
 %  Utiliser main/0 ou main([]) pour lancer manuellement
 
-%! main(+Args:list) is det.
+%! main(?Args:list) is det.
 %  Point d'entrée principal avec gestion des arguments
 %  Lance la bannière d'accueil et démarre le menu principal
 %  @arg Args Arguments de ligne de commande (ignorés pour ce programme)
@@ -43,6 +44,7 @@ main :-
 %! setup_environment is det.
 %  Configure l'environnement d'exécution
 %  Initialise les paramètres et vérifications préliminaires
+%  @throws error(_, setup) Si un module requis n'est pas chargé
 setup_environment :-
     % Vérifier que les modules sont bien chargés
     (   current_predicate(valid_state/1) -> true

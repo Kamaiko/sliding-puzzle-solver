@@ -3,6 +3,7 @@
 Définit les mouvements légaux, vérification de solvabilité par parité
 d'inversions, et génération des successeurs en ordre déterministe (H,B,G,D).
 
+@author Équipe 6
 @invariant Format état: liste de 9 entiers [0-8], 0=case vide
 @sections
   1. Constantes de configuration grille 3×3

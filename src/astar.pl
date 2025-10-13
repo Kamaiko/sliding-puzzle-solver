@@ -37,22 +37,32 @@ max_timeout(30.0).
 
 %! node_state(+Node:compound, -State:list) is det.
 %  Extrait l'état d'un nœud A*
+%  @arg Node Nœud A* à décomposer
+%  @arg State État du taquin extrait
 node_state(node(State,_,_,_,_), State).
 
 %! node_g_cost(+Node:compound, -G:integer) is det.
 %  Extrait le coût g(n) d'un nœud A*
+%  @arg Node Nœud A* à décomposer
+%  @arg G Coût réel g(n) depuis l'état initial
 node_g_cost(node(_,G,_,_,_), G).
 
 %! node_h_cost(+Node:compound, -H:integer) is det.
 %  Extrait l'heuristique h(n) d'un nœud A*
+%  @arg Node Nœud A* à décomposer
+%  @arg H Valeur heuristique h(n) vers le but
 node_h_cost(node(_,_,H,_,_), H).
 
 %! node_f_cost(+Node:compound, -F:integer) is det.
 %  Extrait la fonction d'évaluation f(n) d'un nœud A*
+%  @arg Node Nœud A* à décomposer
+%  @arg F Fonction d'évaluation f(n) = g(n) + h(n)
 node_f_cost(node(_,_,_,F,_), F).
 
 %! node_parent(+Node:compound, -Parent:compound) is det.
 %  Extrait le parent d'un nœud A*
+%  @arg Node Nœud A* à décomposer
+%  @arg Parent Nœud parent (nil si racine)
 node_parent(node(_,_,_,_,Parent), Parent).
 
 %! create_node(+State:list, +G:integer, +H:integer, +Parent:compound, -Node:compound) is det.
@@ -155,6 +165,10 @@ astar_search(Initial, Goal, Path, Cost, Expanded) :-
 
 %! validate_search_inputs(+Initial:list, +Goal:list) is det.
 %  Valide les paramètres d'entrée de la recherche
+%  @arg Initial État de départ à valider
+%  @arg Goal État but à valider
+%  @throws error(invalid_state, _) Si un état est invalide
+%  @throws error(unsolvable, _) Si la configuration est impossible à résoudre
 validate_search_inputs(Initial, Goal) :-
     valid_state(Initial),
     valid_state(Goal),
@@ -176,6 +190,9 @@ initialize_search(Initial, Goal, InitialNode, search_context(Goal, StartTime, [I
 
 %! execute_astar_search(+InitialNode:compound, +Context:compound, -Result:compound) is det.
 %  Exécute la recherche A* principale
+%  @arg InitialNode Nœud de départ (non utilisé directement, dans Context)
+%  @arg Context Contexte de recherche contenant Goal, OpenList, ClosedSet, compteurs
+%  @arg Result Résultat de la recherche (search_success ou search_failed)
 execute_astar_search(_InitialNode, Context, Result) :-
     Context = search_context(Goal, StartTime, OpenList, ClosedSet, ExpCount, GenCount),
     astar_main_loop(OpenList, ClosedSet, Goal, StartTime, ExpCount, GenCount, Result).
@@ -219,6 +236,8 @@ astar_main_loop([CurrentNode|RestOpen], ClosedSet, Goal, StartTime, ExpCount, Ge
 
 %! check_search_timeout(+StartTime:float) is det.
 %  Vérifie que le timeout n'est pas dépassé
+%  @arg StartTime Temps de début de la recherche (timestamp)
+%  @throws error(timeout, _) Si le délai maximum est dépassé
 check_search_timeout(StartTime) :-
     get_time(CurrentTime),
     ElapsedTime is CurrentTime - StartTime,
@@ -230,11 +249,15 @@ check_search_timeout(StartTime) :-
 
 %! is_goal_reached(+State:list, +Goal:list) is semidet.
 %  Teste si l'état courant est l'état but
+%  @arg State État actuel à tester
+%  @arg Goal État but recherché
 is_goal_reached(State, Goal) :-
     states_equal(State, Goal).
 
 %! is_state_in_closed_set(+State:list, +ClosedSet:list) is semidet.
 %  Vérifie si un état est déjà dans le closed set (recherche binaire O(log n))
+%  @arg State État à rechercher
+%  @arg ClosedSet Ensemble ordonné des états déjà explorés
 is_state_in_closed_set(State, ClosedSet) :-
     ord_memberchk(State, ClosedSet).
 
@@ -259,6 +282,11 @@ expand_current_node(CurrentNode, RestOpen, ClosedSet, Goal, StartTime, ExpCount,
 
 %! generate_and_process_successors(+CurrentNode:compound, +Goal:list, -SuccessorNodes:list, +GenCountIn:int, -GenCountOut:int) is det.
 %  Génère tous les successeurs d'un nœud et crée les nœuds A* correspondants
+%  @arg CurrentNode Nœud à expander
+%  @arg Goal État but (pour calcul heuristique)
+%  @arg SuccessorNodes Liste des nœuds successeurs créés
+%  @arg GenCountIn Compteur de nœuds générés en entrée
+%  @arg GenCountOut Compteur de nœuds générés en sortie
 generate_and_process_successors(CurrentNode, Goal, SuccessorNodes, GenCountIn, GenCountOut) :-
     % Extraire l'état et le coût du nœud courant
     node_state(CurrentNode, CurrentState),
@@ -273,6 +301,14 @@ generate_and_process_successors(CurrentNode, Goal, SuccessorNodes, GenCountIn, G
 
 %! update_open_list_and_continue(+SuccessorNodes:list, +RestOpen:list, +ClosedSet:list, +Goal:list, +StartTime:float, +ExpCount:int, +GenCount:int, -Result:compound) is det.
 %  Met à jour l'open list et continue la recherche
+%  @arg SuccessorNodes Nouveaux nœuds générés à ajouter
+%  @arg RestOpen Reste de l'open list après extraction du nœud courant
+%  @arg ClosedSet Ensemble des états déjà explorés
+%  @arg Goal État but recherché
+%  @arg StartTime Temps de début (pour timeout)
+%  @arg ExpCount Compteur de nœuds explorés
+%  @arg GenCount Compteur de nœuds générés
+%  @arg Result Résultat final de la recherche
 update_open_list_and_continue(SuccessorNodes, RestOpen, ClosedSet, Goal, StartTime, ExpCount, GenCount, Result) :-
     % Filtrer les successeurs déjà dans le closed set
     filter_closed_successors(SuccessorNodes, ClosedSet, FilteredClosed),
@@ -291,6 +327,9 @@ update_open_list_and_continue(SuccessorNodes, RestOpen, ClosedSet, Goal, StartTi
 
 %! filter_open_duplicates_simple(+Successors:list, +OpenList:list, -Filtered:list) is det.
 %  Filtre les successeurs en excluant ceux déjà dans l'open list avec un g égal ou meilleur
+%  @arg Successors Liste des successeurs à filtrer
+%  @arg OpenList Open list actuelle
+%  @arg Filtered Successeurs filtrés (seulement les nouveaux ou meilleurs)
 filter_open_duplicates_simple([], _, []).
 filter_open_duplicates_simple([Succ|Rest], OpenList, Filtered) :-
     node_state(Succ, SuccState),
@@ -307,6 +346,9 @@ filter_open_duplicates_simple([Succ|Rest], OpenList, Filtered) :-
 %! find_best_g_in_open(+State:list, +OpenList:list, -BestG:int) is semidet.
 %  Trouve le meilleur g (plus petit) pour un état dans l'open list
 %  Échoue si l'état n'est pas dans l'open list
+%  @arg State État à rechercher
+%  @arg OpenList Open list actuelle
+%  @arg BestG Meilleur coût g trouvé pour cet état
 find_best_g_in_open(State, [Node|Rest], BestG) :-
     node_state(Node, NodeState),
     (   states_equal(State, NodeState) ->
@@ -320,6 +362,9 @@ find_best_g_in_open(State, [Node|Rest], BestG) :-
 
 %! filter_closed_successors(+Successors:list, +ClosedSet:list, -Filtered:list) is det.
 %  Filtre les successeurs pour exclure ceux déjà dans le closed set (recherche binaire O(log n))
+%  @arg Successors Liste des successeurs à filtrer
+%  @arg ClosedSet Ensemble ordonné des états déjà explorés
+%  @arg Filtered Successeurs non encore explorés
 filter_closed_successors([], _, []).
 filter_closed_successors([Node|Rest], ClosedSet, Filtered) :-
     node_state(Node, State),
@@ -394,6 +439,8 @@ reconstruct_solution_path(FinalNode, Path) :-
 
 %! reconstruct_path_helper(+Node:compound, -Path:list) is det.
 %  Helper récursif pour la reconstruction du chemin
+%  @arg Node Nœud courant dans la remontée
+%  @arg Path Chemin reconstruit (ordre inversé)
 reconstruct_path_helper(node(State, _, _, _, nil), [State]) :-
     % Cas de base : nœud racine (parent = nil)
     !.
@@ -403,6 +450,10 @@ reconstruct_path_helper(node(State, _, _, _, Parent), [State|RestPath]) :-
 
 %! extract_search_results(+Result:compound, -Path:list, -Cost:integer, -Expanded:integer) is det.
 %  Extrait les résultats d'une recherche réussie
+%  @arg Result Structure de résultat search_success
+%  @arg Path Chemin solution reconstruit
+%  @arg Cost Coût de la solution (profondeur)
+%  @arg Expanded Nombre de nœuds générés durant la recherche
 extract_search_results(search_success(FinalNode, _, GenCount), Path, Cost, Expanded) :-
     % Reconstruire le chemin solution
     reconstruct_solution_path(FinalNode, Path),
@@ -422,7 +473,6 @@ extract_search_results(search_success(FinalNode, _, GenCount), Path, Cost, Expan
 %  @arg Result Structure result(Path, Cost, Expanded)
 %  @throws error(timeout, _) Si temps d'exécution >10s
 %  @throws error(unsolvable, _) Si configuration impossible
-%  @see astar_search/5 pour l'implémentation de l'algorithme
 solve_puzzle(case1, result(Path, Cost, Expanded)) :-
     initial_state(Initial),
     goal_state(Goal),

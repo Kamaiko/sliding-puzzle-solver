@@ -3,6 +3,7 @@
 Rendu ASCII avec animation du chemin de solution.
 Formats: affichage grille, séquence chemin, métriques performance.
 
+@author Équipe 6
 @sections
   1. Bannières et menus principaux
   2. Affichage d'états du taquin
