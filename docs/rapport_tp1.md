@@ -179,11 +179,11 @@ Les Figures 2 et 3 illustrent les trajectoires de résolution pour les deux cas 
 
 ### Interprétation des résultats
 
-Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique de distance Manhattan. L'algorithme explore 12 nœuds pour le cas classique et 25 nœuds pour le cas avancé, démontrant que l'heuristique guide efficacement la recherche sans explorer inutilement l'espace d'états complet (181 440 configurations possibles).
+Les résultats obtenus correspondent aux attentes pour A* avec l'heuristique de distance Manhattan. L'heuristique guide efficacement la recherche sans explorer inutilement l'espace d'états complet (181 440 configurations possibles).
 
 ### Comparaison avec les attentes
 
-Les résultats obtenus correspondent exactement aux objectifs fixés, avec des solutions optimales de 4 et 9 mouvements respectivement. Les temps de résolution inférieurs à 3ms dépassent les contraintes de performance attendues. La différence avec l'implémentation de référence du professeur (12 contre 9 nœuds) provient de l'ordre de génération des successeurs (HAUT, BAS, GAUCHE, DROITE), sans impact sur l'optimalité des solutions.
+Les résultats correspondent exactement aux objectifs fixés. La différence avec l'implémentation de référence du professeur (12 contre 9 nœuds explorés) provient de l'ordre de génération des successeurs, sans compromettre l'optimalité.
 
 ### Limites rencontrées
 
@@ -213,7 +213,7 @@ Ce projet a permis d'approfondir notre compréhension de l'algorithme A* et de s
 
 ### Accomplissements par rapport aux objectifs
 
-Tous les objectifs du projet ont été atteints. A* produit des solutions optimales avec les bonnes métriques. L'heuristique de distance Manhattan respecte les propriétés d'admissibilité et de consistance requises pour garantir l'optimalité des solutions.
+Tous les objectifs du projet ont été atteints. A* produit des solutions optimales avec les métriques attendues, validant l'efficacité de l'approche choisie.
 
 ### Perspectives et recommandations
 
