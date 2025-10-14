@@ -97,6 +97,7 @@ test_astar_module :-
     test_manhattan_heuristic,
     test_node_creation,
     test_node_sorting,
+    test_sort_preserves_distinct_nodes,
     test_path_reconstruction,
     write('   [OK] astar.pl valide'), nl, nl.
 
@@ -149,6 +150,29 @@ test_node_sorting :-
     assertion(F1 =:= 2),  % Node3 en premier (f=2)
     assertion(F2 =:= 4),  % Node2 en second (f=4, g=1)
     assertion(G2 =:= 1),  % Vérifie tie-breaking
+    write(' OK'), nl.
+
+%! test_sort_preserves_distinct_nodes is det.
+%  Vérifie que des nœuds distincts avec f/g/h identiques ne sont pas fusionnés
+%  Teste la correction du bug où predsort/3 supprimait des nœuds distincts
+test_sort_preserves_distinct_nodes :-
+    write('  -> Preservation noeuds distincts (f=g=h identiques)...'),
+
+    % Créer deux nœuds avec f=g=h identiques mais états différents
+    State1 = [1,2,3,4,5,6,7,8,0],
+    State2 = [1,2,3,4,5,6,7,0,8],  % État différent
+
+    % Créer des nœuds avec mêmes valeurs f, g, h
+    Node1 = node(State1, 3, 2, 5, nil),  % f=5, g=3, h=2
+    Node2 = node(State2, 3, 2, 5, nil),  % f=5, g=3, h=2 (identique)
+
+    % Trier la liste
+    sort_open_list_by_f_value([Node1, Node2], Sorted),
+
+    % VÉRIFICATION CRITIQUE : Les deux nœuds doivent être présents
+    length(Sorted, Len),
+    assertion(Len =:= 2),  % Échoue si predsort supprime un nœud
+
     write(' OK'), nl.
 
 %! test_path_reconstruction is det.

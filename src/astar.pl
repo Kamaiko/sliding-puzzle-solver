@@ -406,14 +406,17 @@ create_successor_nodes([State|RestStates], Goal, G, Parent, [Node|RestNodes], Ge
 %! sort_open_list_by_f_value(+Nodes:list, -SortedNodes:list) is det.
 %  Trie les nœuds par valeur f(n) croissante (file de priorité)
 %  En cas d'égalité f(n), priorité au plus petit g(n) (tie-breaking)
+%  En cas d'égalité f(n) et g(n), ordre lexicographique des états
 %  @arg Nodes Liste des nœuds à trier
-%  @arg SortedNodes Nœuds triés par f croissant, puis g croissant
+%  @arg SortedNodes Nœuds triés par f, puis g, puis état
 sort_open_list_by_f_value(Nodes, SortedNodes) :-
     predsort(compare_node_f_values, Nodes, SortedNodes).
 
 %! compare_node_f_values(-Order:atom, +Node1:compound, +Node2:compound) is det.
 %  Fonction de comparaison pour le tri des nœuds A*
-%  Priorité 1: Plus petit f(n) | Priorité 2: Plus petit g(n) (tie-breaking)
+%  Priorité 1: Plus petit f(n)
+%  Priorité 2: Plus petit g(n) (tie-breaking)
+%  Priorité 3: Ordre lexicographique des états (garantit ordre total)
 %  @arg Order Résultat de comparaison (<, =, >)
 %  @arg Node1 Premier nœud à comparer
 %  @arg Node2 Second nœud à comparer
@@ -424,7 +427,14 @@ compare_node_f_values(Order, Node1, Node2) :-
         % Égalité f(n) : départager par g(n) croissant
         node_g_cost(Node1, G1),
         node_g_cost(Node2, G2),
-        compare(Order, G1, G2)
+        (   G1 =:= G2 ->
+            % Égalité f ET g : départager par comparaison d'états
+            % Garantit un ordre total, aucun nœud ne sera supprimé par predsort/3
+            node_state(Node1, S1),
+            node_state(Node2, S2),
+            compare(Order, S1, S2)
+        ;   compare(Order, G1, G2)
+        )
     ;   % Différence f(n) : trier par f(n) croissant
         compare(Order, F1, F2)
     ).
