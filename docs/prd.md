@@ -52,7 +52,7 @@
 - **Heuristique de distance Manhattan** : Calcul somme distances L1, exclusion case vide (0)
 - **Architecture modulaire** : 4 modules distincts (main.pl, game.pl, astar.pl, display.pl) + tests.pl
 - **Cas de test 1 (classique)** : [1,2,3,5,0,6,4,7,8] → Coût=4, Expanded=12, <3ms
-- **Cas de test 2 (avancé)** : [1,3,6,5,2,8,4,0,7] → Coût=9, Expanded=33, <10ms
+- **Cas de test 2 (avancé)** : [1,3,6,5,2,8,4,0,7] → Coût=9, Expanded=25, <3ms
 - **Sortie formatée** : Path (A→E), Cost, Expanded avec temps d'exécution IA
 - **Documentation complète** : Rapport académique, guide utilisation, code commenté
 - **Menu principal** : Interface CLI avec navigation intuitive (sélection 1/2/3)
@@ -71,7 +71,7 @@
 | **Lancement** | `swipl run.pl` | Menu principal affiché avec 3 options claires |
 | **Sélection cas test** | Choix option 1 (classique) ou 2 (avancé) | Configuration initiale affichée en grille 3×3 |
 | **Résolution automatique** | A* s'exécute automatiquement | Séquence d'états affichée (A→B→...→E) |
-| **Métriques finales** | Fin de résolution | Path/Cost/Expanded + temps IA (<3ms ou <10ms) |
+| **Métriques finales** | Fin de résolution | Path/Cost/Expanded + temps IA (<3ms) |
 | **Navigation** | Sélection option 3 | Retour propre au système (exit) |
 
 ## Vision Étudiante (User Story)
@@ -83,7 +83,7 @@
 | Critère | Objectif | Status |
 |---------|----------|--------|
 | **Validation académique cas 1** | Cost=4, Expanded=12, <3ms pour [1,2,3,5,0,6,4,7,8] | ✅ Atteint |
-| **Validation académique cas 2** | Cost=9, Expanded=33, <10ms pour [1,3,6,5,2,8,4,0,7] | ✅ Atteint |
+| **Validation académique cas 2** | Cost=9, Expanded=25, <3ms pour [1,3,6,5,2,8,4,0,7] | ✅ Atteint |
 | **Qualité code** | Zéro erreur compilation/exécution, PlDoc complet | ✅ Atteint |
 | **Tests automatisés** | 16 tests (14 unitaires + 2 intégration) passent à 100% | ✅ Atteint |
 | **Documentation complète** | Rapport académique 5 pages, README, architecture.md | ✅ Atteint |
@@ -94,7 +94,7 @@
 - **Heuristique choisie** : Distance Manhattan (admissible et consistante)
 - **Architecture modulaire** : 4 modules principaux + tests (main.pl, game.pl, astar.pl, display.pl, tests.pl)
 - **Format sortie académique** : Path (A→E) / Cost (mouvements) / Expanded (nœuds) / Temps IA
-- **Performance requise** : <3ms cas classique, <10ms cas avancé
+- **Performance requise** : <3ms pour tous les cas de test
 - **Ordre génération** : UP, DOWN, LEFT, RIGHT (déterministe)
 
 ## Phases Développement
@@ -111,7 +111,7 @@
 |----|-------------|--------|-----------------|--------|
 | **CU-001** | Menu principal | `swipl run.pl` | 3 options affichées (1: Classique, 2: Avancé, 3: Quitter) | ✅ |
 | **CU-002** | Résolution cas classique | Option 1 sélectionnée | Cost=4, Expanded=12, Path A→E (5 états), <3ms | ✅ |
-| **CU-003** | Résolution cas avancé | Option 2 sélectionnée | Cost=9, Expanded=33, Path A→J (10 états), <10ms | ✅ |
+| **CU-003** | Résolution cas avancé | Option 2 sélectionnée | Cost=9, Expanded=25, Path A→J (10 états), <3ms | ✅ |
 | **CU-004** | Affichage séquence | Après résolution | Grilles 3×3 pour chaque état (A, B, C...) | ✅ |
 | **CU-005** | Métriques finales | Fin d'exécution | Path / Cost / Expanded / Temps IA formatés | ✅ |
 | **CU-006** | Tests automatisés | `swipl -g run_all_tests src/tests.pl` | 16/16 tests PASS | ✅ |

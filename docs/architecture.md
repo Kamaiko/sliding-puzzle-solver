@@ -57,35 +57,40 @@ où :
 
 ### Structures de données critiques
 
-#### Open List : File de priorité
+#### Open List : Liste triée
 
 L'Open List stocke les nœuds candidats à l'exploration, triés par valeur f(n) croissante.
 
 ```
-Type : Priority Queue (Min-Heap basé sur f(n))
-Opérations principales :
-- INSERT(node) : O(log n)
-- EXTRACT-MIN() : O(log n)
-- DECREASE-KEY(node, new_f) : O(log n)
+Type : Liste triée (re-triée après chaque insertion)
+Implémentation : Prédicat predsort/3 de SWI-Prolog
+Opérations réelles :
+- INSERT(nodes) : O(n) append + O(n log n) tri complet
+- EXTRACT-MIN() : O(1) (pattern matching tête de liste)
+- Gestion duplicates : Filtrage O(n) avant insertion
 
-Implémentation alternative : Liste triée
-- Insertion triée : O(n)
-- Extraction minimum : O(1)
+Justification pour taquin 3×3 :
+- Open list reste petite (~10-50 nœuds max en pratique)
+- O(n log n) vs O(log n) : impact négligeable (<1ms différence)
+- Simplicité d'implémentation en Prolog sans structure heap
 ```
 
-#### Closed Set : Table de hachage
+#### Closed Set : Ensemble ordonné
 
 Le Closed Set maintient les états déjà explorés pour éviter la re-exploration.
 
 ```
-Type : Hash Set ou Hash Table
-Opérations principales :
-- CONTAINS(state) : O(1) moyenne, O(n) pire cas
-- INSERT(state) : O(1) moyenne
-- Fonction de hachage : hash(state) = Σᵢ state[i] × 9ⁱ mod p
+Type : Ensemble ordonné (ordered set)
+Implémentation : Bibliothèque ordsets de SWI-Prolog (arbre binaire équilibré)
+Opérations réelles :
+- CONTAINS(state) : O(log n) via ord_memberchk/2
+- INSERT(state) : O(log n) via ord_add_element/3
+- Stockage : États triés lexicographiquement
 
-Alternative : Arbre de recherche binaire balancé
-- Toutes opérations : O(log n)
+Avantages pour A* :
+- Recherche rapide O(log n) pour test appartenance
+- Pas de collisions contrairement au hachage
+- Déterminisme complet (important pour reproductibilité académique)
 ```
 
 ### Représentation des nœuds
@@ -162,18 +167,18 @@ fonction A_STAR(initial, goal) → (chemin, coût) ou ÉCHEC
 
 #### **Lignes 01-04 : Initialisation**
 ```
-01: open_list ← PRIORITY_QUEUE()
+01: open_list ← LISTE_TRIEE()
 ```
-- **Rôle** : Crée une file de priorité pour stocker les nœuds à explorer
-- **Invariant** : open_list est toujours triée par f(n) croissant
-- **Complexité** : O(1) pour création, O(log n) par insertion
+- **Rôle** : Crée une liste pour stocker les nœuds à explorer, maintenue triée
+- **Invariant** : open_list est toujours triée par f(n) croissant (re-triée après ajouts)
+- **Complexité** : O(1) pour création, O(n log n) pour insertion avec tri
 
 ```
-02: closed_set ← HASH_SET()
+02: closed_set ← ORDERED_SET()
 ```
-- **Rôle** : Ensemble des états déjà complètement explorés
+- **Rôle** : Ensemble ordonné des états déjà complètement explorés
 - **Invariant** : Aucun état dans closed_set ne sera re-exploré
-- **Optimisation** : Évite les cycles et la re-exploration coûteuse
+- **Optimisation** : Évite les cycles et la re-exploration coûteuse (O(log n))
 
 ```
 03: initial_node ← CREATE_NODE(initial, g=0, h=HEURISTIC(initial, goal), parent=null)
@@ -234,7 +239,7 @@ fonction A_STAR(initial, goal) → (chemin, coût) ou ÉCHEC
 18-20: si next_state ∈ closed_set alors continuer
 ```
 - **Élagage critique** : Évite re-exploration des états fermés
-- **Complexité** : O(1) avec table de hachage efficace
+- **Complexité** : O(log n) avec ensemble ordonné (ordsets)
 
 ```
 22-24: Calcul g, h et création nœud
@@ -296,9 +301,9 @@ generate_and_process_successors(CurrentNode, Goal, SuccessorNodes, GenCountIn, G
 
 ### Optimisations spécifiques de l'implémentation
 
-#### 1. Tri de la Open List (lignes astar.pl:330-354)
+#### 1. Tri de la Open List (lignes astar.pl:406-440)
 ```prolog
-% Ligne 26 pseudocode : open_list.INSERT(next_node) avec maintien ordre
+% Implémentation : Liste complètement re-triée après chaque ajout
 sort_open_list_by_f_value(Nodes, SortedNodes) :-
     predsort(compare_node_f_values, Nodes, SortedNodes).
 
@@ -306,17 +311,24 @@ compare_node_f_values(Order, Node1, Node2) :-
     node_f_cost(Node1, F1),
     node_f_cost(Node2, F2),
     (   F1 =:= F2 ->
-        % Tie-breaking : priorité au plus petit g(n)
+        % Tie-breaking niveau 1 : priorité au plus petit g(n)
         node_g_cost(Node1, G1),
         node_g_cost(Node2, G2),
-        compare(Order, G1, G2)
+        (   G1 =:= G2 ->
+            % Tie-breaking niveau 2 : ordre lexicographique des états
+            % Garantit ordre total, évite suppression par predsort/3
+            node_state(Node1, S1),
+            node_state(Node2, S2),
+            compare(Order, S1, S2)
+        ;   compare(Order, G1, G2)
+        )
     ;   compare(Order, F1, F2)
     ).
 ```
 
-**Complexité** : O(n log n) par tri vs O(log n) avec heap optimisé
+**Complexité** : O(n log n) par tri complet (suffisant pour taquin 3×3 où n < 100)
 
-#### 2. Comptage académique (lignes astar.pl:320-328)
+#### 2. Comptage académique (lignes astar.pl:396-404)
 ```prolog
 % Comptage critique pour évaluation : chaque nœud créé incrémente
 create_successor_nodes([State|RestStates], Goal, G, Parent, [Node|RestNodes], GenCountIn, GenCountOut) :-
@@ -326,7 +338,7 @@ create_successor_nodes([State|RestStates], Goal, G, Parent, [Node|RestNodes], Ge
     create_successor_nodes(RestStates, Goal, G, Parent, RestNodes, GenCountMid, GenCountOut).
 ```
 
-**Justification** : Le compteur "Expanded" reflète les nœuds générés, pas explorés
+**Justification** : Le compteur "Expanded" reflète les nœuds **générés** (ajoutés à open list), pas explorés
 
 #### 3. Gestion timeout (lignes astar.pl:240-249)
 ```prolog
@@ -455,13 +467,14 @@ Optimisations possibles :
 
 ### Optimisations implémentées
 
-#### 1. Tri efficace (lignes astar.pl:335-336)
+#### 1. Tri efficace avec tie-breaking complet (lignes astar.pl:406-440)
 ```prolog
-% Utilisation de predsort/3 natif Prolog
+% Utilisation de predsort/3 natif Prolog avec comparateur à 3 niveaux
 sort_open_list_by_f_value(Nodes, SortedNodes) :-
     predsort(compare_node_f_values, Nodes, SortedNodes).
 ```
-**Complexité** : O(n log n) avec algorithme de tri optimisé
+**Complexité** : O(n log n) avec tri complet après chaque insertion
+**Tie-breaking** : f(n) → g(n) → ordre lexicographique (garantit ordre total)
 
 #### 2. Évitement re-calculs heuristique
 ```prolog
