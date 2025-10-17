@@ -13,7 +13,6 @@
 :- use_module(library(ordsets)).
 
 :- consult(game).
-:- consult(display).
 
 % =============================================================================
 % SECTION 1: CONSTANTES ET CONFIGURATION
@@ -488,12 +487,4 @@ solve_puzzle(case1, result(Path, Cost, Expanded)) :-
 solve_puzzle(case2, result(Path, Cost, Expanded)) :-
     custom_initial_state(Initial),
     custom_goal_state(Goal),
-    astar_search(Initial, Goal, Path, Cost, Expanded).
-
-%! solve_custom_puzzle(+Initial:list, +Goal:list, -Result:compound) is det.
-%  Interface pour résoudre des configurations personnalisées
-%  @arg Initial État de départ personnalisé
-%  @arg Goal État but personnalisé
-%  @arg Result Structure result(Path, Cost, Expanded)
-solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)) :-
     astar_search(Initial, Goal, Path, Cost, Expanded).

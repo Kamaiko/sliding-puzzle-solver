@@ -259,11 +259,3 @@ display_about_banner :-
     write('║    • Xavier Gagnon                                                            ║'), nl,
     write('║                                                                               ║'), nl,
     write('╚═══════════════════════════════════════════════════════════════════════════════╝'), nl.
-
-%! display_debug_state(+State:list) is det.
-%  Affiche l'état sous forme compacte pour le debug A*
-%  @arg State État du taquin à afficher [A,B,C,D,E,F,G,H,I]
-display_debug_state([A,B,C,D,E,F,G,H,I]) :-
-    format('         ~w ~w ~w~n', [A,B,C]),
-    format('         ~w ~w ~w~n', [D,E,F]),
-    format('         ~w ~w ~w~n', [G,H,I]).
