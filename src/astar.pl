@@ -267,9 +267,6 @@ expand_current_node(CurrentNode, RestOpen, ClosedSet, Goal, StartTime, ExpCount,
     % Incrémenter le compteur de nœuds explorés
     NewExpCount is ExpCount + 1,
 
-    % Afficher trace de debug si activé
-    debug_expansion_trace(CurrentNode, NewExpCount, ClosedSet),
-
     % Ajouter l'état courant au closed set (ensemble ordonné pour performance)
     node_state(CurrentNode, CurrentState),
     ord_add_element(ClosedSet, CurrentState, NewClosedSet),
@@ -500,40 +497,3 @@ solve_puzzle(case2, result(Path, Cost, Expanded)) :-
 %  @arg Result Structure result(Path, Cost, Expanded)
 solve_custom_puzzle(Initial, Goal, result(Path, Cost, Expanded)) :-
     astar_search(Initial, Goal, Path, Cost, Expanded).
-
-% =============================================================================
-% SECTION 7: DEBUG ET INSTRUMENTATION
-% =============================================================================
-
-%! debug_expansion_trace(+Node:compound, +Count:int, +ClosedSet:list) is det.
-%  Affiche la trace de l'exploration A* pour prouver le calcul réel
-%  Mode discret par défaut (peut être activé via flag debug_astar)
-%  @arg Node Nœud en cours d'exploration
-%  @arg Count Numéro du nœud exploré
-%  @arg ClosedSet États déjà explorés
-debug_expansion_trace(Node, Count, ClosedSet) :-
-    (   current_prolog_flag(debug_astar, true) ->
-        % Mode debug activé - afficher la trace détaillée
-        node_state(Node, State),
-        node_g_cost(Node, G),
-        node_h_cost(Node, H),
-        node_f_cost(Node, F),
-        length(ClosedSet, ClosedCount),
-        format('[DEBUG] Expansion ~w : g=~w, h=~w, f=~w | ClosedSet=~w états~n',
-               [Count, G, H, F, ClosedCount]),
-        display_debug_state(State)
-    ;   true  % Mode silencieux par défaut
-    ).
-
-
-%! enable_debug_mode is det.
-%  Active le mode debug A* pour voir l'exploration en temps réel
-enable_debug_mode :-
-    set_prolog_flag(debug_astar, true),
-    write('[INFO] Mode debug A* activé - trace exploration visible'), nl.
-
-%! disable_debug_mode is det.
-%  Désactive le mode debug A* pour performance optimale
-disable_debug_mode :-
-    set_prolog_flag(debug_astar, false),
-    write('[INFO] Mode debug A* désactivé - mode silencieux'), nl.
