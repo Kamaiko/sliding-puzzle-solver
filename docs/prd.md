@@ -68,7 +68,7 @@
 
 | Étape | Action | Résultat attendu |
 |-------|--------|------------------|
-| **Lancement** | `swipl run.pl` | Menu principal affiché avec 3 options claires |
+| **Lancement** | `swipl main.pl` | Menu principal affiché avec 3 options claires |
 | **Sélection cas test** | Choix option 1 (classique) ou 2 (avancé) | Configuration initiale affichée en grille 3×3 |
 | **Résolution automatique** | A* s'exécute automatiquement | Séquence d'états affichée (A→B→...→E) |
 | **Métriques finales** | Fin de résolution | Path/Cost/Expanded + temps IA (<3ms) |
@@ -109,7 +109,7 @@
 
 | ID | Cas d'usage | Entrée | Sortie attendue | Status |
 |----|-------------|--------|-----------------|--------|
-| **CU-001** | Menu principal | `swipl run.pl` | 3 options affichées (1: Classique, 2: Avancé, 3: Quitter) | ✅ |
+| **CU-001** | Menu principal | `swipl main.pl` | 3 options affichées (1: Classique, 2: Avancé, 3: Quitter) | ✅ |
 | **CU-002** | Résolution cas classique | Option 1 sélectionnée | Cost=4, Expanded=12, Path A→E (5 états), <3ms | ✅ |
 | **CU-003** | Résolution cas avancé | Option 2 sélectionnée | Cost=9, Expanded=25, Path A→J (10 états), <3ms | ✅ |
 | **CU-004** | Affichage séquence | Après résolution | Grilles 3×3 pour chaque état (A, B, C...) | ✅ |

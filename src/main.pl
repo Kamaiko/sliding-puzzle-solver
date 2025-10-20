@@ -25,13 +25,10 @@ Coordonne les modules game.pl, astar.pl et display.pl.
 % SECTION 1: POINTS D'ENTRÉE ET INITIALISATION
 % =============================================================================
 
-%! Point d'entrée principal pour SWI-Prolog
-%  Initialization désactivée pour éviter conflit avec tests
-%  Utiliser main/0 ou main([]) pour lancer manuellement
-
 %! main(?Args:list) is det.
 %  Point d'entrée principal avec gestion des arguments
-%  Lance la bannière d'accueil et démarre le menu principal
+%  Lance automatiquement via initialization(main, main) au chargement
+%  Configure UTF-8, valide les modules puis démarre le menu principal
 %  @arg Args Arguments de ligne de commande (ignorés pour ce programme)
 main(_) :-
     setup_utf8_environment,
