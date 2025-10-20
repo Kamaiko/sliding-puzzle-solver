@@ -31,7 +31,7 @@
 
 ### Lancement
 ```bash
-swipl run.pl
+swipl src/main.pl
 ```
 
 ### Tests

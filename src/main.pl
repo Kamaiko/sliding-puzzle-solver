@@ -14,6 +14,9 @@ Coordonne les modules game.pl, astar.pl et display.pl.
 
 :- encoding(utf8).
 
+% Auto-lancement quand fichier est point d'entrée
+:- initialization(main, main).
+
 :- consult(game).
 :- consult(astar).
 :- consult(display).
@@ -31,6 +34,7 @@ Coordonne les modules game.pl, astar.pl et display.pl.
 %  Lance la bannière d'accueil et démarre le menu principal
 %  @arg Args Arguments de ligne de commande (ignorés pour ce programme)
 main(_) :-
+    setup_utf8_environment,
     setup_environment,
     main_menu.
 
@@ -39,6 +43,16 @@ main(_) :-
 %  Utilisé pour lancement manuel depuis l'interpréteur Prolog
 main :-
     main([]).
+
+%! setup_utf8_environment is det.
+%  Configure l'encodage UTF-8 pour l'affichage terminal
+%  Compatible Windows/Mac/Linux avec gestion d'erreurs silencieuse
+%  Utilise catch() pour ignorer les erreurs de permission (Windows)
+setup_utf8_environment :-
+    catch(set_prolog_flag(encoding, utf8), _, true),
+    catch(set_stream(user_output, encoding(utf8)), _, true),
+    catch(set_stream(user_input, encoding(utf8)), _, true),
+    catch(set_stream(user_error, encoding(utf8)), _, true).
 
 %! setup_environment is det.
 %  Configure l'environnement d'exécution
