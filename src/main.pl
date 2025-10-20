@@ -1,6 +1,6 @@
 /** <module> Orchestrateur CLI du solveur de taquin
 
-Point d'entrée avec warm-up JIT et mesure de performance.
+Point d'entrée principal du programme.
 Coordonne les modules game.pl, astar.pl et display.pl.
 
 @author Équipe 6
@@ -9,7 +9,6 @@ Coordonne les modules game.pl, astar.pl et display.pl.
   2. Menu principal et navigation
   3. Gestion des choix utilisateur
   4. Exécution des cas de test
-  5. Utilitaires essentiels
 */
 
 :- encoding(utf8).
@@ -152,19 +151,14 @@ handle_choice(InvalidChoice) :-
 % =============================================================================
 
 %! execute_test_case(+TestCase:atom) is det.
-%  Exécute un cas de test avec mesure de performance et gestion d'erreurs
+%  Exécute un cas de test avec gestion d'erreurs
 %  @arg TestCase Identifiant du cas (case1 | case2)
 execute_test_case(TestCase) :-
-    % Warm-up pour eliminer la compilation JIT
-    catch(solve_puzzle(TestCase, _), _, true),
     display_thinking_message,
-    get_time(StartTime),
     catch(
         (solve_puzzle(TestCase, result(Path, Cost, Expanded)),
-         get_time(EndTime),
-         ResponseTime is EndTime - StartTime,
          display_success_message,
-         display_solution(Path, Cost, Expanded, ResponseTime)),
+         display_solution(Path, Cost, Expanded)),
         Error,
         handle_execution_error(Error)
     ).
@@ -203,7 +197,3 @@ wait_for_continue :-
     flush_output,
     get_single_char(_),  % Attendre n'importe quel caractère (immédiat)
     nl.
-
-% =============================================================================
-% SECTION 5: UTILITAIRES ESSENTIELS
-% =============================================================================

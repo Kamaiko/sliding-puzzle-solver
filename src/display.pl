@@ -1,7 +1,7 @@
 /** <module> Interface utilisateur terminale pour visualisation
 
 Rendu ASCII avec animation du chemin de solution.
-Formats: affichage grille, séquence chemin, métriques performance.
+Formats: affichage grille, séquence chemin, métriques résultats.
 
 @author Équipe 6
 @sections
@@ -108,14 +108,13 @@ format_tile(Tile, Tile).   % Autres tuiles inchangées
 % SECTION 3: AFFICHAGE DES RÉSULTATS ET SOLUTIONS
 % =============================================================================
 
-%! display_solution(+Path:list, +Cost:integer, +Expanded:integer, +ResponseTime:float) is det.
+%! display_solution(+Path:list, +Cost:integer, +Expanded:integer) is det.
 %  Affiche la solution complète avec statistiques détaillées
 %  Format professionnel avec chemin complet et métriques
 %  @arg Path Chemin solution (liste des états)
 %  @arg Cost Nombre de mouvements (coût de la solution)
 %  @arg Expanded Nombre de nœuds explorés par A*
-%  @arg ResponseTime Temps de calcul IA en secondes
-display_solution(Path, Cost, Expanded, ResponseTime) :-
+display_solution(Path, Cost, Expanded) :-
     nl,
     write('╔═══════════════════════════════════════════════════════════════════════════════╗'), nl,
     write('║                             PARAMETRES DE RESOLUTION                          ║'), nl,
@@ -135,12 +134,6 @@ display_solution(Path, Cost, Expanded, ResponseTime) :-
     % Section EXPLORATION (EXPANDED)
     write('════ EXPLORATION (EXPANDED) ═══════════════════════════════════════════════════'), nl,
     format('     Noeuds explores : ~w~n', [Expanded]),
-    nl,
-
-    % Section PERFORMANCE (RUNTIME)
-    write('════ PERFORMANCE (RUNTIME) ════════════════════════════════════════════════════'), nl,
-    TimeMs is ResponseTime * 1000,
-    format('     Temps d\'execution : ~3f ms~n', [TimeMs]),
     nl.
 
 %! display_path_sequence_with_labels(+Path:list, +Index:integer) is det.
