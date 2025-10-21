@@ -7,7 +7,7 @@
 [![SWI-Prolog](https://img.shields.io/badge/SWI--Prolog-9.x+-blue?style=flat-square)](https://www.swi-prolog.org/)
 [![Platforms](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey?style=flat-square)]()
 [![AI Algorithm](https://img.shields.io/badge/AI-A*%20Search%20%7C%20Manhattan%20Distance-green?style=flat-square)]()
-[![Status](https://img.shields.io/badge/Status-Completed-success?style=flat-square)]()
+
 
 </div>
 
